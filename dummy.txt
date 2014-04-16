@@ -1,0 +1,6 @@
+@01 0 OK IDLE -- 0
+@02 0 OK IDLE -- 0
+@03 0 OK IDLE -- 0
+delay
+@01 0 OK BUSY -- 0
+

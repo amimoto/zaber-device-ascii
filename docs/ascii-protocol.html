@@ -1,0 +1,3385 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>Manuals/ASCII Protocol Manual - ZaberWiki</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.19.0" />
+<meta name="robots" content="noindex,follow" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="ZaberWiki (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://www.zaber.com/w/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="ZaberWiki Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="http://www.zaber.com/w/load.php?debug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cskins.monobook&amp;only=styles&amp;printable=1&amp;skin=monobook&amp;*" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="http://www.zaber.com/w/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;printable=1&amp;skin=monobook&amp;*" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: zaberwiki:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="http://www.zaber.com/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;printable=1&amp;skin=monobook&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Manuals/ASCII_Protocol_Manual","wgTitle":"Manuals/ASCII Protocol Manual","wgCurRevisionId":6985,"wgArticleId":877,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Manuals/ASCII_Protocol_Manual","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: zaberwiki:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+</head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Manuals_ASCII_Protocol_Manual skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content">
+	<a id="top"></a>
+	
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Manuals/ASCII Protocol Manual</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From ZaberWiki</div>
+		<div id="contentSub"><span class="subpages">&lt; <a href="/wiki/Manuals" title="Manuals">Manuals</a></span></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="#column-one">navigation</a>, <a href="#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>The ASCII protocol is one format that you can use to send and receive information to your Zaber devices. It can be used with A-series devices that have firmware 6.06 or higher. It's designed to be an easy and intuitive method for communicating in plain text. This manual will help you set up your connection, choose which <a href="#Appendix_A_-_Communication_Software">software to use</a>, and help you start operating your Zaber Device. There are also references for the list of all <a href="#Command_Reference">commands</a> and <a href="#Device_Settings">settings</a> and the complete <a href="#Message_Format">message structure</a>.  If you are interested in knowing more about other possible communication protocols, or if your device uses a firmware lower than 6.06, please see the <a href="/wiki/Manuals/Binary_Protocol_Manual" title="Manuals/Binary Protocol Manual">Binary Protocol manual</a>.
+</p><p><br />
+</p>
+<table id="toc" class="toc"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Conventions_used_throughout_this_document"><span class="tocnumber">1</span> <span class="toctext">Conventions used throughout this document</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Previous_Versions"><span class="tocnumber">2</span> <span class="toctext">Previous Versions</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Quick_Start"><span class="tocnumber">3</span> <span class="toctext">Quick Start</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Connecting"><span class="tocnumber">3.1</span> <span class="toctext">Connecting</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#Talking_to_Zaber_Devices"><span class="tocnumber">3.2</span> <span class="toctext">Talking to Zaber Devices</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="#Making_it_Move"><span class="tocnumber">3.3</span> <span class="toctext">Making it Move</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Changing_a_Device_Setting"><span class="tocnumber">3.4</span> <span class="toctext">Changing a Device Setting</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="#Talking_to_an_Individual_Device"><span class="tocnumber">3.5</span> <span class="toctext">Talking to an Individual Device</span></a>
+<ul>
+<li class="toclevel-3 tocsection-9"><a href="#Talking_to_an_Individual_Axis"><span class="tocnumber">3.5.1</span> <span class="toctext">Talking to an Individual Axis</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-10"><a href="#Built-in_Help"><span class="tocnumber">3.6</span> <span class="toctext">Built-in Help</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="#Quick_Command_Reference"><span class="tocnumber">3.7</span> <span class="toctext">Quick Command Reference</span></a>
+<ul>
+<li class="toclevel-3 tocsection-12"><a href="#Quick_Commands"><span class="tocnumber">3.7.1</span> <span class="toctext">Quick Commands</span></a></li>
+<li class="toclevel-3 tocsection-13"><a href="#Quick_Device_Settings"><span class="tocnumber">3.7.2</span> <span class="toctext">Quick Device Settings</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-14"><a href="#Message_Format"><span class="tocnumber">4</span> <span class="toctext">Message Format</span></a>
+<ul>
+<li class="toclevel-2 tocsection-15"><a href="#Commands"><span class="tocnumber">4.1</span> <span class="toctext">Commands</span></a></li>
+<li class="toclevel-2 tocsection-16"><a href="#Replies"><span class="tocnumber">4.2</span> <span class="toctext">Replies</span></a>
+<ul>
+<li class="toclevel-3 tocsection-17"><a href="#Warning_Flags"><span class="tocnumber">4.2.1</span> <span class="toctext">Warning Flags</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-18"><a href="#Info"><span class="tocnumber">4.3</span> <span class="toctext">Info</span></a></li>
+<li class="toclevel-2 tocsection-19"><a href="#Alerts"><span class="tocnumber">4.4</span> <span class="toctext">Alerts</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-20"><a href="#Command_Reference"><span class="tocnumber">5</span> <span class="toctext">Command Reference</span></a>
+<ul>
+<li class="toclevel-2 tocsection-21"><a href="#estop"><span class="tocnumber">5.1</span> <span class="toctext">estop</span></a></li>
+<li class="toclevel-2 tocsection-22"><a href="#get"><span class="tocnumber">5.2</span> <span class="toctext">get</span></a></li>
+<li class="toclevel-2 tocsection-23"><a href="#help"><span class="tocnumber">5.3</span> <span class="toctext">help</span></a></li>
+<li class="toclevel-2 tocsection-24"><a href="#home"><span class="tocnumber">5.4</span> <span class="toctext">home</span></a></li>
+<li class="toclevel-2 tocsection-25"><a href="#io_info"><span class="tocnumber">5.5</span> <span class="toctext">io info</span></a></li>
+<li class="toclevel-2 tocsection-26"><a href="#io_get"><span class="tocnumber">5.6</span> <span class="toctext">io get</span></a></li>
+<li class="toclevel-2 tocsection-27"><a href="#io_set"><span class="tocnumber">5.7</span> <span class="toctext">io set</span></a></li>
+<li class="toclevel-2 tocsection-28"><a href="#l"><span class="tocnumber">5.8</span> <span class="toctext">l</span></a></li>
+<li class="toclevel-2 tocsection-29"><a href="#move"><span class="tocnumber">5.9</span> <span class="toctext">move</span></a></li>
+<li class="toclevel-2 tocsection-30"><a href="#renumber"><span class="tocnumber">5.10</span> <span class="toctext">renumber</span></a></li>
+<li class="toclevel-2 tocsection-31"><a href="#set"><span class="tocnumber">5.11</span> <span class="toctext">set</span></a></li>
+<li class="toclevel-2 tocsection-32"><a href="#stop"><span class="tocnumber">5.12</span> <span class="toctext">stop</span></a></li>
+<li class="toclevel-2 tocsection-33"><a href="#system_reset"><span class="tocnumber">5.13</span> <span class="toctext">system reset</span></a></li>
+<li class="toclevel-2 tocsection-34"><a href="#system_restore"><span class="tocnumber">5.14</span> <span class="toctext">system restore</span></a></li>
+<li class="toclevel-2 tocsection-35"><a href="#tools_echo"><span class="tocnumber">5.15</span> <span class="toctext">tools echo</span></a></li>
+<li class="toclevel-2 tocsection-36"><a href="#tools_findrange"><span class="tocnumber">5.16</span> <span class="toctext">tools findrange</span></a></li>
+<li class="toclevel-2 tocsection-37"><a href="#tools_gotolimit"><span class="tocnumber">5.17</span> <span class="toctext">tools gotolimit</span></a></li>
+<li class="toclevel-2 tocsection-38"><a href="#tools_parking"><span class="tocnumber">5.18</span> <span class="toctext">tools parking</span></a></li>
+<li class="toclevel-2 tocsection-39"><a href="#tools_setcomm"><span class="tocnumber">5.19</span> <span class="toctext">tools setcomm</span></a></li>
+<li class="toclevel-2 tocsection-40"><a href="#tools_storepos"><span class="tocnumber">5.20</span> <span class="toctext">tools storepos</span></a></li>
+<li class="toclevel-2 tocsection-41"><a href="#trigger"><span class="tocnumber">5.21</span> <span class="toctext">trigger</span></a>
+<ul>
+<li class="toclevel-3 tocsection-42"><a href="#Condition_Configuration"><span class="tocnumber">5.21.1</span> <span class="toctext">Condition Configuration</span></a></li>
+<li class="toclevel-3 tocsection-43"><a href="#Command_Configuration"><span class="tocnumber">5.21.2</span> <span class="toctext">Command Configuration</span></a></li>
+<li class="toclevel-3 tocsection-44"><a href="#Trigger_Usage"><span class="tocnumber">5.21.3</span> <span class="toctext">Trigger Usage</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-45"><a href="#trigger_dist"><span class="tocnumber">5.22</span> <span class="toctext">trigger dist</span></a></li>
+<li class="toclevel-2 tocsection-46"><a href="#trigger_time"><span class="tocnumber">5.23</span> <span class="toctext">trigger time</span></a></li>
+<li class="toclevel-2 tocsection-47"><a href="#warnings"><span class="tocnumber">5.24</span> <span class="toctext">warnings</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-48"><a href="#Device_Settings"><span class="tocnumber">6</span> <span class="toctext">Device Settings</span></a>
+<ul>
+<li class="toclevel-2 tocsection-49"><a href="#accel"><span class="tocnumber">6.1</span> <span class="toctext">accel</span></a></li>
+<li class="toclevel-2 tocsection-50"><a href="#cloop.counts"><span class="tocnumber">6.2</span> <span class="toctext">cloop.counts</span></a></li>
+<li class="toclevel-2 tocsection-51"><a href="#cloop.mode"><span class="tocnumber">6.3</span> <span class="toctext">cloop.mode</span></a></li>
+<li class="toclevel-2 tocsection-52"><a href="#cloop.stalltimeout"><span class="tocnumber">6.4</span> <span class="toctext">cloop.stalltimeout</span></a></li>
+<li class="toclevel-2 tocsection-53"><a href="#cloop.steps"><span class="tocnumber">6.5</span> <span class="toctext">cloop.steps</span></a></li>
+<li class="toclevel-2 tocsection-54"><a href="#comm.address"><span class="tocnumber">6.6</span> <span class="toctext">comm.address</span></a></li>
+<li class="toclevel-2 tocsection-55"><a href="#comm.alert"><span class="tocnumber">6.7</span> <span class="toctext">comm.alert</span></a></li>
+<li class="toclevel-2 tocsection-56"><a href="#comm.checksum"><span class="tocnumber">6.8</span> <span class="toctext">comm.checksum</span></a></li>
+<li class="toclevel-2 tocsection-57"><a href="#comm.protocol"><span class="tocnumber">6.9</span> <span class="toctext">comm.protocol</span></a></li>
+<li class="toclevel-2 tocsection-58"><a href="#comm.rs232.baud"><span class="tocnumber">6.10</span> <span class="toctext">comm.rs232.baud</span></a></li>
+<li class="toclevel-2 tocsection-59"><a href="#comm.rs232.protocol"><span class="tocnumber">6.11</span> <span class="toctext">comm.rs232.protocol</span></a></li>
+<li class="toclevel-2 tocsection-60"><a href="#comm.rs485.baud"><span class="tocnumber">6.12</span> <span class="toctext">comm.rs485.baud</span></a></li>
+<li class="toclevel-2 tocsection-61"><a href="#comm.rs485.enable"><span class="tocnumber">6.13</span> <span class="toctext">comm.rs485.enable</span></a></li>
+<li class="toclevel-2 tocsection-62"><a href="#comm.rs485.protocol"><span class="tocnumber">6.14</span> <span class="toctext">comm.rs485.protocol</span></a></li>
+<li class="toclevel-2 tocsection-63"><a href="#comm.usb.protocol"><span class="tocnumber">6.15</span> <span class="toctext">comm.usb.protocol</span></a></li>
+<li class="toclevel-2 tocsection-64"><a href="#deviceid"><span class="tocnumber">6.16</span> <span class="toctext">deviceid</span></a></li>
+<li class="toclevel-2 tocsection-65"><a href="#driver.current.hold"><span class="tocnumber">6.17</span> <span class="toctext">driver.current.hold</span></a></li>
+<li class="toclevel-2 tocsection-66"><a href="#driver.current.run"><span class="tocnumber">6.18</span> <span class="toctext">driver.current.run</span></a></li>
+<li class="toclevel-2 tocsection-67"><a href="#driver.dir"><span class="tocnumber">6.19</span> <span class="toctext">driver.dir</span></a></li>
+<li class="toclevel-2 tocsection-68"><a href="#driver.temperature"><span class="tocnumber">6.20</span> <span class="toctext">driver.temperature</span></a></li>
+<li class="toclevel-2 tocsection-69"><a href="#encoder.count"><span class="tocnumber">6.21</span> <span class="toctext">encoder.count</span></a></li>
+<li class="toclevel-2 tocsection-70"><a href="#encoder.dir"><span class="tocnumber">6.22</span> <span class="toctext">encoder.dir</span></a></li>
+<li class="toclevel-2 tocsection-71"><a href="#encoder.filter"><span class="tocnumber">6.23</span> <span class="toctext">encoder.filter</span></a></li>
+<li class="toclevel-2 tocsection-72"><a href="#encoder.index.count"><span class="tocnumber">6.24</span> <span class="toctext">encoder.index.count</span></a></li>
+<li class="toclevel-2 tocsection-73"><a href="#encoder.index.mode"><span class="tocnumber">6.25</span> <span class="toctext">encoder.index.mode</span></a></li>
+<li class="toclevel-2 tocsection-74"><a href="#encoder.index.phase"><span class="tocnumber">6.26</span> <span class="toctext">encoder.index.phase</span></a></li>
+<li class="toclevel-2 tocsection-75"><a href="#encoder.mode"><span class="tocnumber">6.27</span> <span class="toctext">encoder.mode</span></a></li>
+<li class="toclevel-2 tocsection-76"><a href="#knob.dir"><span class="tocnumber">6.28</span> <span class="toctext">knob.dir</span></a></li>
+<li class="toclevel-2 tocsection-77"><a href="#knob.distance"><span class="tocnumber">6.29</span> <span class="toctext">knob.distance</span></a></li>
+<li class="toclevel-2 tocsection-78"><a href="#knob.enable"><span class="tocnumber">6.30</span> <span class="toctext">knob.enable</span></a></li>
+<li class="toclevel-2 tocsection-79"><a href="#knob.maxspeed"><span class="tocnumber">6.31</span> <span class="toctext">knob.maxspeed</span></a></li>
+<li class="toclevel-2 tocsection-80"><a href="#knob.mode"><span class="tocnumber">6.32</span> <span class="toctext">knob.mode</span></a></li>
+<li class="toclevel-2 tocsection-81"><a href="#knob.speedprofile"><span class="tocnumber">6.33</span> <span class="toctext">knob.speedprofile</span></a></li>
+<li class="toclevel-2 tocsection-82"><a href="#limit.approach.accel"><span class="tocnumber">6.34</span> <span class="toctext">limit.approach.accel</span></a></li>
+<li class="toclevel-2 tocsection-83"><a href="#limit.approach.maxspeed"><span class="tocnumber">6.35</span> <span class="toctext">limit.approach.maxspeed</span></a></li>
+<li class="toclevel-2 tocsection-84"><a href="#limit.detect.decelonly"><span class="tocnumber">6.36</span> <span class="toctext">limit.detect.decelonly</span></a></li>
+<li class="toclevel-2 tocsection-85"><a href="#limit.detect.maxspeed"><span class="tocnumber">6.37</span> <span class="toctext">limit.detect.maxspeed</span></a></li>
+<li class="toclevel-2 tocsection-86"><a href="#limit.swapinputs"><span class="tocnumber">6.38</span> <span class="toctext">limit.swapinputs</span></a></li>
+<li class="toclevel-2 tocsection-87"><a href="#limit.sensor.action"><span class="tocnumber">6.39</span> <span class="toctext">limit.<i>sensor</i>.action</span></a></li>
+<li class="toclevel-2 tocsection-88"><a href="#limit.sensor.edge"><span class="tocnumber">6.40</span> <span class="toctext">limit.<i>sensor</i>.edge</span></a></li>
+<li class="toclevel-2 tocsection-89"><a href="#limit.sensor.pos"><span class="tocnumber">6.41</span> <span class="toctext">limit.<i>sensor</i>.pos</span></a></li>
+<li class="toclevel-2 tocsection-90"><a href="#limit.sensor.posupdate"><span class="tocnumber">6.42</span> <span class="toctext">limit.<i>sensor</i>.posupdate</span></a></li>
+<li class="toclevel-2 tocsection-91"><a href="#limit.sensor.preset"><span class="tocnumber">6.43</span> <span class="toctext">limit.<i>sensor</i>.preset</span></a></li>
+<li class="toclevel-2 tocsection-92"><a href="#limit.sensor.state"><span class="tocnumber">6.44</span> <span class="toctext">limit.<i>sensor</i>.state</span></a></li>
+<li class="toclevel-2 tocsection-93"><a href="#limit.sensor.triggered"><span class="tocnumber">6.45</span> <span class="toctext">limit.<i>sensor</i>.triggered</span></a></li>
+<li class="toclevel-2 tocsection-94"><a href="#limit.sensor.type"><span class="tocnumber">6.46</span> <span class="toctext">limit.<i>sensor</i>.type</span></a></li>
+<li class="toclevel-2 tocsection-95"><a href="#limit.max"><span class="tocnumber">6.47</span> <span class="toctext">limit.max</span></a></li>
+<li class="toclevel-2 tocsection-96"><a href="#limit.min"><span class="tocnumber">6.48</span> <span class="toctext">limit.min</span></a></li>
+<li class="toclevel-2 tocsection-97"><a href="#maxspeed"><span class="tocnumber">6.49</span> <span class="toctext">maxspeed</span></a></li>
+<li class="toclevel-2 tocsection-98"><a href="#motion.accelonly"><span class="tocnumber">6.50</span> <span class="toctext">motion.accelonly</span></a></li>
+<li class="toclevel-2 tocsection-99"><a href="#motion.decelonly"><span class="tocnumber">6.51</span> <span class="toctext">motion.decelonly</span></a></li>
+<li class="toclevel-2 tocsection-100"><a href="#peripheralid"><span class="tocnumber">6.52</span> <span class="toctext">peripheralid</span></a></li>
+<li class="toclevel-2 tocsection-101"><a href="#pos"><span class="tocnumber">6.53</span> <span class="toctext">pos</span></a></li>
+<li class="toclevel-2 tocsection-102"><a href="#resolution"><span class="tocnumber">6.54</span> <span class="toctext">resolution</span></a></li>
+<li class="toclevel-2 tocsection-103"><a href="#system.access"><span class="tocnumber">6.55</span> <span class="toctext">system.access</span></a></li>
+<li class="toclevel-2 tocsection-104"><a href="#system.axiscount"><span class="tocnumber">6.56</span> <span class="toctext">system.axiscount</span></a></li>
+<li class="toclevel-2 tocsection-105"><a href="#system.current"><span class="tocnumber">6.57</span> <span class="toctext">system.current</span></a></li>
+<li class="toclevel-2 tocsection-106"><a href="#system.led.enable"><span class="tocnumber">6.58</span> <span class="toctext">system.led.enable</span></a></li>
+<li class="toclevel-2 tocsection-107"><a href="#system.temperature"><span class="tocnumber">6.59</span> <span class="toctext">system.temperature</span></a></li>
+<li class="toclevel-2 tocsection-108"><a href="#system.voltage"><span class="tocnumber">6.60</span> <span class="toctext">system.voltage</span></a></li>
+<li class="toclevel-2 tocsection-109"><a href="#version"><span class="tocnumber">6.61</span> <span class="toctext">version</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-110"><a href="#Checksumming"><span class="tocnumber">7</span> <span class="toctext">Checksumming</span></a>
+<ul>
+<li class="toclevel-2 tocsection-111"><a href="#Verification"><span class="tocnumber">7.1</span> <span class="toctext">Verification</span></a></li>
+<li class="toclevel-2 tocsection-112"><a href="#Example_Code"><span class="tocnumber">7.2</span> <span class="toctext">Example Code</span></a>
+<ul>
+<li class="toclevel-3 tocsection-113"><a href="#C"><span class="tocnumber">7.2.1</span> <span class="toctext">C</span></a></li>
+<li class="toclevel-3 tocsection-114"><a href="#Python"><span class="tocnumber">7.2.2</span> <span class="toctext">Python</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-115"><a href="#Appendix_A_-_Communication_Software"><span class="tocnumber">8</span> <span class="toctext">Appendix A - Communication Software</span></a>
+<ul>
+<li class="toclevel-2 tocsection-116"><a href="#Zaber_Console"><span class="tocnumber">8.1</span> <span class="toctext">Zaber Console</span></a></li>
+<li class="toclevel-2 tocsection-117"><a href="#PuTTY"><span class="tocnumber">8.2</span> <span class="toctext">PuTTY</span></a></li>
+<li class="toclevel-2 tocsection-118"><a href="#Minicom"><span class="tocnumber">8.3</span> <span class="toctext">Minicom</span></a></li>
+<li class="toclevel-2 tocsection-119"><a href="#Troubleshooting"><span class="tocnumber">8.4</span> <span class="toctext">Troubleshooting</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-120"><a href="#Appendix_B_-_Available_Serial_Ports"><span class="tocnumber">9</span> <span class="toctext">Appendix B - Available Serial Ports</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Finding_Installed_Serial_Ports"><span class="tocnumber">9.1</span> <span class="toctext">Finding Installed Serial Ports</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Windows"><span class="tocnumber">9.1.1</span> <span class="toctext">Windows</span></a></li>
+<li class="toclevel-3"><a href="#Linux"><span class="tocnumber">9.1.2</span> <span class="toctext">Linux</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<p><br />
+</p>
+<h2> <span class="mw-headline" id="Conventions_used_throughout_this_document"> Conventions used throughout this document </span></h2>
+<ul><li><tt>Fixed width</tt> type indicates ASCII characters communicated to and from a device.
+</li><li>The <tt>&#8629;</tt> symbol indicates a carriage return, which can be achieved by pressing enter when using a terminal program.
+</li></ul>
+<h2> <span class="mw-headline" id="Previous_Versions"> Previous Versions </span></h2>
+<p>As new features are added to the ASCII protocol, archived versions of this manual will become available below. Please consult the correct manual for your device version.
+</p>
+<table class="wikitable">
+<tr>
+<th> Low Version
+</th>
+<th> High Version
+</th>
+<th> Manual
+</th></tr>
+<tr>
+<td> 6.06 </td>
+<td> 6.08 </td>
+<td> <a rel="nofollow" class="external text" href="http://www.zaber.com/manuals/ASCII_Protocol_Manual_6.06_-_6.08.pdf">ASCII Protocol Manual 6.06 - 6.08.pdf</a>
+</td></tr>
+</table>
+<h2> <span class="mw-headline" id="Quick_Start"> Quick Start </span></h2>
+<h3> <span class="mw-headline" id="Connecting"> Connecting </span></h3>
+<p>Zaber A-Series devices support connecting to user equipment over standard serial connections using a human-readable, text-based protocol. This allows A-Series devices to interface with a variety of equipment and software, including:
+</p>
+<ul><li><a href="/wiki/Software/Zaber_Console" title="Software/Zaber Console">Zaber Console</a>
+</li><li>Terminal Emulators
+</li><li>User programs
+</li><li>PLCs
+</li><li>Automation and Instrumentation packages
+</li></ul>
+<p>Zaber's range of A-Series devices can be up and running in a matter of minutes, no matter what environment is being used.
+</p><p>A-Series devices typically communicate over RS232 at 9600 or 115200 baud, with 8 bits, 1 stop bit and no parity, however please refer to the RS232 Communications section of the device-specific User Manual for the correct settings. Characters are not echoed by the device, so if a terminal emulator is being used, it is advisable to turn on local echo. 
+</p><p>For detailed instructions on how to set up and configure various communication software, please refer to the <a href="#Appendix_A_-_Communication_Software">Communication Software</a> section below.
+</p>
+<h3> <span class="mw-headline" id="Talking_to_Zaber_Devices"> Talking to Zaber Devices </span></h3>
+<p>Zaber devices listen for <a href="#Commands">Commands</a> sent to them over a serial port and then immediately respond with a <a href="#Replies">Reply</a>. Commands always begin with a <tt>/</tt> and end with a new line. Some commands take parameters, which are separated by spaces. Two example commands are:
+</p>
+<pre>/1 help&#8629;
+/1 move abs 10000&#8629;
+</pre>
+<p>Where the <tt><a href="#move">move</a></tt> command has parameters of <tt>abs</tt> and <tt>10000</tt>.
+</p><p>Replies begin with a <tt>@</tt>, have 4 or more parameters and end with a new line. For example, the most common reply is:
+</p>
+<pre>@01 0 OK IDLE -- 0
+</pre>
+<p>Which can be broken down into:
+</p>
+<pre>@                    A Reply
+ 01                  The id of the device sending the reply
+    0                The reply scope. 0 for the device or all axes, 1 onwards for an individual axis.
+      OK             The command succeeded.
+          IDLE       The device isn't moving, otherwise BUSY if it is moving.
+               --    No faults or warnings in the device
+                  0  The return value, typically 0.
+</pre>
+<p>A complete description of the reply fields is available in the <a href="#Replies">Replies</a> section.
+</p><p>Devices can also send two other types of messages; <a href="#Alerts">Alerts</a>, starting with <tt>!</tt> and <a href="#Info">Info</a>, starting with <tt>#</tt>. Info messages are commonly seen in response to a <tt><a href="#help">help</a></tt> command.
+</p>
+<h3> <span class="mw-headline" id="Making_it_Move"> Making it Move </span></h3>
+<p>Before a device can moved, it first needs to establish a reference to the home position. This is achieved by sending the <a href="#home"><tt>home</tt></a> command, as shown below:
+</p>
+<pre>/home&#8629;
+@01 0 OK BUSY WR 0
+</pre>
+<p>If the device isn't homed and a move command is attempted, the device will respond with a rejection reply and the Invalid Reference (WR) flag set:
+</p>
+<pre>/move rel 10000&#8629;
+@01 0 RJ IDLE WR BADDATA
+</pre>
+<p>Once the device has been homed,  you can make the device move by sending a <a href="#move"><tt>move</tt></a> command. For example, to move 10000 microsteps forward from the current position:
+</p>
+<pre>/move rel 10000&#8629;
+@01 0 OK BUSY -- 0
+</pre>
+<p>To move 10000 microsteps away from the home position, regardless of the current position:
+</p>
+<pre>/move abs 10000&#8629;
+@01 0 OK BUSY -- 0
+</pre>
+<h3> <span class="mw-headline" id="Changing_a_Device_Setting"> Changing a Device Setting </span></h3>
+<p>All of the <a href="#Device_Settings">device settings </a> are read and modified using the <a href="#get">get</a> and <a href="#set">set</a> commands. For example, to query the device <a href="#maxspeed">maxspeed</a>:
+</p>
+<pre>/get maxspeed
+@01 0 OK IDLE -- 153600
+</pre>
+<p>The maximum speed setting is currently 153600. The speed in microsteps/sec is calculated as data/1.6384, which equates to 93570 microsteps/sec for the data value of 153600.
+</p><p>On a multi axis device, the same command would return a value for each of the axes. For example:
+</p>
+<pre>/get maxspeed
+@01 0 OK IDLE -- 153600 153600
+</pre>
+<p>To set the device to move at a target speed of 50000 microsteps/sec, the speed setting would be modified as shown below:
+</p>
+<pre>/set maxspeed 81920
+@01 0 OK IDLE -- 0
+</pre>
+<p>On a multi axis device, the command above would set the speed for all axes. To only query or set a value for a specific axis, see the <a href="#Talking_to_an_Individual_Axis">Talking to an Individual Axis</a> section below.
+</p>
+<h3> <span class="mw-headline" id="Talking_to_an_Individual_Device"> Talking to an Individual Device </span></h3>
+<p>Up until now all the commands that have been sent haven't included a device address. If you have more than one device in a chain, you may have noticed that all of the devices moved at once in the <a href="#Making_it_Move">Making it Move</a> example above and that multiple responses were received. While this is a handy feature for initial setup, general use requires a way to instruct only an individual device to move.
+</p><p>Devices can be addressed by including their device number before the command. For example, the following command instructs only device 1 to move:
+</p>
+<pre>/1 move abs 10000&#8629;
+@01 0 OK BUSY -- 0
+</pre>
+<p>The valid device addresses are from 1 - 99 inclusive and can include a leading zero for devices 1 - 9. For example either 01 or 1 would both refer to device 1.
+</p>
+<h4> <span class="mw-headline" id="Talking_to_an_Individual_Axis"> Talking to an Individual Axis </span></h4>
+<p>On multi axis devices, all the commands shown above would have affected all axes in the device. In order to get only a single axis to move an axis number has to be provided after the device number. The following command would instruct the first axis on a device to move to position 10000.
+</p>
+<pre>/1 1 move abs 10000&#8629;
+@01 1 OK BUSY -- 0
+</pre>
+<p>Note that this time the response scope is 1, indicating that the following information applies to axis 1.
+</p><p>Valid axis numbers are 0 - 9 inclusive, where 0 means all axis of the device, depending on the command or setting.
+</p>
+<h3> <span class="mw-headline" id="Built-in_Help"> Built-in Help </span></h3>
+<p>All Zaber A-Series devices feature built-in help, providing a quick and easy reference for all <a href="#Command_Reference">Commands</a> and <a href="#Device_Settings">Settings</a> that the device has. Help commands require a device number to be provided. For example to access the built-in help for device 1, send: <tt>/1 help&#8629;</tt>. 
+</p><p>The device will respond with a detailed description on how to access specific information about commands and replies, as shown below:
+</p>
+<pre>/1 help&#8629;
+@01 0 OK IDLE WR 0
+#01 0 COMMAND USAGE:
+#01 0  '/stop'     stop all devices
+#01 0  '/1 stop'   stop device number 1
+#01 0  '/1 2 stop'   stop device number 1 axis number 2
+#01 0
+#01 0 Type '/help commands' for a list of all top-level commands.
+#01 0 Type '/help reply' for a quick reference on reply messages.
+#01 0 Visit www.zaber.com/support for complete instruction manuals.
+</pre>
+<p>Note that you can view a list of all the top level commands available to device 1 by using <tt>/1 help commands&#8629;</tt>. To access help for a specific command, for example the <tt><a href="#move">move</a></tt> command, send:
+</p>
+<pre>/1 help move&#8629;
+@01 0 OK IDLE -- 0
+#01 0 move abs {x}             Move to absolute position
+#01 0 move rel {x}             Move by relative position
+#01 0 move vel {x}             Move at constant velocity
+#01 0 move min                 Move to minimum position
+#01 0 move max                 Move to maximum position
+</pre>
+<h3> <span class="mw-headline" id="Quick_Command_Reference"> Quick Command Reference </span></h3>
+<p>The following table offers a quick command and setting reference for ASCII devices. For more detailed information, refer to the <a href="#Command_Reference">Command Reference</a> or <a href="#Device_Settings">Device Settings</a> below.
+</p>
+<h4> <span class="mw-headline" id="Quick_Commands"> Quick Commands </span></h4>
+<p>Parameters in square brackets, e.g. [clr], indicate that the parameter is optional.<br />
+Parameters in italics, e.g. <i>value</i>, indicate that data, typically a number, needs to be provided.<br />
+Parameters separated by a pipe, e.g. abs|rel, indicate that one of the parameters in the set need to be provided.
+</p>
+<table class="wikitable">
+<tr>
+<th> Command
+</th>
+<th> Scope
+</th>
+<th> Parameter(s)
+</th>
+<th> Returns
+</th>
+<th> Description
+</th></tr>
+<tr>
+<td><a href="#estop">estop</a>
+</td>
+<td> Axis
+</td>
+<td>
+</td>
+<td> 0
+</td>
+<td> Performs an emergency stop on the axis.
+</td></tr>
+<tr>
+<td><a href="#get">get</a>
+</td>
+<td> Device and Axis
+</td>
+<td> <i>setting</i>
+</td>
+<td> <i>value</i>
+</td>
+<td> Retrieves the current value of the device or axis setting.
+</td></tr>
+<tr>
+<td><a href="#help">help</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>commands<br />
+reply<br />
+<i>command ...</i>
+</p>
+</td>
+<td> 0
+</td>
+<td> Displays the help information for the system.
+</td></tr>
+<tr>
+<td><a href="#home">home</a>
+</td>
+<td> Axis
+</td>
+<td>
+</td>
+<td> 0
+</td>
+<td> Moves the axis to the home position.
+</td></tr>
+<tr>
+<td><a href="#io_info">io info</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>[ai|ao|do|di]
+</p>
+</td>
+<td> <i>ports</i>
+</td>
+<td> Returns the number of I/O channels the device has.
+</td></tr>
+<tr>
+<td><a href="#io_get">io get</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>ai|ao|do|di [<i>channel</i>]
+</p>
+</td>
+<td> <i>value</i>
+</td>
+<td> Returns the current value of the specified I/O channel type.
+</td></tr>
+<tr>
+<td><a href="#io_set">io set</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>ao <i>channel</i> <i>value</i><br />
+do&#160;<i>channel</i> <i>value</i><br />
+do&#160;port&#160;<i>value</i>&#160;<i>value2</i>...
+</p>
+</td>
+<td> 0
+</td>
+<td> Sets the specified output <i>channel</i> to <i>value</i>.
+</td></tr>
+<tr>
+<td><a href="#l">l</a>
+</td>
+<td> Device
+</td>
+<td>
+</td>
+<td> 0
+</td>
+<td> Repeats the last command.
+</td></tr>
+<tr>
+<td><a href="#move">move</a>
+</td>
+<td> Axis
+</td>
+<td>
+<p>abs|rel|vel <i>value</i>
+</p>
+</td>
+<td> 0
+</td>
+<td> Moves the axis to various positions along its travel.
+</td></tr>
+<tr>
+<td><a href="#move">move</a>
+</td>
+<td> Axis
+</td>
+<td>
+<p>min|max
+</p>
+</td>
+<td> 0
+</td>
+<td> Moves the axis to the limits of travel.
+</td></tr>
+<tr>
+<td><a href="#move">move</a>
+</td>
+<td> Axis
+</td>
+<td>
+<p>stored <i>number</i>
+</p>
+</td>
+<td> 0
+</td>
+<td> Moves the axis to a previously stored position.
+</td></tr>
+<tr>
+<td><a href="#renumber">renumber</a>
+</td>
+<td> Device
+</td>
+<td> <i>value</i>
+</td>
+<td> 0
+</td>
+<td> Renumbers all devices in the chain.
+</td></tr>
+<tr>
+<td><a href="#set">set</a>
+</td>
+<td> Device and Axis
+</td>
+<td> <i>setting</i> <i>value</i>
+</td>
+<td> 0
+</td>
+<td>Sets the device or axis setting <i>setting</i> to the <i>value</i>.
+</td></tr>
+<tr>
+<td><a href="#stop">stop</a>
+</td>
+<td> Axis
+</td>
+<td>&#160;
+</td>
+<td> 0
+</td>
+<td> Decelerates the axis and brings it to a halt.
+</td></tr>
+<tr>
+<td><a href="#system_reset">system reset</a>
+</td>
+<td> Device
+</td>
+<td>&#160;
+</td>
+<td> 0
+</td>
+<td> Resets the device, as it would appear after power up.
+</td></tr>
+<tr>
+<td><a href="#system_restore">system restore</a>
+</td>
+<td> Device
+</td>
+<td>&#160;
+</td>
+<td> 0
+</td>
+<td> Restores common device settings to their default values.
+</td></tr>
+<tr>
+<td><a href="#tools_echo">tools echo</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>(<i>message</i>)<br />
+</p>
+</td>
+<td> 0
+</td>
+<td>Echoes the provided message (if any) back to the user.
+</td></tr>
+<tr>
+<td><a href="#tools_findrange">tools findrange</a>
+</td>
+<td> Axis
+</td>
+<td> &#160;
+</td>
+<td> 0
+</td>
+<td>Uses the home and away sensors to set the valid range of the axis.
+</td></tr>
+<tr>
+<td><a href="#tools_gotolimit">tools gotolimit</a>
+</td>
+<td> Axis
+</td>
+<td> <i>limit</i> <i>dir</i> <i>action</i> <i>update</i>
+</td>
+<td> 0
+</td>
+<td>Moves the axis to a limit sensor and performs the provided actions.
+</td></tr>
+<tr>
+<td><a href="#tools_parking">tools parking</a>
+</td>
+<td> Device
+</td>
+<td>
+<p>state|park|unpark<br />
+</p>
+</td>
+<td>
+<p>0|1
+</p>
+</td>
+<td>Parking allows the device to be turned off and used at a later time without first having to home.
+</td></tr>
+<tr>
+<td><a href="#tools_setcomm">tools setcomm</a>
+</td>
+<td> Device
+</td>
+<td>
+<p><i>rs232baud</i> <i>protocol</i>
+</p>
+</td>
+<td> 0
+</td>
+<td> Sets RS232 baud rate and communication protocol for RS232 and USB.
+</td></tr>
+<tr>
+<td><a href="#tools_storepos">tools storepos</a>
+</td>
+<td> Axis
+</td>
+<td>
+<p><i>number</i> [<i>position</i>|current]<br />
+</p>
+</td>
+<td>
+<p>0|<i>position</i>
+</p>
+</td>
+<td>Stores a number of positions for easy movement.
+</td></tr>
+<tr>
+<td><a href="#trigger">trigger</a>
+</td>
+<td> Device
+</td>
+<td> Refer to the documentation below
+</td>
+<td> 0
+</td>
+<td> Configures actions to be performed on the device when a certain condition is met.
+</td></tr>
+<tr>
+<td><a href="#trigger_dist">trigger dist</a>
+</td>
+<td> Device
+</td>
+<td>
+<p><i>number</i> <i>axis</i> <i>displacement</i><br />
+<i>number</i> enable [<i>count</i>]<br />
+<i>number</i> disable
+</p>
+</td>
+<td> 0
+</td>
+<td> Configures a trigger to toggle a digital output line every <i>displacement</i> microsteps.
+</td></tr>
+<tr>
+<td><a href="#trigger_time">trigger time</a>
+</td>
+<td> Device
+</td>
+<td>
+<p><i>number</i> <i>period</i><br />
+<i>number</i> enable [<i>count</i>]<br />
+<i>number</i> disable
+</p>
+</td>
+<td> 0
+</td>
+<td> Configures a periodic trigger to toggle a digital output line every <i>period</i> milliseconds.
+</td></tr>
+<tr>
+<td><a href="#warnings">warnings</a>
+</td>
+<td> Axis
+</td>
+<td> [clear]<br />
+</td>
+<td> 0
+</td>
+<td> Displays the active device and axis warnings, optionally clearing them if applicable.
+</td></tr>
+</table>
+<h4> <span class="mw-headline" id="Quick_Device_Settings"> Quick Device Settings </span></h4>
+<p>The settings listed below can be inspected and modified with the get and set commands described above.
+</p>
+<table class="wikitable">
+<tr>
+<th> Setting
+</th>
+<th> Scope
+</th>
+<th> Writable
+</th>
+<th> Description
+</th></tr>
+<tr>
+<td><a href="#accel">accel</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the acceleration used to modify the speed.
+</td></tr>
+<tr>
+<td><a href="#cloop.counts">cloop.counts</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The number of counts generated by the encoder for one full revolution.
+</td></tr>
+<tr>
+<td><a href="#cloop.mode">cloop.mode</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the closed loop control mode.
+</td></tr>
+<tr>
+<td><a href="#cloop.stalltimeout">cloop.stalltimeout</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The amount of time to wait after a stall/displacement condition, in milliseconds.
+</td></tr>
+<tr>
+<td><a href="#cloop.steps">cloop.steps</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The number of full steps required for the motor to complete one revolution.
+</td></tr>
+<tr>
+<td><a href="#comm.address">comm.address</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The device address.
+</td></tr>
+<tr>
+<td><a href="#comm.alert">comm.alert</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The device will send alert messages when this setting is 1.
+</td></tr>
+<tr>
+<td><a href="#comm.checksum">comm.checksum</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The device includes checksums in its messages if this setting is set to 1.
+</td></tr>
+<tr>
+<td><a href="#comm.protocol">comm.protocol</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The communications protocol used by the device on the current interface.
+</td></tr>
+<tr>
+<td><a href="#comm.rs232.baud">comm.rs232.baud</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The baud rate used by RS232 Prev and Next interfaces.
+</td></tr>
+<tr>
+<td><a href="#comm.rs232.protocol">comm.rs232.protocol</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The protocol used by RS232 Prev and Next interfaces.
+</td></tr>
+<tr>
+<td><a href="#comm.rs485.baud">comm.rs485.baud</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The baud rate used by RS485 interface.
+</td></tr>
+<tr>
+<td><a href="#comm.rs485.enable">comm.rs485.enable</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>Enables the RS485 interface.
+</td></tr>
+<tr>
+<td><a href="#comm.rs485.protocol">comm.rs485.protocol</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The protocol used by RS485 interface.
+</td></tr>
+<tr>
+<td><a href="#comm.usb.protocol">comm.usb.protocol</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>The protocol used by the usb interface.
+</td></tr>
+<tr>
+<td><a href="#deviceid">deviceid</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The device id for the unit.
+</td></tr>
+<tr>
+<td><a href="#driver.current.hold">driver.current.hold</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Current used to hold the motor in position, as a percentage of maximum.
+</td></tr>
+<tr>
+<td><a href="#driver.current.run">driver.current.run</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Current used to drive the motor as percentage of maximum.
+</td></tr>
+<tr>
+<td><a href="#driver.dir">driver.dir</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Reverse the motor driver output direction.
+</td></tr>
+<tr>
+<td><a href="#driver.temperature">driver.temperature</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td>The current temperature of the axis driver, in degrees Celsius.
+</td></tr>
+<tr>
+<td><a href="#encoder.count">encoder.count</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The recorded counts of the axis encoder.
+</td></tr>
+<tr>
+<td><a href="#encoder.dir">encoder.dir</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Inverts the counting direction for the axis encoder.
+</td></tr>
+<tr>
+<td><a href="#encoder.filter">encoder.filter</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Enable and set up digital filtering of the encoder inputs.
+</td></tr>
+<tr>
+<td><a href="#encoder.index.count">encoder.index.count</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The recorded counts of the axis encoder index pulse.
+</td></tr>
+<tr>
+<td><a href="#encoder.index.mode">encoder.index.mode</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The operating mode of the axis encoder index signal.
+</td></tr>
+<tr>
+<td><a href="#encoder.index.phase">encoder.index.phase</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The required phase for an index pulse to be counted.
+</td></tr>
+<tr>
+<td><a href="#encoder.mode">encoder.mode</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The operating mode of the axis encoder.
+</td></tr>
+<tr>
+<td><a href="#knob.dir">knob.dir</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the movement direction for the knob.
+</td></tr>
+<tr>
+<td><a href="#knob.distance">knob.distance</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets how far the device moves with each step of the knob in displacement mode, in units of microsteps.
+</td></tr>
+<tr>
+<td><a href="#knob.enable">knob.enable</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Disable the use of the knob when set to 0.
+</td></tr>
+<tr>
+<td><a href="#knob.maxspeed">knob.maxspeed</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The maximum speed that can be reached using the knob in velocity mode.
+</td></tr>
+<tr>
+<td><a href="#knob.mode">knob.mode</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the mode of the knob. 0 for velocity mode, 1 for displacement mode.
+</td></tr>
+<tr>
+<td><a href="#knob.speedprofile">knob.speedprofile</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the profile to be used per increment when in velocity mode.
+</td></tr>
+<tr>
+<td><a href="#limit.approach.accel">limit.approach.accel</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Acceleration used when approaching a limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.approach.maxspeed">limit.approach.maxspeed</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Maximum speed used when approaching a limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.detect.decelonly">limit.detect.decelonly</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Deceleration used when stopping after a limit sensor has triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.detect.maxspeed">limit.detect.maxspeed</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Maximum speed used when moving away from a limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.swapinputs">limit.swapinputs</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Reverses the limit positions by swapping the home and away sensors.
+</td></tr>
+<tr>
+<td><a href="#limit.home.action">limit.home.action</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Automatic limit switch action.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.edge">limit.home.edge</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Sensor edge to align action to.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.posupdate">limit.home.posupdate</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Position update to occur when sensor is triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.preset">limit.home.preset</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The default position of the home sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.state">limit.home.state</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> The state of the home sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.triggered">limit.home.triggered</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> Whether the home sensor has been triggered previously.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.type">limit.home.type</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The type of home sensor connected.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.action">limit.away.action</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Automatic limit switch action.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.edge">limit.away.edge</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Sensor edge to align action to.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.posupdate">limit.away.posupdate</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Position update to occur when sensor is triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.preset">limit.away.preset</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The default position of the away sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.state">limit.away.state</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> The state of the home sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.triggered">limit.away.triggered</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> Whether the away sensor has been triggered previously.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.type">limit.away.type</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The type of away sensor connected.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.action">limit.c.action</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Automatic limit switch action.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.edge">limit.c.edge</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Sensor edge to align action to.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.pos">limit.c.pos</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The updated position of the sensor, when triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.posupdate">limit.c.posupdate</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Position update to occur when sensor is triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.preset">limit.c.preset</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The default position of the c limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.state">limit.c.state</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> The state of the c limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.triggered">limit.c.triggered</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> Whether the c limit sensor has been triggered previously.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.type">limit.c.type</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The type of c limit sensor connected.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.action">limit.d.action</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Automatic limit switch action.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.edge">limit.d.edge</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Sensor edge to align action to.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.pos">limit.d.pos</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The updated position of the sensor, when triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.posupdate">limit.d.posupdate</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> Position update to occur when sensor is triggered.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.preset">limit.d.preset</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The default position of the d limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.state">limit.d.state</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> The state of the d limit sensor.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.triggered">limit.d.triggered</a>
+</td>
+<td> Axis
+</td>
+<td> No
+</td>
+<td> Whether the d limit sensor has been triggered previously.
+</td></tr>
+<tr>
+<td><a href="#limit.sensor.type">limit.d.type</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td> The type of d limit sensor connected.
+</td></tr>
+<tr>
+<td><a href="#limit.max">limit.max</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The maximum position the device can move to, measured in microsteps.
+</td></tr>
+<tr>
+<td><a href="#limit.min">limit.min</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The minimum position the device can move to, measured in microsteps.
+</td></tr>
+<tr>
+<td><a href="#maxspeed">maxspeed</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The maximum speed the device moves at.
+</td></tr>
+<tr>
+<td><a href="#motion.accelonly">motion.accelonly</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Sets the acceleration used to increase the speed.
+</td></tr>
+<tr>
+<td><a href="#motion.decelonly">motion.decelonly</a>
+</td>
+<td> Axis
+</td>
+<td>Yes
+</td>
+<td>Sets the deceleration used when decreasing the speed.
+</td></tr>
+<tr>
+<td><a href="#peripheralid">peripheralid</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The id of the connected peripheral.
+</td></tr>
+<tr>
+<td><a href="#pos">pos</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>The current absolute position of the device.
+</td></tr>
+<tr>
+<td><a href="#resolution">resolution</a>
+</td>
+<td> Axis
+</td>
+<td> Yes
+</td>
+<td>Microstep resolution
+</td></tr>
+<tr>
+<td><a href="#system.access">system.access</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>Sets the access level of the user.
+</td></tr>
+<tr>
+<td><a href="#system.axiscount">system.axiscount</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The number of axes in the device.
+</td></tr>
+<tr>
+<td><a href="#system.current">system.current</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The current being drawn by the device and motors.
+</td></tr>
+<tr>
+<td><a href="#system.led.enable">system.led.enable</a>
+</td>
+<td> Device
+</td>
+<td> Yes
+</td>
+<td>Enables the front panel LEDs.
+</td></tr>
+<tr>
+<td><a href="#system.temperature">system.temperature</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The current temperature of the unit, in degrees Celsius.
+</td></tr>
+<tr>
+<td><a href="#system.voltage">system.voltage</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The voltage being applied to the device.
+</td></tr>
+<tr>
+<td><a href="#version">version</a>
+</td>
+<td> Device
+</td>
+<td> No
+</td>
+<td>The firmware version of the device.
+</td></tr>
+</table>
+<h2> <span class="mw-headline" id="Message_Format"> Message Format </span></h2>
+<p>The protocol uses a command-reply model, such that:
+</p>
+<ul><li>Communication must be initiated by a user sending a device a command.
+</li><li>The device always responds with one reply immediately after a command has been received.
+</li><li>Unless explicitly enabled, a device will not send any message other than a reply to a command.
+</li></ul>
+<p>The contents of the message is space delimited, with consecutive spaces being treated as a single space.
+There is only one command or response per message. Sending multiple commands in a single message is not supported.
+</p>
+<h3> <span class="mw-headline" id="Commands"> Commands </span></h3>
+<p>Commands are sent from the user to one or more devices, which always and immediately respond with a <a href="#Replies">Reply</a>. The data field in the command is case sensitive, space delimited and depends on the command being executed. See the <a href="#Command_Reference">Command Reference</a> for all the available commands.
+</p><p>A command instructs the device to perform an operation. A typical command message and associated fields are:
+</p>
+<dl><dd><tt>/1 1 move abs 10000&#8629;</tt>
+</dd><dd><tt>/n a xxxx yyy yyyyy[:CC]ff</tt>
+</dd></dl>
+<dl><dt><tt>/</tt> - Message Type
+</dt><dd>Length: 1 byte.
+</dd><dd>The message type for a command is always <tt>/</tt>.
+</dd><dd>This field, and the footer, are the only required fields, all others are optional. 
+</dd></dl>
+<dl><dt><tt>n</tt> - Device Address
+</dt><dd>Length: 1+ bytes.
+</dd><dd>The address indicates which device number should perform the command. The address is optional and if left out, or set to zero, the command is executed by all devices on the chain. Device addresses range from 1 - 99 inclusive.
+</dd><dd>Examples of acceptable addresses are:
+<dl><dd><tt>0, 00, 1, 01, 000001, 76, 99, 0x00, 0x01, 0x5A, 0x5a</tt>
+</dd></dl>
+</dd><dd>Invalid addresses include:
+<dl><dd><tt>100, -1, 0x65</tt> - The addresses are out of range and while the message may be valid, no device will respond.
+</dd></dl>
+</dd></dl>
+<dl><dt><tt>a</tt> - Axis Number
+</dt><dd>Length: 1 bytes.
+</dd><dd>The axis number indicates which axis within a device should perform the command. The axis number is optional and if left out, or set to zero, the command is executed by all axes in the device. Axis numbers range from 0 - 9 inclusive.
+</dd></dl>
+<dl><dt><tt>xxxx...</tt> - Command
+</dt><dd>Length: Variable.
+</dd><dd>Message data containing command information. The contents are space delimited.
+</dd><dd>The <a href="#Command_Reference">Command Reference</a> below covers the available commands.
+</dd></dl>
+<dl><dt><tt>yyy...</tt> - Command Parameters
+</dt><dd>Length: Variable.
+</dd><dd>Message data containing command parameters and data, the contents are space delimited.
+</dd><dd>Numerical values can be in decimal, or hexadecimal when prefixed with <tt>0x</tt>.
+</dd><dd>Negative decimal values are prefixed with '<tt>-</tt>'
+</dd><dd>The <a href="#Command_Reference">Command Reference</a> below covers the contents of the parameters field for the available commands.
+</dd></dl>
+<dl><dt><tt>CC</tt> - Message Checksum
+</dt><dd>Length: 3 bytes.
+</dd><dd>If provided, the device will reject messages that have been corrupted during transmission.
+</dd><dd>More information and code examples are provided in the <a href="#Checksumming">Checksumming</a> section below.
+</dd></dl>
+<dl><dt><tt>ff</tt> - Message Footer
+</dt><dd>Length: 1 - 2 bytes.
+</dd><dd>A newline, typically achieved by pressing enter or return. For convenience, the device accepts any ASCII combination of Carriage Return (CR, <tt>\r</tt>) and/or Line Feed (LF, <tt>\n</tt>) as a message footer.
+</dd></dl>
+<p><b>Smallest Command</b>
+</p><p>The smallest valid command is just <tt>/&#8629;</tt> which generates a response from all devices in the chain, as demonstrated below:
+</p>
+<dl><dd><tt>/&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>@03 0 OK IDLE -- 0</tt>
+</dd><dd><tt>@02 0 OK IDLE -- 0</tt>
+</dd></dl>
+<p>This can be used as a quick way to check that communications and all devices are functioning as expected.
+</p>
+<h3> <span class="mw-headline" id="Replies"> Replies </span></h3>
+<p>A reply is sent by the device as soon as it has received a command and determined if it should respond. A typical response message and associated fields are:
+</p>
+<dl><dd><tt>@01 0 OK IDLE -- 0&#8629;</tt>
+</dd><dd><tt>@nn a fl bbbb ww x[:CC]ff</tt>
+</dd></dl>
+<dl><dt><tt>@</tt> - Message Type
+</dt><dd>Length: 1 byte.
+</dd><dd>This field always contains <tt>@</tt> for a reply message.
+</dd></dl>
+<dl><dt><tt>nn</tt> - Device Address
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field contains the address of the device sending the reply, always formatted as two digits.
+</dd></dl>
+<dl><dt><tt>a</tt> - Axis Number
+</dt><dd>Length: 1 byte.
+</dd><dd>This field contains the reply scope, from 0 to 9. 0 indicates that the following fields apply to the whole device and all axes on it, otherwise the fields apply to the specific axis indicated.
+</dd></dl>
+<dl><dt><tt>fl</tt> - Reply Flags
+</dt><dd>Length: 2 bytes.
+</dd><dd>The reply flag indicates if the message was accepted or rejected and can have the following values:
+<ul><li><tt>OK</tt> - The command was valid and accepted by the device.
+</li><li><tt>RJ</tt> - The command was rejected. The data field of the message will contain one of the following reasons:
+<ul><li><tt>BADDATA</tt> - The data provided in the command is incorrect or out of range.
+</li><li><tt>BADCOMMAND</tt> - The command or setting is incorrect or invalid.
+</li><li><tt>PARKED</tt> - The device cannot move because it is currently <a href="#tools_parking">parked</a>.
+</li><li><tt>DEVICEMOVING</tt> - The device cannot be parked because it is currently moving.
+</li><li><tt>DEVICEONLY</tt> - An axis number was specified when trying to execute a device only command.
+</li></ul>
+</li></ul>
+</dd></dl>
+<dl><dt><tt>bbbb</tt> - Device Status
+</dt><dd>Length: 4 bytes.
+</dd><dd>This field contains <tt>BUSY</tt> when the axis is moving and <tt>IDLE</tt> otherwise. All movement commands, including stop, put the axis into the <tt>BUSY</tt> state, while they are being executed.
+</dd></dl>
+<dl><dt><tt>ww</tt> - Warning Flags
+</dt><dd>Length: 2 bytes.
+</dd><dd>Contains the highest priority warning currently active for the device or axis, or <tt>--</tt> under normal conditions. A full description of the flags is available in the <a href="#Warning_Flags">Warning Flags</a> Section.
+</dd></dl>
+<dl><dt><tt>xxx..</tt> - Response Data
+</dt><dd>Length: 1+ bytes.
+</dd><dd>The response for the command executed. The contents and format of this field vary depending on the command, but is typically <tt>0</tt> (zero).
+</dd></dl>
+<dl><dt><tt>CC</tt> - Message Checksum
+</dt><dd>Length: 3 bytes.
+</dd><dd>A device will append a checksum to all replies if the <a href="#comm.checksum">comm.checksum</a> setting is configured to 1. More information and code examples are provided in the <a href="#Checksumming">Checksumming</a> section below.
+</dd></dl>
+<dl><dt><tt>ff</tt> - Message Footer
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field always contains a CR-LF combination (<tt>\r\n</tt>) for a reply message.
+</dd></dl>
+<p><b> Replies on Multi axis Devices </b>
+</p><p>For replies with an axis number of 0, the status and warning flags apply to the whole device. If any axis on the device is moving, then the reply status will be busy. Similarly the warning flags show the highest warning across all axes.
+</p><p>For replies with an axis number of 1 or above, the status and warning flags only apply to the axis indicated.
+</p>
+<h4> <span class="mw-headline" id="Warning_Flags"> Warning Flags </span></h4>
+<p>A warning flag is provided in each device-to-user reply message, indicating whether any device fault or warning is active. If more than one condition is active, it shows the one with highest precedence.
+</p><p>The warning flags are defined as follows, with the highest priority first:
+</p>
+<dl><dt><tt>FD</tt> - Driver Disabled.
+</dt><dd>The driver has disabled itself due to overheating.
+</dd><dd>This warning persists until the driver returns to normal operating conditions.
+</dd><dt><tt>FS</tt> - Stalled and Stopped.
+</dt><dd>Stalling was detected and the axis has stopped itself.
+</dd><dd>This warning persists until acknowledged and cleared by the user with the <a href="#warnings">warnings</a> command.
+</dd><dt><tt>FE</tt> - Limit Error.
+</dt><dd>The axis took too long to reach the target limit sensor.
+</dd><dd>This warning persists until acknowledged and cleared by the user with the <a href="#warnings">warnings</a> command.
+</dd><dt><tt>WL</tt> - Unexpected Limit Trigger.
+</dt><dd>A limit sensor triggered unexpectedly. This occurs when an <a href="#limit.sensor.action">automatic limit sensor action</a> is carried out on a previously <a href="#limit.sensor.triggered">triggered</a> sensor.
+</dd><dd>This warning persists until acknowledged and cleared by the user with the <a href="#warnings">warnings</a> command.
+</dd><dt><tt>WV</tt> - Voltage out of range.
+</dt><dd>The supply voltage is outside the recommended operating range of the device. Damage could result to the device if not remedied.
+</dd><dd>This warning persists until the condition is remedied.
+</dd><dt><tt>WT</tt> - System Temperature High
+</dt><dd>The internal temperature has exceeded the recommended limit for the device.
+</dd><dd>This warning persists until the over temperature condition is remedied.
+</dd><dt><tt>WM</tt> - Displaced when stationary.
+</dt><dd>While not in motion, the axis has been forced out of its position.
+</dd><dd>This warning persists until the axis is moved.
+</dd><dt><tt>WR</tt> - No Reference Position.
+</dt><dd>Axis has not had a reference position established.
+</dd><dd>This warning persists until the axis position is updated via <a href="#home">homing</a> or any command/action that sets <a href="#pos">position</a>.
+</dd><dt><tt>NC</tt> - Manual Control.
+</dt><dd>Axis is busy due to manual control via the knob.
+</dd><dd>This warning persists until a movement command is issued.
+</dd><dt><tt>NI</tt> - Command Interrupted.
+</dt><dd>A movement operation (command or manual control) was requested while the axis was executing another movement command. This indicates that a movement command did not complete.
+</dd><dd>This warning persists until a movement command is issued when the axis is either idle or executing a manual control movement.
+</dd><dt><tt>NU</tt> - Setting Update Pending.
+</dt><dd>A setting is pending to be updated.
+</dd><dd>This warning is cleared automatically, once the settings have been updated.
+</dd></dl>
+<p><br />
+To see and clear all current warnings, use the <a href="#warnings">warnings</a> command.
+</p>
+<h3> <span class="mw-headline" id="Info"> Info </span></h3>
+<p>This message type contains extra information from the device for testing/debugging/programming purposes. One or more info messages can follow a reply or alert message. This message type is designed to be read by the user and to be ignored by software.
+</p><p>A typical info message and its fields are:
+</p>
+<dl><dd><tt>#01 0 Visit www.zaber.com/support for complete instruction manuals.&#8629;</tt>
+</dd><dd><tt>#nn a xxxxxxxxxxxxx...[:CC]ff</tt>
+</dd></dl>
+<dl><dt><tt>#</tt> - Message Type
+</dt><dd>Length: 1 byte.
+</dd><dd>This field always contains <tt>#</tt> for an info message.
+</dd></dl>
+<dl><dt><tt>nn</tt> - Device Address
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field contains the address of the device sending the reply, always formatted as two digits.
+</dd></dl>
+<dl><dt><tt>a</tt> - Axis number.
+</dt><dd>Length: 1 byte.
+</dd><dd>Always 0 for info messages.
+</dd></dl>
+<dl><dt><tt>xxx..</tt> - Data
+</dt><dd>Length: 1+ bytes.
+</dd><dd>The data for the info message, typically human readable text.
+</dd></dl>
+<dl><dt><tt>CC</tt> - Message Checksum
+</dt><dd>Length: 3 bytes.
+</dd><dd>A device will append a checksum to all info messages if the <a href="#comm.checksum">comm.checksum</a> setting is configured to 1. More information and code examples are provided in the <a href="#Checksumming">Checksumming</a> section below.
+</dd></dl>
+<dl><dt><tt>ff</tt> - Message Footer
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field always contains a CR-LF combination (<tt>\r\n</tt>) for a info message.
+</dd></dl>
+<p>The common occurrence of info messages is in reply to a <a href="#help">help</a> command, e.g.:
+</p>
+<pre>/1 help&#8629;
+@01 0 OK IDLE WR 0
+#01 0 COMMAND USAGE:
+#01 0  '/stop'     stop all devices
+#01 0  '/1 stop'   stop device number 1
+#01 0  '/1 2 stop'   stop device number 1 axis number 2
+#01 0
+#01 0 Type '/help commands' for a list of all top-level commands.
+#01 0 Type '/help reply' for a quick reference on reply messages.
+#01 0 Visit www.zaber.com/support for complete instruction manuals.
+</pre>
+<h3> <span class="mw-headline" id="Alerts"> Alerts </span></h3>
+<p>An alert message is sent from a device when a motion command has completed.
+</p><p>If it is enabled, this message can be sent at any time without being preceded by a command from the user. This message type is used for informational purposes or time-sensitive operations.
+</p><p>Alerts are controlled by the <tt><a href="#comm.alert">comm.alert</a></tt> setting, which has to be 1 for the device to send status alerts.
+</p><p>A typical alert message and its fields are:
+</p>
+<dl><dd><tt>!01 0 IDLE --&#8629;</tt>
+</dd><dd><tt>!nn a ssss ww[:CC]ff</tt>
+</dd></dl>
+<dl><dt><tt>!</tt> - Message Type
+</dt><dd>Length: 1 byte.
+</dd><dd>This field always contains <tt>!</tt> for an alert message.
+</dd></dl>
+<dl><dt><tt>nn</tt> - Device Address
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field contains the address of the device sending the alert, always formatted as two digits.
+</dd></dl>
+<dl><dt><tt>a</tt> - Axis Number
+</dt><dd>Length: 1 byte.
+</dd></dl>
+<dl><dt><tt>ssss</tt> - Device status.
+</dt><dd>Length: 4 bytes.
+</dd><dd>This field contains BUSY when any axis is moving and IDLE when all axes are stopped.
+</dd></dl>
+<dl><dt><tt>ww</tt> - Warning flags.
+</dt><dd>Length: 2 bytes.
+</dd><dd>Contains the highest priority warning currently active for the device, or -- under normal conditions. A full description of the flags is available in the <a href="#Warning_Flags">Warning Flags</a> Section. 
+</dd></dl>
+<dl><dt><tt>CC</tt> - Message Checksum
+</dt><dd>Length: 3 bytes.
+</dd><dd>A device will append a checksum to all alert messages if the <a href="#comm.checksum">comm.checksum</a> setting is configured to 1. More information and code examples are provided in the <a href="#Checksumming">Checksumming</a> section below.
+</dd></dl>
+<dl><dt><tt>ff</tt> - Message Footer
+</dt><dd>Length: 2 bytes.
+</dd><dd>This field always contains a CR-LF combination (<tt>\r\n</tt>) for an alert message.
+</dd></dl>
+<p><b>Multi axis Alerts</b>
+</p><p>On a multi axis device with completion alerts enabled, an alert will be generated each time an axis stops. In the example below, axis 2 is closer to it's maximum position than axis 1 is:
+</p>
+<pre>/move max&#8629;
+@01 0 OK BUSY -- 0
+!01 2 IDLE -- 
+!01 1 IDLE --
+</pre>
+<p>The first alert is generated when axis 2 stops, but as one axis is still moving the overall status is still busy. The second alert is generated when axis 1 stops and as none of the axes on the device are moving, the overall status is idle.
+</p>
+<h2> <span class="mw-headline" id="Command_Reference"> Command Reference </span></h2>
+<div class="zaber_cmd">
+<p>The following section details all commands that are available in the ASCII protocol. For specific device support of a command, please refer to that device's <a href="/wiki/Main_Page" title="Main Page">User Manual</a>.
+</p><p>For commands with a device scope, specifying an axis number other than zero in the command will result in a DEVICEONLY error, as shown below:
+</p>
+<pre>/1 tools parking park&#8629;
+@01 0 OK IDLE -- 0
+/1 0 tools parking park&#8629;
+@01 0 OK IDLE -- 0
+/1 1 tools parking park&#8629;
+@01 1 RJ IDLE -- DEVICEONLY
+</pre>
+<p>For commands with an axis scope, specifying an axis number of zero or not including any axis number will both apply the command to all axes on the device. If one of the axes is unable to complete the command, a BADDATA response will be returned and none of the axes will perform the command. For example, moving to a position that is outside the range of one axis, but within for another axis will result in an error:
+</p>
+<pre>/1 get limit.max&#8629;
+@01 0 OK IDLE -- 3038763 6062362
+/1 move abs 4750000&#8629;
+@01 0 RJ IDLE -- BADDATA
+</pre>
+<p>Parameters in square brackets, e.g. [clr], indicate that the parameter is optional. Parameters in italics, e.g. <i>value</i>, indicate that data, typically a number, needs to be provided. Parameters separated by a pipe, e.g. abs|rel, indicate that one of the parameters in the set needs to be provided.
+</p>
+<h3> <span class="mw-headline" id="estop"> estop </span></h3>
+<p>Performs an emergency stop on the axis.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+The device is forced to zero velocity, no control of deceleration is performed.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/1 1 estop&#8629;</tt>
+</dd><dd><tt>@01 1 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="get">get</span></h3>
+<p>Retrieves the current value of the device or axis setting.
+</p>
+<dl><dt>Scope
+</dt><dd>Device and Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><i>setting</i> The name of one of the <a href="#Device_Settings">Device Settings</a>.<br />
+</dd></dl>
+<p><br />
+See <a href="#Device_Settings">Device Settings</a> for a detailed list or settings and what they do.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Viewing the device id:
+</p>
+<dl><dd><tt>/get deviceid&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 20022</tt>
+</dd><dd>Device id is 20022 (A-LSQ150B)
+</dd></dl>
+<p>Viewing an invalid setting:
+</p>
+<dl><dd><tt>/get cloop.mode&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADCOMMAND</tt>
+</dd><dd>cloop.mode is only valid on devices with encoders, and this device does not have one. Attempting to read an invalid setting results in a BADCOMMAND rejection reply.
+</dd></dl>
+<h3> <span class="mw-headline" id="help">help</span></h3>
+<p>Displays the built-in help.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd> 
+</dd><dd><tt>[commands|reply|warnflags|enums<i>command</i>]</tt>
+</dd><dd><tt>commands list</tt>
+</dd></dl>
+<p><br />
+Displays the help information for the system, commands and replies or a specific <i>command</i> as applicable. This command will always return a successful reply and the help information will be returned in info messages.
+</p><p><tt>help warnflags</tt> displays information about the warning flags that can be present in a reply.
+</p><p><tt>help commands list</tt> can be used to list all supported commands and settings of the device.
+</p><p><br />
+As the built-in help is specific to each device, a device number is required when sending the command. Issuing a help command without a device number will result in each device in the chain requesting that a device number be specified, as shown below:
+</p>
+<dl><dd><tt>/help&#8629;</tt> 
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>#01 0 Please provide a device address for querying help</tt>
+</dd><dd><tt>@02 0 OK IDLE -- 0</tt>
+</dd><dd><tt>#02 0 Please provide a device address for querying help</tt>
+</dd></dl>
+<p><br />
+<b>Example Usage:</b>
+</p><p>View the built-in help for the <a href="#estop">estop</a> command
+</p>
+<dl><dd><tt>/1 help estop&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>#01 0 estop                Emergency stop</tt>
+</dd></dl>
+<p>Help for an invalid command returns successfully:
+</p>
+<dl><dd><tt>/1 help dlkjsfbi&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>#01 0 No help found</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="home"> home </span></h3>
+<p>Moves the axis to the home position.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+The axis is moved towards the home position (closest to the motor generally) at the lesser of the <a href="#limit.approach.maxspeed">limit.approach.maxspeed</a> and <a href="#maxspeed">maxspeed</a> settings. Once the home position is reached, the current position is reset to the <a href="#limit.sensor.preset">limit.home.preset</a>. Additionally, <a href="#limit.sensor.triggered">limit.home.triggered</a> is set to 1, and the <a href="#Warning_Flags">No Reference Position (WR)</a> warning flag is cleared. This command is equivalent to <tt><a href="#tools_gotolimit">tools gotolimit home neg 2 0</a></tt>.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/home&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY WR 0</tt>
+</dd></dl>
+<p><br />
+<b>NOTE:</b> Upon power up or setting changes, this command should be issued to obtain a reference position. Otherwise, motion commands may respond with a rejection reply or behave unexpectedly.
+</p>
+<h3> <span class="mw-headline" id="io_info">io info</span></h3>
+<p>Returns the number of I/O channels the device has.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd> 
+</dd><dd><tt>[ao|ai|do|di]</tt>
+</dd></dl>
+<p><br />
+The parameters are used to specify the channel type: ai for Analog Input, ao for Analog Output, di for Digital Input and do for Digital Output. Channel numbers start at 1 for each type.
+</p><p>If the channel type is not specified, all channels will be returned in the following order: analog out, analog in, digital out, digital in
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Getting the available io configuration:
+</p>
+<dl><dd><tt>/io info&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0 4 4 4</tt>
+</dd><dd>Device has no analog outputs, 4 analog input channels, 4 digital outputs and 4 digital inputs.
+</dd></dl>
+<p>Getting the configuration of a specific port type:
+</p>
+<dl><dd><tt>/io info ao&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>Device has no analog output capabilities
+</dd></dl>
+<p>Invalid port type:
+</p>
+<dl><dd><tt>/io info as&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADCOMMAND</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="io_get">io get</span></h3>
+<p>Get the current value of the specified I/O channel type.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>ao|ai|do|di [<i>channel</i>]</tt><br />
+</dd></dl>
+<p><br />
+If <i>channel</i> isn't specified a space delimited list of all channels of the requested type are returned.
+</p><p>For digital channels, a value of 0 indicates that the input or output is not conducting and a value of 1 indicates that the channel is conducting.
+</p><p>For analog channels, the vaule returned is a measurement of the voltage present on the input with enough decimal places to cover the available resolution. To see the available resolution, please consult the 
+Series Specs Tab on the device <a rel="nofollow" class="external text" href="http://www.zaber.com/products/">Product Page</a>.
+</p><p><b>Example Usage:</b>
+</p><p>Reading an analog input:
+</p>
+<dl><dd><tt>/io get ai 2&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 7.5</tt>
+</dd><dd>Analog input 2 has 7.5V on it
+</dd></dl>
+<p>Reading all digital outputs:
+</p>
+<dl><dd><tt>/io get do&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0 0 1 0</tt>
+</dd><dd>Digital output 3 is high while the rest are low.
+</dd></dl>
+<p>Invalid port type:
+</p>
+<dl><dd><tt>/io get as 0&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADCOMMAND</tt>
+</dd></dl>
+<p>Invalid channel number, using the available channels from the <a href="#io_info">io info</a> command above:
+</p>
+<dl><dd><tt>/io get ai 5&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADDATA</tt>
+</dd><dd><tt>/io get ao&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADDATA</tt>
+</dd><dd>The analog output port has no channels and can't be displayed.
+</dd></dl>
+<h3> <span class="mw-headline" id="io_set">io set</span></h3>
+<p>Sets the specified output.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>do&#160;<i>channel</i> <i>value</i></tt>
+</dd><dd><tt>do&#160;port&#160;<i>value</i>&#160;<i>value2</i>...</tt>
+</dd></dl>
+<p><br />
+Sets the specified output <i>channel</i> to <i>value</i>.
+</p><p>For digital channels, a <i>value</i> of 0 clears the output while any other value sets it.
+</p><p>Specifying 'port' allows setting of all digital outputs at once.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Clear digital output 3:
+</p>
+<dl><dd><tt>/io set do 3 0&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<p>Using the port command to set digital output 1, 3, 4 and clear output 2:
+</p>
+<dl><dd><tt>/io set do port 1 0 1 1&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<p>Invalid port type:
+</p>
+<dl><dd><tt>/io set ad 2 50&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE --  BADCOMMAND</tt>
+</dd></dl>
+<p>Port type that's not an output or has no channels:
+</p>
+<dl><dd><tt>/io set ai 2 50&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE --  BADDATA</tt>
+</dd><dd><tt>/io set ao 2 50&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE --  BADDATA</tt>
+</dd></dl>
+<p>Invalid channel number:
+</p>
+<dl><dd><tt>/io set do 8 1&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE --  BADDATA</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="l">l</span></h3>
+<p>Repeats the last successfully decoded command. Note that this command is a lower case L (l), not the number One (1) or a Pipe (|).
+</p>
+<dl><dt>Scope</dt><dd>
+</dd><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+This command repeats the previous command sent to the device and replies with that command's response. 
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/1 move rel 10000&#8629;</tt>
+</dd><dd><tt>@01 1 OK BUSY -- 0</tt>
+</dd><dd><tt>/1 l&#8629;</tt>
+</dd><dd><tt>@01 1 OK BUSY -- 0</tt>
+</dd><dd>The device will move all axes forward 10000 microsteps due to the move command and then another 10000 due to the l command.
+</dd></dl>
+<h3> <span class="mw-headline" id="move">move</span></h3>
+<p><span id="move_vel"></span>
+Moves the device to various positions along its travel.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>abs|rel|vel <i>value</i></tt>
+</dd><dd><tt>min|max</tt>
+</dd><dd><tt>stored <i>number</i></tt>
+</dd></dl>
+<p><i>value</i> is in units of microsteps.
+</p><p>abs moves to the absolute position of <i>value</i>. <i>Value</i> must be in the range [ <a href="#limit.min">limit.min</a>,<a href="#limit.max">limit.max</a> ].
+</p><p>rel moves the axis by <i>value</i> microsteps, relative to the current position. <i>Value</i> must be in the range [ <a href="#limit.min">limit.min</a> - <a href="#pos">pos</a>, <a href="#limit.max">limit.max</a> - <a href="#pos">pos</a> ].
+</p><p>vel moves the axis at the velocity specified by <i>value</i> until a limit is reached. <i>Value</i> must be in the range [ -<a href="#resolution">resolution</a>*16384, <a href="#resolution">resolution</a>*16384 ].
+</p><p>min moves the axis to the minimum position, as specified by <a href="#limit.min">limit.min</a>.
+</p><p>max moves the axis to the maximum position, as specified by <a href="#limit.max">limit.max</a>.
+</p><p>stored moves the axis to a previously stored position. <i>number</i> specifies the stored position number, from 1 - 16. Refer to the <a href="#tools_storepos">tools storepos</a> command for more information.
+</p><p><b>Example Usage:</b>
+</p><p>Move all axes on the device forward by 200000 microsteps:
+</p>
+<dl><dd><tt>/move rel 200000&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY -- 0</tt>
+</dd></dl>
+<p>No reference point:
+</p>
+<dl><dd><tt>/move rel 2000000&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE WR BADDATA</tt>
+</dd><dd>The WR flag indicates that there is no reference point and the axis has not been homed. Sending the <a href="#home">home</a> command will allow the move command to succeed.
+</dd></dl>
+<p>Invalid position:
+</p>
+<dl><dd><tt>/get limit.max&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 305381</tt>
+</dd><dd><tt>/move abs 305888&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADDATA</tt>
+</dd><dd>A bad data rejection was received because the position specified is beyond the range of the axis.
+</dd></dl>
+<p>Parked:
+</p>
+<dl><dd><tt>/move abs 10000&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- PARKED</tt>
+</dd><dd>Axes cannot be moved when the device is parked. Either <a href="#tools_parking">unpark</a> or <a href="#home">home</a> it.
+</dd></dl>
+<h3> <span class="mw-headline" id="renumber">renumber</span></h3>
+<p>Renumbers a device, or all devices in a chain.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>[<i>value</i>]</tt> Valid range: 1 - 99.<br />
+</dd></dl>
+<p>The global version of this command sequentially renumbers all devices in the chain, starting with <tt><i>value</i></tt>, if provided, or 1. The global renumber command only works on interfaces that support daisy chaining; issuing a global renumber command over an interface that doesn't support daisy chaining will be rejected with a BADCOMMAND. Please consult the device User Manual to determine which interfaces support daisy chaining.
+</p><p>When a specific device address is sent the renumber command, the renumber command will change the device number to <tt><i>value</i></tt> (in which case <tt><i>value</i></tt> is required).
+</p><p>When a device receives a renumber command, it will use the new device number for it's response.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Renumbering all devices in the chain:
+</p>
+<dl><dd><tt>/renumber&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>@02 0 OK IDLE -- 0</tt>
+</dd><dd>The devices renumbered, with the device closest to the computer being at address 1, and the next closest being at address 2.
+</dd></dl>
+<p>Renumbering a specific device:
+</p>
+<dl><dd><tt>/2 renumber 4&#8629;</tt>
+</dd><dd><tt>@04 0 OK IDLE -- 0</tt>
+</dd><dd>Device 2 renumbered and replied on address 4.
+</dd><dd>This is equivalent to <tt>/2 set comm.address 4&#8629;</tt>
+</dd></dl>
+<p>Invalid device number:
+</p>
+<dl><dd><tt>/renumber 999&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADDATA</tt>
+</dd><dd>The requested device number was outside of the allowable range.
+</dd></dl>
+<p><b>NOTE:</b> The device will reply on its new address, not the address the command was sent to.
+</p>
+<h3> <span class="mw-headline" id="set">set</span></h3>
+<p>Sets the device setting.
+</p>
+<dl><dt>Scope
+</dt><dd>Device and Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>setting</i> <i>value</i></tt><br />
+</dd></dl>
+<p><br />
+Sets the device setting <i>setting</i> to the <i>value</i>. See <a href="#Device_Settings">Device Settings</a> for a detailed list or settings and what they do.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Writing a device setting:
+</p>
+<dl><dd><tt>/set knob.enable 1&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>The device setting was successfully configured.
+</dd></dl>
+<p>Invalid value:
+</p>
+<dl><dd><tt>/set knob.enable 7&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADDATA</tt>
+</dd></dl>
+<p>Invalid setting:
+</p>
+<dl><dd><tt>/get system.voltage&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>/set system.voltage 0&#8629;</tt>
+</dd><dd><tt>@01 0 RJ IDLE -- BADCOMMAND</tt>
+</dd><dd>It's possible to read from some settings but not write to them.
+</dd></dl>
+<h3> <span class="mw-headline" id="stop">stop</span></h3>
+<p>Decelerates an axis and brings it to a halt.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+To quickly stop an axis, see the <a href="#estop">estop</a> command.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/stop&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="system_reset">system reset</span></h3>
+<p>Resets the device, as it would appear after power up.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/system reset&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="system_restore">system restore</span></h3>
+<p>Restores common device settings to their default values.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p><br />
+This command resets common settings to their default for the device and peripheral. Communications settings are not modified.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/system restore&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="tools_echo">tools echo</span></h3>
+<p>Echoes the provided message (if any) back to the user.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>[<i>message</i>]</tt><br />
+</dd></dl>
+<p><br />
+This command always returns a successful response, with any message provided by the user.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dd><tt>/tools echo hi there&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- hi there</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="tools_findrange">tools findrange</span></h3>
+<p>Uses the home and away sensors to set the valid range of the axis for the current session. 
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd>none<br />
+</dd></dl>
+<p>This command replaces the <a href="#home">home</a> command on an axis equipped with both home and away limit sensors. The axis is first <a href="#home">homed</a> and the current position set to <a href="#limit.sensor.preset">limit.home.preset</a>. If there is an away sensor present, the axis is then moved to the away sensor. Once the away sensor is triggered, the <a href="#limit.max">limit.max</a> setting is updated to the current position for the current session.
+</p><p>This command is equivalent to the following set of commands issued in order:
+</p>
+<dl><dd><tt><a href="#tools_gotolimit">tools gotolimit home neg 2 0</a></tt> (or equivalently, <tt><a href="#home">home</a></tt>)
+</dd><dd><tt><a href="#tools_gotolimit">tools gotolimit away pos 1 1</a></tt>
+</dd></dl>
+<p><b>NOTE:</b> Upon power up or setting changes, this command should be issued to obtain a reference position and valid range. Otherwise, motion commands may respond with a rejection reply or behave unexpectedly.
+</p>
+<h3> <span class="mw-headline" id="tools_gotolimit">tools gotolimit</span></h3>
+<p>Moves the axis to a limit sensor and performs the provided actions. 
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>sensor</i> <i>direction</i> <i>action</i> <i>update</i></tt><br />
+</dd></dl>
+<p><br />
+<tt><i>sensor</i></tt> specifies one of the limit switches to move to. Can be one of <tt>home</tt>, <tt>away</tt>, <tt>c</tt> or <tt>d</tt>.
+</p><p><tt><i>direction</i></tt> specifies the travel direction to the sensor. Can be one of <tt>pos</tt> or <tt>neg</tt> for a positive or negative direction of travel, respectively.
+</p><p><tt><i>action</i></tt> specifies the action to perform when the sensor is triggered. This parameter shares the same values and effects as the <a href="#limit.sensor.action">limit.<i>sensor</i>.action</a> setting, except that it cannot be <tt>0 (Disabled)</tt>.
+</p><p><tt><i>update</i></tt> how to update the sensor position setting. This parameter shares the same values and effects as the <a href="#limit.sensor.posupdate">limit.<i>sensor</i>.posupdate</a> setting.
+</p><p><br />
+This command moves the axis in the <i>direction</i> specified and waits for <i>sensor</i> to trigger. The axis will then align itself to the sensor edge specified by <a href="#limit.sensor.edge">limit.<i>sensor</i>.edge</a> and perform the limit switch action and position update specified by <i>action</i> and <i>update</i>. <a href="#limit.sensor.triggered">limit.<i>sensor</i>.triggered</a> is set to 1. If <i>action</i> is <tt>2 (Retract and update current position)</tt>, the <a href="#Warning_Flags">No Reference Position (WR)</a> warning flag is cleared.
+</p><p><br />
+The automatic action settings as specified in <a href="#limit.sensor.action">limit.<i>sensor</i>.action</a> and <a href="#limit.sensor.posupdate">limit.<i>sensor</i>.posupdate</a> are ignored.
+</p><p><br />
+<b>Example Usage</b>
+</p>
+<dl><dt>Go home and reset the current position
+</dt><dd><tt>/tools gotolimit home neg 2 0&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY -- 0</tt>
+</dd><dd>Equivalent to the <tt><a href="#home">home</a></tt> command.
+</dd><dt>Adjust the effective travel range</dt><dd>
+</dd><dd><tt>/tools gotolimit away pos 1 1&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY -- 0</tt>
+</dd><dd>Assuming that there is already a reference established, the command above leaves the current position as it is when the away sensor it triggered. The <a href="#limit.max">limit.max</a> setting is then updated to the current position.
+</dd></dl>
+<h3> <span class="mw-headline" id="tools_parking">tools parking</span></h3>
+<p>Parks the device.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>state|park|unpark</tt><br />
+</dd></dl>
+<p><br />
+Parking allows the device to be turned off and then used at a later time without first having to <a href="#home">home</a> the axes. 
+</p><p>The parking state can be queried with the state option, returning 1 if parked or 0 if not.
+</p><p>A device can be parked with the park option. Once parked, any movement commands will result in a PARKED error, except for <a href="#home">home</a>, which will home the respective axis and clear the parked state.
+</p><p>A parked device can be restored by powering it on and issuing the unpark command.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Parking:
+</p>
+<dl><dd><tt>/tools parking park&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<p>Unparking:
+</p>
+<dl><dd><tt>/tools parking unpark&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<p>Parking when busy:
+</p>
+<dl><dd><tt>/tools parking park&#8629;</tt>
+</dd><dd><tt>@01 0 RJ BUSY -- DEVICEMOVING</tt>
+</dd><dd>The device cannot be parked while it is moving. 
+</dd></dl>
+<p><b>NOTE:</b> Parking should not be used when there is a load on the device that could cause it to slip when the motor hold current is turned off.
+</p>
+<h3> <span class="mw-headline" id="tools_setcomm">tools setcomm</span></h3>
+<p>Sets the RS232 baud rate and communication protocol for RS232 and USB.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>rs232baud</i> <i>protocol</i></tt><br />
+</dd></dl>
+<p><br />
+<i>rs232baud</i> specifies the desired RS232 baud rate. This parameter shares the same values as <a href="#comm.rs232.baud">comm.rs232.baud</a>.
+</p><p><i>protocol</i> specifies the desired communication protocol, which must be supported on USB and RS232. This parameter shares the same values as <a href="#comm.rs232.protocol">comm.rs232.protocol</a> and <a href="#comm.usb.protocol">comm.usb.protocol</a>.
+</p><p><br />
+This command sets <a href="#comm.rs232.baud">comm.rs232.baud</a>, <a href="#comm.rs232.protocol">comm.rs232.protocol</a> and <a href="#comm.usb.protocol">comm.usb.protocol</a>.
+</p><p>This command sets the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies on the current communication settings. Once all communication channels have been quiet for 500 milliseconds, the device switches to the new settings and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Switching RS232 baud rate and protocol:
+</p>
+<dl><dd><tt>/tools setcomm 9600 1&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE NU 0</tt>
+</dd><dd>Configures the device to communicate at 9600 baud rate and in Binary protocol.
+</dd></dl>
+<h3> <span class="mw-headline" id="tools_storepos">tools storepos</span></h3>
+<p>Stores a number of positions for axes for ease of movement.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>number</i> [<i>position</i>|current]</tt><br />
+</dd></dl>
+<p>number is the stored position number to be set or retrieved. The valid range is 1 - 16.
+</p><p>position is a valid axis position to move to and must be in the range of <a href="#limit.min">limit.min</a> to <a href="#limit.max">limit.max</a>. The position defaults to 0 if not set.
+</p><p>current specifies that the specified stored position number be set to the current position, <a href="#pos">pos</a>. 
+</p><p>If none of the optional arguments are provided, the current value of the stored position number will be returned.
+</p><p><b>Example Usage:</b>
+</p><p>Storing a position:
+</p>
+<dl><dd><tt>/1 1 move abs 74920&#8629;</tt>
+</dd><dd><tt>/1 1 tools storepos 1 current&#8629;</tt>
+</dd><dd><tt>@01 1 OK IDLE -- 74920</tt>
+</dd><dd>Stores the current position of 74290 microsteps to position number 1 for axis 1.
+</dd></dl>
+<p>Setting a position:
+</p>
+<dl><dd><tt>/1 1 tools storepos 1 150000&#8629;</tt>
+</dd><dd><tt>@01 1 OK IDLE -- 0</tt>
+</dd><dd>Stored position 1 has been set to a position of 150000 microsteps for axis 1.
+</dd></dl>
+<p>Retrieving a stored position:
+</p>
+<dl><dd><tt>/1 1 tools storepos 1&#8629;</tt>
+</dd><dd><tt>@01 1 OK IDLE -- 150000</tt>
+</dd><dd>The stored position 1 has a value of 150000 for axis 1.
+</dd></dl>
+<p>Moving to a stored position:
+</p>
+<dl><dd><tt>/move stored 1&#8629;</tt>
+</dd><dd><tt>@01 0 OK BUSY -- 0</tt>
+</dd><dd><tt>/get pos&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 150000 0</tt>
+</dd><dd>All axes on the device will move to their respective stored position. In the example above, axis 2 didn't have a value set for position 1 and moved to a position of 0.
+</dd></dl>
+<h3> <span class="mw-headline" id="trigger">trigger</span></h3>
+<p>Configures actions to be performed when an event is triggered.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>info</tt>
+</dd><dd><tt>show</tt>
+</dd><dd><tt><i>number</i> enable [<i>count</i>]</tt>
+</dd><dd><tt><i>number</i> disable</tt>
+</dd><dd><tt><i>number</i> when <i><a href="#Condition_Configuration">condition configuration</a></i></tt>
+</dd><dd><tt><i>number</i> action <i>act</i> <i><a href="#Command_Configuration">command configuration</a></i></tt>
+</dd></dl>
+<p>Triggers allow certain actions to be performed when an event occurs.
+</p><p><br />
+The <tt>trigger info</tt> command returns four values, the number of triggers in the device, the number of available actions per trigger, the number of time triggers and the number of distance triggers. For example:
+</p>
+<dl><dd><tt>/1 trigger info&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 6 2 2 2</tt>
+</dd></dl>
+<p>There are 6 triggers in total, each with 2 actions that can be performed. There are 2 time triggers available and 2 distance triggers available. In this case <i>number</i> has a range of 1 - 6 inclusive and <i>act</i> has a range of 'a' - 'b' inclusive.
+</p><p><br />
+The <tt>trigger show</tt> command returns the state of the device triggers. For example:
+</p>
+<dl><dd><tt>/1 trigger show&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- e d 500 d d d</tt>
+</dd></dl>
+<p>Trigger 1 is enabled, trigger 3 will fire 500 more times before disabling and the rest of the triggers are disabled.
+</p><p><br />
+The <tt>enable</tt> parameter turns on the specified trigger, executing the actions whenever the trigger fires. If the <i>count</i> parameter is specified, the trigger action(s) are only performed <i>count</i> times. <b>NOTE:</b> The count parameter itself is non-volatile but the value is not updated as the triggers fire. Upon reset, the value is restored to the configured value, allowing the device to be configured and then powered off and installed without a PC connection. The <tt>disable</tt> parameter turns off the specified trigger.
+</p><p><br />
+</p>
+<h4> <span class="mw-headline" id="Condition_Configuration">Condition Configuration</span></h4>
+<dl><dt>Valid parameters</dt><dd>
+</dd><dd><tt>when io ao|ai|do|di <i>chan</i> <i>trigger_condition</i> <i>value</i></tt>
+</dd><dd><tt>when <i>setting</i> <i>trigger_condition</i> <i>value</i></tt>
+</dd><dd><tt>when <i>axis</i> <i>setting</i> <i>trigger_condition</i> <i>value</i></tt>
+</dd></dl>
+<dl><dt>Trigger Conditions</dt><dd>
+</dd><dd><tt>==</tt> Equal To
+</dd><dd><tt>!=</tt> Not Equal To
+</dd><dd><tt>&lt; </tt> Less Than
+</dd><dd><tt>&gt; </tt> Greater Than
+</dd><dd><tt>&lt;=</tt> Less Than or Equal To
+</dd><dd><tt>&gt;=</tt> Greater Than or Equal To
+</dd></dl>
+<p><br />
+The <tt>when io</tt> parameter sets a trigger to fire when a io type and channel compares to a provided value. The available channels for each io type (<tt>ai|ao|do|di</tt>) can be queried with the <a href="#io_info">io info</a> command.
+</p><p>The <tt>when <i>setting</i></tt>  parameter sets a trigger to fire when a device setting compares to a provided value. 
+</p><p>The <tt>when <i>axis</i> <i>setting</i></tt>  parameter sets a trigger to fire when a axis setting compares to a provided value. The <i>axis</i> parameter indicates the axis number that the setting applies to.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dt>Triggering when an analog input exceeds a set voltage</dt><dd>
+</dd><dd><tt>/1 trigger 1 when io ai 2 &gt; 7.5</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>Trigger 1 will fire when analog input 2 exceeds 7.5 volts.
+</dd><dt>Triggering when an axis position exceeds a value</dt><dd>
+</dd><dd><tt>/1 trigger 1 when 1 pos &gt;= 750000</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>Trigger 1 will fire when the position of axis 1 hits or exceeds 750000 microsteps.
+</dd></dl>
+<h4> <span class="mw-headline" id="Command_Configuration">Command Configuration</span></h4>
+<dl><dt>Valid parameters</dt><dd>
+</dd><dd><tt>action <i>act</i> none</tt>
+</dd><dd><tt>action <i>act</i> io do <i>chan</i> toggle|<i>value</i></tt>
+</dd><dd><tt>action <i>act</i> <i>axis</i> <a href="#stop">stop</a>|<a href="#move">move <i>value</i></a></tt>
+</dd><dd><tt>action <i>act</i> <i>axis</i> <i>setting</i> =|+= <i>value</i></tt>
+</dd></dl>
+<p><br />
+The <tt>action ... none</tt> parameter removes the specified action from the trigger.
+</p><p>The <tt>action ... io</tt> parameter sets a io digital output channel to the specified value, or toggles it. The available channels for each io type (<tt>ai|ao|do|di</tt>) can be queried with the <a href="#io_info">io info</a> command.
+</p><p>The <tt>action ... stop|move</tt> parameter stops or performs one of the <a href="#move">move</a> commands on the specified axis.
+</p><p>The <tt>action ... <i>setting</i></tt> parameter adjusts a setting for the specified axis. The setting can be configured to a certain value using the <tt>=</tt> option, or incremented by a set amount using the <tt>+=</tt> option.
+</p><p><b>NOTE:</b> No range checking or validity is performed on any of the <i>value</i> parameters. It is up to the user to ensure that the provided value is always valid, otherwise the trigger will fail to carry out the desired action under certain conditions.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dt>Moving to a position
+</dt><dd><tt>/1 trigger 1 action a 1 move rel 10000</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>When trigger 1 fires, axis 1 of the device will move forward 10000 microsteps as the first action.
+</dd><dt>Toggle a digital output line
+</dt><dd><tt>/1 trigger 1 action b io do 1 toggle</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd>When trigger 1 fires, the device will toggle the state of digital output 1 as the second action.
+</dd></dl>
+<h4> <span class="mw-headline" id="Trigger_Usage">Trigger Usage</span></h4>
+<p>The following examples demonstrate how to use the various trigger commands to perform actions.
+</p><p><b>Stopping when a digital input activates</b>
+</p><p>The following commands will stop axis 1 when digital input 1 activates
+</p>
+<dl><dd><tt>/1 trigger 1 when io di 1 == 1</tt>
+</dd><dd><tt>/1 trigger 1 action a 1 stop</tt>
+</dd><dd><tt>/1 trigger 1 action b 1 stop</tt><span style="margin-left: 5em;">If the second action is also stop, the device will perform an <a href="#estop">emergency stop</a></span>
+</dd><dd><tt>/1 trigger 1 enable</tt>
+</dd></dl>
+<p><br />
+<b>Cycling back and forth</b>
+</p><p>The following commands will cycle axis 1 between 0 and 100000 microsteps. The maximum speed is adjusted so that forward travel is twice as fast as backwards travel.
+</p>
+<dl><dd><tt>/1 trigger 1 when 1 pos == 0</tt>
+</dd><dd><tt>/1 trigger 1 action a 1 move abs 100000</tt>
+</dd><dd><tt>/1 trigger 1 action b 1 maxspeed = 150000</tt>
+</dd><dd><tt>/1 trigger 2 when 1 pos == 100000</tt>
+</dd><dd><tt>/1 trigger 2 action a 1 move abs 0</tt>
+</dd><dd><tt>/1 trigger 2 action b 1 maxspeed = 75000</tt>
+</dd><dd><tt>/1 trigger 1 enable</tt>
+</dd><dd><tt>/1 trigger 2 enable</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="trigger_dist">trigger dist</span></h3>
+<p>Toggles a digital output channel when the axis travels a certain number of microsteps.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>number</i> enable [<i>count</i>]</tt>
+</dd><dd><tt><i>number</i> disable</tt>
+</dd><dd><tt><i>number</i> <i>axis</i> <i>interval</i></tt>
+</dd></dl>
+<p>Once configured and enabled, the distance trigger will toggle a digital output channel every <i>interval</i> number of microsteps. The trigger can be set up to fire a certain number of times by specifying the <i>count</i> parameter to the enable command, otherwise it will fire until disabled.
+</p><p>The digital output channel that toggles is hard coded for each distance trigger. Trigger 1 on a device toggles output 1, trigger 2 toggles output 2 and so on. The initial state of the channel can be set using the <a href="#io_set">io set</a> command. The distance triggers will conflict with other commands that use the same digital outputs, resulting in the state of the line changing arbitrarily.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Set up the distance trigger 1 on axis 1 to toggle every 1000 microsteps and enable it.
+</p>
+<dl><dd><tt>/trigger dist 1 1 1000&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>/trigger dist 1 enable&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="trigger_time">trigger time</span></h3>
+<p>Toggles a digital output channel at a certain interval.
+</p>
+<dl><dt>Scope
+</dt><dd>Device
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt><i>number</i> enable [<i>count</i>]</tt>
+</dd><dd><tt><i>number</i> disable</tt>
+</dd><dd><tt><i>number</i> <i>interval</i></tt>
+</dd></dl>
+<p>Once configured and enabled, the time triggers will toggle the digital outputs every <i>interval</i> milliseconds. Each trigger can be set up to fire a certain number of times by specifying the <i>count</i> parameter to the enable command, otherwise they will fire until disabled.
+</p><p>The digital output channel is hard coded, where time trigger 1 toggles the last digital output, time trigger 2 toggles the second last output and so on. The initial state of the channel can be set using the <a href="#io_set">io set</a> command. The time triggers will conflict with other commands that use the same digital output, resulting in the state of the line changing arbitrarily.
+</p><p><br />
+<b>Example Usage:</b>
+</p><p>Set up time trigger 1 to toggle every 250ms (2Hz output rate) for 60 seconds (60/0.25 = 240 counts) and enable it.
+</p>
+<dl><dd><tt>/trigger time 1 250&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>/trigger time 1 enable 240&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="warnings">warnings</span></h3>
+<p>Displays the active warnings for the device and axes.
+</p>
+<dl><dt>Scope
+</dt><dd>Axis
+</dd><dt>Parameters</dt><dd>
+</dd><dd><tt>[clear]</tt>
+</dd></dl>
+<p>Warnings prints out a 2 digit count of active warnings and then all the active warning flags, as described in <a href="#Warning_Flags">Warning Flags</a> above. If this is sent to all axes on a device, the active warnings across all the axes will be displayed, otherwise only the warnings for the specified axis will be displayed.
+</p><p>If the optional parameter <tt>clear</tt> is given, all the clearable warnings are reset.
+</p><p><br />
+<b>Example Usage:</b>
+</p>
+<dl><dt>Normal response</dt><dd>
+</dd><dd><tt>/1 warnings&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 00</tt>
+</dd><dd>No warnings are active on the device
+</dd><dt>Axis warnings</dt><dd>
+</dd><dd><tt>/1 2 warnings&#8629;</tt>
+</dd><dd><tt>@01 2 OK IDLE FS 03 FS WD WR</tt>
+</dd><dd>There are 3 warnings active on axis 2, A stall fault, a displacement warning and a invalid reference warning.
+</dd></dl>
+</div>
+<h2> <span class="mw-headline" id="Device_Settings"> Device Settings </span></h2>
+<div class="zaber_cmd">
+<p>The following section covers all device settings that are available in the ASCII protocol, as such some of these settings may not be available for a particular device. To see the available settings, consult the Device Settings section of the product User Manual or the built-in help via: <tt>/1 help get&#8629;</tt>.
+</p><p>All the settings listed below are used with the <a href="#get">get</a> and <a href="#set">set</a> commands to read and change their value. All settings that can be modified require an integer value within the valid range. Some of the settings may return dotted decimals or multiple values.
+</p><p>A get command on a setting that applies to an axis where a specific axis number has not been supplied will result in a value being returned for each axis. For example, on a two axis device:
+</p>
+<dl><dd><tt>/1 get pos&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 10000 15000</tt>
+</dd></dl>
+<p>Similarly, configuring an axis setting without specifying an axis number will result in the value being applied to all axes on the device. For example, on a two axis device:
+</p>
+<dl><dd><tt>/1 set maxspeed 75000&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 0</tt>
+</dd><dd><tt>/1 get maxspeed&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 75000 75000</tt>
+</dd></dl>
+<p>If the specified value is outside the valid range for any axis, none of the axes will be set and a BADDATA reply will be returned.
+</p><p>Settings labelled Read-Only cannot be configured and will reply with a BADCOMMAND error if the set command is used with them. Configuring a setting with a value outside of its specified range will result in a BADDATA reply.
+</p><p>For the default values of the settings please refer to the <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Device%20IDs&amp;version=6">Device</a> and <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Peripheral%20IDs&amp;version=6">Peripheral</a> Pages for firmware 6.
+</p>
+<h3> <span class="mw-headline" id="accel">accel</span></h3>
+<p>Determines the acceleration and deceleration used when changing speed.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 32767.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When a movement command is issued, the axis will increase and decrease its speed at a rate determined by this setting. The actual acceleration is calculated as <tt>accel</tt>*10000/1.6384 microsteps/sec^2. A value of 0 specifies infinite acceleration.
+</p><p>To modify only the acceleration or deceleration see the <a href="#motion.accelonly">motion.accelonly</a> and <a href="#motion.decelonly">motion.decelonly</a> settings. When queried, this setting returns the value of the acceleration setting, regardless of the deceleration setting.
+</p>
+<h3> <span class="mw-headline" id="cloop.counts">cloop.counts</span></h3>
+<p>The number of encoder counts for a full revolution.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - 65535.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the number of encoder counts used for the closed loop mode encoder count to motor step ratio.
+</p><p>This number is typically 4x the encoder lines per revolution.
+</p>
+<h3> <span class="mw-headline" id="cloop.mode">cloop.mode</span></h3>
+<p>The closed loop control mode.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 5.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>0 - Disabled.
+<dl><dd>Encoder input is ignored and the axis behaves as a open-loop device.
+</dd></dl>
+</li><li>1 - Passive Mode.
+<dl><dd>Slip conditions are detected and reported but no position correction is made.
+</dd></dl>
+</li><li>2 - Stall Detection.
+<dl><dd>Same as passive mode but the axis will also detect and report stall conditions.
+</dd><dd>If a stall condition is detected the axis will stop after a <a href="#cloop.stalltimeout">stall timeout</a>
+</dd></dl>
+</li><li>3 - Position Correction (Default).
+<dl><dd>Axis detects, reports and recovers from slip conditions. Stall conditions are detected and reported.
+</dd></dl>
+</li><li>4 - Stall Recovery.
+<dl><dd>Same as Position Correction, however if stalling is detected, the axis will stop and resume after a <a href="#cloop.stalltimeout">stall timeout</a>.
+</dd></dl>
+</li><li>5 - Displace Recovery
+<dl><dd>Same as Stall Recovery, however if a stationary axis is forced out of position, the axis will restore to the original location after a <a href="#cloop.stalltimeout">timeout</a>.
+</dd></dl>
+</li></ul>
+<p>Closed loop mode can be enabled on devices with built-in encoder.
+</p><p>To use closed loop modes with a third party encoder, enable <a href="#encoder.mode">encoder.mode</a> and configure all encoder related settings. Set <a href="#encoder.dir">encoder.dir</a> so that <a href="#encoder.count">encoder.count</a> increments in the same direction as <a href="#pos">pos</a>. Adjust <a href="#cloop.steps">cloop.steps</a> and <a href="#cloop.counts">cloop.counts</a> to reflect the correct ratio between motor full steps and encoder counts.
+</p>
+<h3> <span class="mw-headline" id="cloop.stalltimeout">cloop.stalltimeout</span></h3>
+<p>Stall recovery time out.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 65535.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Specifies, in milliseconds, the amount of time to wait after a stall/displacement condition before attempting to recover from it for closed loop modes.
+</p>
+<h3> <span class="mw-headline" id="cloop.steps">cloop.steps</span></h3>
+<p>Steps per revolution
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - 255.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the number of stepper motor full steps used for the closed loop mode encoder count to motor step ratio.
+</p><p>This value is typically the number of full steps required for the motor to complete one revolution.
+</p>
+<h3> <span class="mw-headline" id="comm.address">comm.address</span></h3>
+<p>The device address.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 1 - 99.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The device will change its address and then respond when being set, e.g.:
+</p>
+<dl><dd><tt>/01 set comm.address 5&#8629;</tt>
+</dd><dd><tt>@05 0 OK IDLE -- 0</tt>
+</dd></dl>
+<h3> <span class="mw-headline" id="comm.alert">comm.alert</span></h3>
+<p>Alert Messages.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The device sends <a href="#Alerts">Alert</a> messages when this setting is 1.
+</p>
+<h3> <span class="mw-headline" id="comm.checksum">comm.checksum</span></h3>
+<p>Send message checksums.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The device includes <a href="#checksums">checksums</a> in its messages if this setting is 1.
+</p>
+<h3> <span class="mw-headline" id="comm.protocol">comm.protocol</span></h3>
+<p>The communications protocol used by the device on the current interface.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> Refer to the protocol setting for the current interface.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies in the current protocol. Once all the communications interfaces are idle, the device switches to the new protocol and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="comm.rs232.baud">comm.rs232.baud</span></h3>
+<p>The baud rate used by RS232 Prev and Next interfaces.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 9600 - 115200.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Valid Settings:
+</p>
+<ul><li>9600
+</li><li>19200
+</li><li>38400
+</li><li>57600
+</li><li>115200.
+</li></ul>
+<p>All other serial parameters are 8 bits, 1 stop bit, No parity and no flow control.
+</p><p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies in the current baud rate. Once all the communications interfaces are idle, the device switches to the new baud rate and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p><p>To set RS232 baud rate and protocol at the same time, use the <a href="#tools_setcomm">tools setcomm</a> command.
+</p>
+<h3> <span class="mw-headline" id="comm.rs232.protocol">comm.rs232.protocol</span></h3>
+<p>The communications protocol used by the device on the RS232 Prev and Next interfaces.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> See below.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>1 - Binary Only.
+<dl><dd>Legacy T-Series binary protocol only.
+</dd></dl>
+</li><li>2 - ASCII Only.
+<dl><dd>A-Series ASCII protocol only.
+</dd></dl>
+</li></ul>
+<p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies over the current interface. Once all the communications interfaces are idle, the device switches to the protocol on the specified interface and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="comm.rs485.baud">comm.rs485.baud</span></h3>
+<p>The baud rate used by RS485 interface.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 1200 - 115200.<br />
+<b>Access Level:</b> advanced.<br />
+</p><p>Valid Settings:
+</p>
+<ul><li>1200
+</li><li>4800
+</li><li>9600
+</li><li>19200
+</li><li>38400
+</li><li>57600
+</li><li>115200
+</li></ul>
+<p>All other serial parameters are 8 bits, 1 stop bit, No parity and no flow control.
+</p><p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies in the current baud rate. Once all the communications interfaces are idle, the device switches to the new baud rate and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="comm.rs485.enable">comm.rs485.enable</span></h3>
+<p>Enables the RS485 interface.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b>  0 - 1.<br />
+<b>Access Level:</b> advanced.<br />
+</p><p>Setting to 1 enables the RS485 interface. If a lower priority interface is currently in use the device will respond on the current interface and then switch to the RS485 interface, disabling the lower priority interface. For the supported interfaces and their priorities, please consult the User Manual for your device.
+</p><p>When writing to this setting and the current interface is a lower priority then RS485, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies on the current interface. Once all the communications interfaces are idle, the device switches to the new interface and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="comm.rs485.protocol">comm.rs485.protocol</span></h3>
+<p>The communications protocol used by the device on the RS485 interface.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> See below.<br />
+<b>Access Level:</b> advanced.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>2 - ASCII Only.
+<dl><dd>A-Series ASCII protocol only.
+</dd></dl>
+</li></ul>
+<p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies over the current interface. Once all the communications interfaces are idle, the device switches to the protocol on the specified interface and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="comm.usb.protocol">comm.usb.protocol</span></h3>
+<p>The communications protocol used by the device on the USB interface.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> See below.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>1 - Binary Only.
+<dl><dd>Legacy T-Series binary protocol only.
+</dd></dl>
+</li><li>2 - ASCII Only.
+<dl><dd>A-Series ASCII protocol only.
+</dd></dl>
+</li></ul>
+<p>When writing to this setting, the device raises the <a href="#Warning_Flags">Setting Update Pending (NU)</a> notification flag and replies over the current interface. Once all the communications interfaces are idle, the device switches to the protocol on the specified interface and clears the <a href="#Warning_Flags">Setting Update Pending (NU)</a> flag.
+</p>
+<h3> <span class="mw-headline" id="deviceid">deviceid</span></h3>
+<p>The device id for the unit.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> Any value defined at <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Device%20IDs&amp;version=6">Zaber Support - Device IDs</a>.<br />
+<b>Access Level:</b> norm, Read Only.<br />
+</p><p>The id specifying the model of the Zaber device. Each device and its associated id number is listed at <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Device%20IDs&amp;version=6">Zaber Support - Device IDs</a>.
+</p>
+<h3> <span class="mw-headline" id="driver.current.hold">driver.current.hold</span></h3>
+<p>Current used to hold the motor in position.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 100.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The hold current is applied when the axis is not in motion. The value of this settings is a percentage of the maximum drive current of the axis (2.5A typically for A-Series devices).
+</p>
+<h3> <span class="mw-headline" id="driver.current.run">driver.current.run</span></h3>
+<p>Current used to drive the motor.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 100.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The value of this setting is a percentage of the maximum drive current of the axis (2.5A typically for A-Series devices).
+</p>
+<h3> <span class="mw-headline" id="driver.dir">driver.dir</span></h3>
+<p>The direction of motor driver output.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Inverts the output direction of the motor driver.
+</p>
+<h3> <span class="mw-headline" id="driver.temperature">driver.temperature</span></h3>
+<p>The current temperature of driver, in degrees Celsius.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 150.<br />
+<b>Access Level:</b> norm, Read-Only.<br />
+</p><p>Example:
+</p>
+<dl><dd><tt>/1 1 get driver.temperature&#8629;</tt>
+</dd><dd><tt>@01 1 OK IDLE -- 53.5</tt>
+</dd><dd>The driver is currently at 53.5&#176;C.
+</dd></dl>
+<h3> <span class="mw-headline" id="encoder.count">encoder.count</span></h3>
+<p>The position as reported by the axis encoder.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -214783648 - 214783647.<br />
+<b>Access Level:</b> norm, Read-Only; adv, Read-Write.<br />
+</p><p>The encoder count, where present. Units are arbitrary and dependent on the encoder used.
+</p>
+<h3> <span class="mw-headline" id="encoder.dir">encoder.dir</span></h3>
+<p>The direction of encoder count.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Inverts the counting direction for the axis encoder. 
+</p>
+<h3> <span class="mw-headline" id="encoder.filter">encoder.filter</span></h3>
+<p>Enable and set up digital filtering of the encoder inputs. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0, 1, 2, 4, 16, 32, 64, 128, 256.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>A value of 0 disables filtering and any other value proportionally rejects noises while reducing the maximum speed the encoder can update at.
+</p>
+<h3> <span class="mw-headline" id="encoder.index.count">encoder.index.count</span></h3>
+<p>The recorded counts of the axis encoder index pulse. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -32768 - 32767.<br />
+<b>Access Level:</b> norm, Read-Only; adv, Read-Write.<br />
+</p><p>For encoders that support an index pulse, this setting tracks the number of index pulses received.
+</p>
+<h3> <span class="mw-headline" id="encoder.index.mode">encoder.index.mode</span></h3>
+<p>Specifies the operating mode of the encoder index pulse.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>0 - Disabled.
+<dl><dd>No encoder index is present.
+</dd></dl>
+</li><li>1 - Normal.
+<dl><dd>Encoder index pulses are counted.
+</dd></dl>
+</li></ul>
+<h3> <span class="mw-headline" id="encoder.index.phase">encoder.index.phase</span></h3>
+<p>Specifies the value of the encoder phase for a valid index pulse.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>When this setting is 0, the encoder index line needs to go high when both the encoder phase lines are low for the index pulse to be counted.
+</p><p>When this setting is 1, the encoder index line needs to go high when both the encoder phase lines are high for the index pulse to be counted.
+</p>
+<h3> <span class="mw-headline" id="encoder.mode">encoder.mode</span></h3>
+<p>Specifies the operating mode of the encoder. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Valid settings are:
+</p>
+<ul><li>0 - Disabled.
+<dl><dd>No encoder is present.
+</dd></dl>
+</li><li>1 - Normal.
+<dl><dd>The encoder input is enabled.
+</dd></dl>
+</li></ul>
+<h3> <span class="mw-headline" id="knob.dir">knob.dir</span></h3>
+<p>Knob movement direction.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Sets the movement direction for the knob. 0 and the device moves in a positive direction for clockwise rotation. 1 reverses the direction.
+</p>
+<h3> <span class="mw-headline" id="knob.distance">knob.distance</span></h3>
+<p>The distance moved via the knob.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - <a href="#limit.max">limit.max</a>.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Sets how far the axis moves with each step of the knob in displacement mode, in microsteps.
+</p>
+<h3> <span class="mw-headline" id="knob.enable">knob.enable</span></h3>
+<p>Enables the knob.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Enables the use of the knob when set to 1.
+</p>
+<h3> <span class="mw-headline" id="knob.maxspeed">knob.maxspeed</span></h3>
+<p>The maximum speed that can be achieved with the knob in velocity mode.. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - <a href="#resolution">resolution</a>*16384.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When in velocity mode, the axis will move up to a maximum speed determined by this setting. The actual speed is calculated as <tt>knob.maxspeed</tt>/1.6384 microsteps/sec.
+</p>
+<h3> <span class="mw-headline" id="knob.mode">knob.mode</span></h3>
+<p>Sets the mode of the knob. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Valid Settings:
+</p>
+<ul><li>0 - Velocity mode.
+<dl><dd> The knob controls the velocity of the axis, varying for the amount turned.
+</dd><dd> Velocity mode is defined by <a href="#knob.speedprofile">knob.speedprofile</a> and <a href="#knob.maxspeed">knob.maxspeed</a> setting.
+</dd></dl>
+</li><li>1 - Displacement mode.
+<dl><dd> Each step of the knob moves the axis a specific distance, as indicated by the <a href="#knob.distance">knob.distance</a> setting.
+</dd></dl>
+</li></ul>
+<h3> <span class="mw-headline" id="knob.speedprofile">knob.speedprofile</span></h3>
+<p>Velocity increment profile.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - 3.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Sets the profile to be used per increment when in velocity mode. Valid settings are:
+</p>
+<ul><li>1 - Linear
+</li><li>2 - Quadratic
+</li><li>3 - Cubic
+</li></ul>
+<h3> <span class="mw-headline" id="limit.approach.accel">limit.approach.accel</span></h3>
+<p>The acceleration to be used when approaching a limit sensor. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 32767.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>When approaching a limit sensor, the axis will accelerate to <tt>limit.approach.maxspeed</tt> at the rate specified. The actual acceleration is calculated as <tt>accel</tt>*10000/1.6384 microsteps/sec^2. A value of 0 specifies infinite acceleration.
+</p>
+<h3> <span class="mw-headline" id="limit.approach.maxspeed">limit.approach.maxspeed</span></h3>
+<p>The maximum speed to be used when approaching a limit sensor. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - <a href="#resolution">resolution</a>*16384.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>When approaching a limit sensor, the axis will travel at the lesser of limit.approach.maxspeed and maxspeed. The actual speed is calculated as <tt>maxspeed</tt>/1.6384 microsteps/sec.
+</p>
+<h3> <span class="mw-headline" id="limit.detect.decelonly">limit.detect.decelonly</span></h3>
+<p>The deceleration to be used when a limit sensor has been triggered. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 32767.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>When a limit sensor is triggered, the axis will slow down to a stop at the rate specified. The actual deceleration is calculated as <tt>decel</tt>*10000/1.6384 microsteps/sec^2. A value of 0 specifies infinite acceleration.
+</p>
+<h3> <span class="mw-headline" id="limit.detect.maxspeed">limit.detect.maxspeed</span></h3>
+<p>The maximum speed to be used when moving away from a limit sensor. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - <a href="#resolution">resolution</a>*16384.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>When a limit sensor is triggered, the axis will move away from the sensor at the speed specified.. The actual speed is calculated as <tt>maxspeed</tt>/1.6384 microsteps/sec.
+</p>
+<h3> <span class="mw-headline" id="limit.swapinputs">limit.swapinputs</span></h3>
+<p>Reverses the home and away sensor inputs. 
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Setting to 1 swaps the home and away input pins.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.action">limit.<i>sensor</i>.action</span></h3>
+<p>Automatic limit switch action.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 2.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the automatic limit sensor action to be performed when <i>sensor</i> becomes active during axis movement. The sensor is one of home, away, c or d. Valid setting are:
+</p>
+<ul><li>0 - Disabled.
+<dl><dd>No action is performed when this sensor is triggered.
+</dd></dl>
+</li><li>1 - Retract.
+<dl><dd>Retract to the side of the sensor specified in <a href="#limit.sensor.edge">limit.<i>sensor</i>.edge</a>.
+</dd></dl>
+</li><li>2 - Retract and update current position.
+<dl><dd>In addition to above, the value of <a href="#limit.sensor.preset">limit.<i>sensor</i>.preset</a> is written to <a href="#pos">pos</a>. The <a href="#Warning_Flags">No Reference Position (WR)</a> warning flag is cleared.
+</dd></dl>
+</li></ul>
+<p><i>Sensor</i> is active when <a href="#limit.sensor.state">limit.<i>sensor</i>.state</a> is 1.
+</p><p>If an automatic limit sensor action is triggered and <a href="#limit.sensor.triggered">limit.<i>sensor</i>.triggered</a> is 1, the <a href="#Warning_Flags">Unexpected Limit Trigger (WL)</a> warning flag is set.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.edge">limit.<i>sensor</i>.edge</span></h3>
+<p>Specifies the side of the sensor for alignment during limit actions.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the side of the sensor to align with when the <i>sensor</i> is triggered. The sensor is one of home, away, c or d.
+</p><p>A value of 0 aligns the axis with the positive side of the sensor, a value of 1 aligns with the negative side of the sensor.
+</p><p>The positive and negative directions follow the orientation of the axis position.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.pos">limit.<i>sensor</i>.pos</span></h3>
+<p>The updated position of the sensor.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -1000000000 - 1000000000.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Can be updated to the current position of the sensor, depending on the setting of <a href="#limit.sensor.posupdate">limit.<i>sensor</i>.posupdate</a>. The sensor is one of home, away, c or d.
+</p><p>The settings limit.home.pos and limit.away.pos have alternative names of <a href="#limit.min">limit.min</a> and <a href="#limit.max">limit.max</a>, respectively. These two settings represent the boundary of <a href="#pos">pos</a> and determine the valid travel range of the axis.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.posupdate">limit.<i>sensor</i>.posupdate</span></h3>
+<p>Specifies how to update the sensor position after an automatic limit switch action.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 2.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies whether to update the sensor position setting after an automatic limit switch action. The sensor is one of home, away, c or d. Valid setting are:
+</p>
+<ul><li>0 - Disabled.
+<dl><dd>The sensor position is not updated.
+</dd></dl>
+</li><li>1 - Set to current.
+<dl><dd>The current position (<a href="#pos">pos</a>) is written to <a href="#limit.sensor.pos">limit.<i>sensor</i>.pos</a> for this session only.
+</dd></dl>
+</li><li>2 - Set to current and save.
+<dl><dd>The current position (<a href="#pos">pos</a>) is written to <a href="#limit.sensor.pos">limit.<i>sensor</i>.pos</a>. The value of <a href="#limit.sensor.pos">limit.<i>sensor</i>.pos</a> is saved to non-volatile memory and persists over power cycle.
+</dd></dl>
+</li></ul>
+<p>The sensor position is updated after the automatic limit sensor action has been carried out. This setting has no effect if automatic limit sensor action is disabled (<a href="#limit.sensor.action">limit.<i>sensor</i>.action</a> is <tt>0 (Disabled)</tt>).
+</p><p>If sensor is one of home or away, this mechanism affects the valid travel range of the axis. See <a href="#limit.min">limit.min</a> and <a href="#limit.max">limit.max</a>.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.preset">limit.<i>sensor</i>.preset</span></h3>
+<p>The default position of the sensor.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -1000000000 - 1000000000.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the default position of the sensor, which can be used to update the current position, depending on the <a href="#limit.sensor.action">limit.<i>sensor</i>.action</a> setting. The sensor is one of home, away, c or d.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.state">limit.<i>sensor</i>.state</span></h3>
+<p>The current state of the sensor.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv, Read-Only.<br />
+</p><p>This setting is 1 when the sensor is active, and 0 otherwise. The sensor is one of home, away, c or d.
+</p><p>If <a href="#limit.sensor.type">limit.<i>sensor</i>.type</a> is <tt>0 (Disabled)</tt>, this setting is always 0.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.triggered">limit.<i>sensor</i>.triggered</span></h3>
+<p>Whether the sensor has been triggered previously.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> adv, Read-Only.<br />
+</p><p>This setting is set to 0 at start up. The setting is set to 1 after a limit sensor command such as <a href="#home">home</a>, or an automatic limit sensor action. The sensor is one of home, away, c or d.
+</p><p>If an automatic limit sensor action is triggered and this setting is 1, the <a href="#Warning_Flags">Unexpected Limit Trigger (WL)</a> warning flag is set.
+</p>
+<h3> <span class="mw-headline" id="limit.sensor.type">limit.<i>sensor</i>.type</span></h3>
+<p>The type of connected sensor.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 2.<br />
+<b>Access Level:</b> adv.<br />
+</p><p>Specifies the type of connected sensor. The sensor is one of home, away, c or d. Valid settings are:
+</p>
+<ul><li> 0 - Disabled:
+<dl><dd>No sensor is connected.
+</dd></dl>
+</li><li> 1 - Active Low:
+<dl><dd>When active, the sensor outputs a logic low.
+</dd></dl>
+</li><li> 2 - Active High:
+<dl><dd>When active, the sensor outputs a logic high.
+</dd></dl>
+</li></ul>
+<h3> <span class="mw-headline" id="limit.max">limit.max</span></h3>
+<p>The maximum position of the device, in microsteps.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -1000000000 - 1000000000.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Use this setting to limit the range of travel to a value other than the default. This setting is an alternative name for the <a href="#limit.sensor.pos">limit.away.pos</a> setting.
+</p><p><b>NOTE:</b> Exercise caution when modifying this setting, since it is possible to set the range to a value greater than the physical limits of the axis.
+</p>
+<h3> <span class="mw-headline" id="limit.min">limit.min</span></h3>
+<p>The minimum position the device can move to, measured in microsteps.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> -1000000000 - 1000000000.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>The range of travel ( limit.max - limit.min ) is axis dependent.  This setting is an alternative name for the <a href="#limit.sensor.pos">limit.home.pos</a> setting.
+</p><p><b>NOTE:</b> Exercise caution when modifying this setting, since it is possible to set the range to a value greater than the physical limits of the axis.
+</p>
+<h3> <span class="mw-headline" id="maxspeed">maxspeed</span></h3>
+<p>The maximum speed the axis moves at.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - <a href="#resolution">resolution</a>*16384.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When a movement command is issued, the axis will move at a speed determined by this setting. The actual speed is calculated as <tt>speed</tt>/1.6384 microsteps/sec.
+</p>
+<h3> <span class="mw-headline" id="motion.accelonly">motion.accelonly</span></h3>
+<p>Determines the acceleration used when increasing the speed.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 32767.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When a movement command is issued, the axis will accelerate up to the maximum speed at a rate determined by this setting. The actual acceleration is calculated as <tt>accel</tt>*10000/1.6384 microsteps/sec^2. A value of 0 specifies infinite acceleration.
+</p>
+<h3> <span class="mw-headline" id="motion.decelonly">motion.decelonly</span></h3>
+<p>Sets the deceleration used when slowing down.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 0 - 32767.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>When a movement command is issued, the axis will decelerate at a rate determined by this setting. The actual deceleration is calculated as <tt>decel</tt>*10000/1.6384 microsteps/sec^2. A value of 0 specifies infinite acceleration.
+</p>
+<h3> <span class="mw-headline" id="peripheralid">peripheralid</span></h3>
+<p>The ID of the Zaber peripheral connected to a controller.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> Any of the values listed at <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Peripheral%20IDs&amp;version=6">Zaber Support - Peripheral IDs</a> or 0.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>All Zaber peripheral IDs are specified at <a rel="nofollow" class="external text" href="http://www.zaber.com/support/?tab=Peripheral%20IDs&amp;version=6">Zaber Support - Peripheral IDs</a>.<br />
+</p>
+<h3> <span class="mw-headline" id="pos">pos</span></h3>
+<p>The current absolute position of the axis, in microsteps.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> <a href="#limit.min">limit.min</a> - <a href="#limit.max">limit.max</a><br />
+<b>Access Level:</b> norm.<br />
+</p><p><b>NOTE:</b> Changing the value of this setting could result in the axis attempting to drive past its physical limits.
+</p>
+<h3> <span class="mw-headline" id="resolution">resolution</span></h3>
+<p>Microstep resolution.
+</p><p><b>Scope:</b> Axis.<br />
+<b>Valid Range:</b> 1 - 256.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Defines the number of microsteps per step of the motor. A typical A-Series motorized axis has 200 steps per revolution and a default microstep resolution of 64, therefore it takes 12800 microsteps to make one full revolution of the motor. For the parameters for a specific device, please refer to the device specific product page at <a rel="nofollow" class="external text" href="http://www.zaber.com/products/">http://www.zaber.com/products</a>.
+</p><p><b>NOTE:</b> When the resolution is updated, the <tt>motion.accelonly, motion.decelonly, limit.min, limit.max, knob.maxspeed, knob.distance,</tt> and <tt>maxspeed</tt> settings are updated according to their <b>default</b> values and not their current values. After changing this setting, the axis should be homed before any movement is performed.
+</p>
+<h3> <span class="mw-headline" id="system.access">system.access</span></h3>
+<p>Specifies the access level of the user.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 1 - 2.<br />
+<b>Access Level:</b> norm<br />
+</p><p>Some commands require an access level of 'advanced' as they can potentially cause damage to the device and stage. To use those commands and setting, system.access has to be set to access level 2.
+</p>
+<h3> <span class="mw-headline" id="system.axiscount">system.axiscount</span></h3>
+<p>Reports the number of axes in the device.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 1 - 2.<br />
+<b>Access Level:</b> norm, Read Only<br />
+</p><p>This setting reports the number of axes in the queried device.
+</p>
+<h3> <span class="mw-headline" id="system.current">system.current</span></h3>
+<p>The current being drawn by the device and motors.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 0 - 5.<br />
+<b>Access Level:</b> norm, Read-Only.<br />
+</p>
+<h3> <span class="mw-headline" id="system.led.enable">system.led.enable</span></h3>
+<p>Enables and disables the indicator LEDs.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 0 - 1.<br />
+<b>Access Level:</b> norm.<br />
+</p><p>Setting to 0 disables all front panel LEDs on the device.
+</p>
+<h3> <span class="mw-headline" id="system.temperature">system.temperature</span></h3>
+<p>The current temperature of the unit, in degrees Celsius.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 0 - 150.<br />
+<b>Access Level:</b> norm, Read-Only.<br />
+</p><p>Example:
+</p>
+<dl><dd><tt>/get system.temperature&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 26.8</tt>
+</dd><dd>The device is currently at 26.8&#176;C.
+</dd></dl>
+<h3> <span class="mw-headline" id="system.voltage">system.voltage</span></h3>
+<p>The voltage being applied to the device.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 10 - 50.<br />
+<b>Access Level:</b> norm, Read-Only.<br />
+</p><p>Example:
+</p>
+<dl><dd><tt>/get system.voltage&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 47.1</tt>
+</dd><dd>The device is currently receiving 47.1V from the supply.
+</dd></dl>
+<h3> <span class="mw-headline" id="version">version</span></h3>
+<p>The firmware version of the device.
+</p><p><b>Scope:</b> Device.<br />
+<b>Valid Range:</b> 6.0 - 6.99<br />
+<b>Access Level:</b> norm, Read-Only.<br />
+</p><p>Example usage:
+</p>
+<dl><dd><tt>/get version&#8629;</tt>
+</dd><dd><tt>@01 0 OK IDLE -- 6.06</tt>
+</dd></dl>
+</div>
+<h2> <span class="mw-headline" id="Checksumming"> Checksumming </span></h2>
+<p>The <a rel="nofollow" class="external text" href="http://en.wikipedia.org/wiki/Longitudinal_redundancy_check">Longitudinal Redundancy Check (LRC)</a> is employed. This allows corrupted message detection but does not provide error correction.
+</p><p>Devices will verify a message checksum if it appears in the message. Devices will only send checksums if the <tt><a href="#comm.checksum">comm.checksum</a></tt> variable is set to 1.
+</p>
+<ul><li> A device will verify the checksum if the 3rd last character of a command (excluding footers) is a colon.
+</li><li> All devices on a chain will send a rejection reply if a command message fails checksum verification, regardless of message address and content.
+</li><li> The colon is a reserved character for checksum indication and should not appear in the message data.
+</li><li> The checksum is repesented as 2 hexadecimal characters, which are case insensitive.
+</li><li> The checksum is calculated from the first byte after the message type. The leading <tt>/@!#</tt> of the message is ignored.
+</li></ul>
+<p>If the checksum is invalid, the device will ignore the message and flash the yellow LED(s) until the next command is received.
+</p><p>For example if the message is:
+</p><p><tt>01 tools echo</tt>
+</p><p>the checksum is:
+</p><p><tt>((48 + 49 + 32 + 116 + 111 + 111 + 108 + 115 + 32 + 101 + 99 + 104 + 111) ^ 0xFF) + 1 = ((1137 &amp; 0xFF) ^ 0xFF) + 1 = 143 = 0x8F</tt>
+</p><p>and the final message is:
+</p><p><tt>/01 tools echo:8F\r\n</tt>
+</p>
+<h3> <span class="mw-headline" id="Verification">Verification</span></h3>
+<p>To verify a message checksum the 8-bit sum of all the bytes in the message is calculated and added to the transmitted checksum, which has been converted to an integer. The message is valid when the 8-bit result of the sum is zero. The colon in the message is only used as a seperator and is otherwise ignored. Using the example above:
+</p><p><tt>(1137 + 0x8F) &amp; 0xFF = 0</tt>
+</p>
+<h3> <span class="mw-headline" id="Example_Code">Example Code</span></h3>
+<p>The following examples show how to calculate a message checksum and verify a received message in several languages.
+</p>
+<h4> <span class="mw-headline" id="C">C</span></h4>
+<p>Calculating a checksum
+</p>
+<pre>#define CSUM_NOTPRESENT (-2)
+#define CSUM_NOSPACE    (-1)
+#define CSUM_FAIL       (0)
+#define CSUM_OK         (1)
+
+int csum_message(char *message, unsigned int max_length)
+{ 
+	unsigned char c_sum = 0;
+	char *p = message+1;				//skip the type character
+
+	if(strlen(message) + 6 &lt; max_length)		//is there room for the checksum?
+	{
+		while(*p&#160;!= 0x00)
+		{
+			c_sum += (unsigned char)*p++;	//calculate the checksum
+		}
+		c_sum = ~c_sum + 1;			//negate
+
+		//add the checksum to the message
+		sprintf(p, ":%02X\r\n", c_sum);		
+		return CSUM_OK;
+	}
+	return CSUM_NOSPACE;
+} 
+</pre>
+<p>Verifying a received message
+</p>
+<pre>int csum_verify(char *message)
+{
+	unsigned char c_sum = 0;
+	char *p = message+1;				//skip the type character
+
+	while(*p&#160;!= 0x00)
+	{
+		c_sum += (unsigned char)*p++;		//calculate the sum
+		
+		if(*p == ':')				//found the checksum field, process
+		{
+			c_sum += strtol(++p, NULL, 16);	//convert the sent checksum
+			return((c_sum == 0)&#160;? CSUM_OK&#160;: CSUM_FAIL);
+ 		}
+	}
+	return CSUM_NOTPRESENT;
+}
+</pre>
+<h4> <span class="mw-headline" id="Python">Python</span></h4>
+<p>Calculating a message checksum
+</p>
+<pre>def csum_message(msg):
+    c_sum = 0
+    for c in msg[1:]:
+        c_sum += ord(c)                      #calculate the sum of the message to be transmitted
+    c_sum = 256 - (c_sum &amp; 0xFF)             #take the ones compliment (negate)
+    return '%s:%02X\r\n'&#160;% (msg, c_sum)      #return the full message
+</pre>
+<p>Verifying a received message
+</p>
+<pre>def csum_verify(msg):
+    c_sum = 0
+    if msg.find(':') &lt; 0:
+        return None                          #return nothing if the checksum isn't present
+
+    x_msg, x_sum = msg.split(':', 1)         #seperate out the message and checksum
+
+    for c in x_msg[1:]:
+        c_sum += ord(c)                      #recalculate the sum of the received message
+    c_sum = (c_sum + int(x_sum, 16)) &amp; 0xFF  #add in the received checksum and truncate to a 8-bit result
+    
+    return (c_sum == 0)                      #return true if the message passed checksum verification
+</pre>
+<h2> <span class="mw-headline" id="Appendix_A_-_Communication_Software">Appendix A - Communication Software </span></h2>
+<h3> <span class="mw-headline" id="Zaber_Console"> Zaber Console </span></h3>
+<p>Zaber Console is the recommended application for controling Zaber devices on Windows, Linux and Mac systems.
+</p>
+<ol><li>Download the <a rel="nofollow" class="external text" href="http://www.zaber.com/wiki/Software/Zaber_Console#Installing_the_application">Zaber Console</a> and install it.
+</li><li>Launch Zaber Console
+</li><li>Select the serial port and protocol from the list and click Open
+</li><li>Zaber Console will automatically find and list the devices in the chain, as shown below.
+</li></ol>
+<dl><dd><a href="/wiki/File:Zabercon-config-1.png" class="image"><img alt="Zabercon-config-1.png" src="/w/images/b/bb/Zabercon-config-1.png" width="862" height="571" /></a>
+<ul><li>Using the Advanced tab, text commands can be sent to the device(s)
+</li></ul>
+</dd></dl>
+<h3> <span class="mw-headline" id="PuTTY"> PuTTY </span></h3>
+<p>PuTTY, a terminal emulator, can be used to control Zaber devices in ASCII mode on Windows.
+</p>
+<ol><li>Download putty-0.62-installer.exe from <a rel="nofollow" class="external free" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</a> and install it
+</li><li>Launch PuTTY
+</li><li>Under the Terminal category:
+<ul><li>Set Local echo to Force on
+</li><li>Set Local line editing to Force on
+</li></ul>
+<dl><dd><a href="/wiki/File:Putty-config-1.png" class="image"><img alt="Putty-config-1.png" src="/w/images/9/90/Putty-config-1.png" width="456" height="435" /></a>
+</dd></dl>
+</li><li>Under the Session category
+<ul><li>Set the connection type to Serial
+</li><li>Set the speed to 9600
+</li><li>Enter the COM port the device(s) are connected to. Typically COM1 if directly connected to a computer, COM3 if using a USB adapter.
+</li><li>Enter a connection description, Zaber Device Chain in this example, and click save. Next time the connection can be opened by double-clicking on 'Zaber Device Chain' in the Saved Sessions list.
+</li></ul>
+<dl><dd><a href="/wiki/File:Putty-config-2.png" class="image"><img alt="Putty-config-2.png" src="/w/images/8/87/Putty-config-2.png" width="456" height="435" /></a>
+</dd></dl>
+</li><li>Click Open. A window similar to the one shown below will appear. Send a command, in this case <tt>/</tt>, and press enter. The device should respond as shown below.
+</li></ol>
+<dl><dd><a href="/wiki/File:Putty-config-3.png" class="image"><img alt="Putty-config-3.png" src="/w/images/8/87/Putty-config-3.png" width="500" height="310" /></a>
+<ul><li>Send a test command to check the connection. In this case <tt>/help</tt> was sent and data was received.
+</li></ul>
+</dd></dl>
+<h3> <span class="mw-headline" id="Minicom"> Minicom </span></h3>
+<p>Minicom is the recomended application for controling Zaber devices in ASCII mode on Linux.
+</p>
+<ol><li>Install Minicom using your distributions package manager, e.g. for Debian and Ubuntu:
+<dl><dd><tt>sudo apt-get install minicom&#8629;</tt> 
+</dd></dl>
+</li><li>Run Minicom from a terminal
+</li><li>Press Ctrl-A then O to open the options menu
+<ul><li>Select Serial port setup
+<ul><li>Set the serial device (A) to the correct device
+</li><li>Set the baud rate (E) to 9600
+</li><li>Disable hardware and software flow control (F, G)
+</li><li>Press Enter to go back to the configuration menu
+</li></ul>
+</li></ul>
+<dl><dd><a href="/wiki/File:Minicom-config-1.jpg" class="image"><img alt="Minicom-config-1.jpg" src="/w/images/b/b5/Minicom-config-1.jpg" width="543" height="347" /></a>
+</dd></dl>
+<ul><li>Select Modem and dialing
+<ul><li>Clear out the Init and Reset strings (option A, B)
+</li><li>Press Enter to go back to the configuration menu
+</li></ul>
+</li></ul>
+<dl><dd><a href="/wiki/File:Minicom-config-2.jpg" class="image"><img alt="Minicom-config-2.jpg" src="/w/images/c/c4/Minicom-config-2.jpg" width="543" height="347" /></a>
+</dd></dl>
+<ul><li>Select Screen and keyboard
+<ul><li>Set Local echo (Q) to Yes
+</li><li>Press Enter to go back to the configuration menu
+</li></ul>
+</li></ul>
+<dl><dd><a href="/wiki/File:Minicom-config-3.jpg" class="image"><img alt="Minicom-config-3.jpg" src="/w/images/1/18/Minicom-config-3.jpg" width="543" height="347" /></a>
+</dd></dl>
+<ul><li>Save the setup as default
+</li><li>Exit
+</li></ul>
+</li><li>Type a test command, in this example <tt>/</tt>, and press enter. The device should respond as shown below.
+<dl><dd><a href="/wiki/File:Minicom-config-4.jpg" class="image"><img alt="Minicom-config-4.jpg" src="/w/images/d/d1/Minicom-config-4.jpg" width="543" height="347" /></a>
+</dd></dl>
+</li><li>Minicom can be exited by pressing Ctrl-A then X.
+</li></ol>
+<h3> <span class="mw-headline" id="Troubleshooting"> Troubleshooting </span></h3>
+<ul><li>If no data is received from the device(s) check the following:
+<ul><li>The correct serial port and baud rate are being used. Refer to the device specific <a href="/wiki/Main_Page" title="Main Page">User Manual</a> for the correct settings.
+</li><li>The devices are powered on. Each device should have a green light on the front panel.
+</li><li>The devices are connected to the computer correctly.
+</li></ul>
+</li></ul>
+<h2> <span class="mw-headline" id="Appendix_B_-_Available_Serial_Ports"> Appendix B - Available Serial Ports </span></h2>
+<h4> <span class="mw-headline" id="Finding_Installed_Serial_Ports"> Finding Installed Serial Ports </span></h4>
+<h5> <span class="mw-headline" id="Windows"> Windows </span></h5>
+<ol><li>Right click on Computer or My Computer and select Manage.
+<dl><dd><a href="/wiki/File:Win-serport-1.png" class="image"><img alt="Win-serport-1.png" src="/w/images/8/85/Win-serport-1.png" width="211" height="242" /></a>
+</dd></dl>
+</li><li>Select Device Manager from the Computer Management list
+</li><li>Expand the Ports (COM &amp; LPT) category
+<dl><dd><a href="/wiki/File:Win-serport-2.png" class="image"><img alt="Win-serport-2.png" src="/w/images/0/0d/Win-serport-2.png" width="488" height="400" /></a>
+</dd></dl>
+<ul><li>In this example there is one serial port installed (COM1), which is a USB adaptor.
+</li></ul>
+</li></ol>
+<h5> <span class="mw-headline" id="Linux"> Linux </span></h5>
+<ol><li>Finding devices
+<ul><li>Open a terminal and execute the following command:
+</li></ul>
+<dl><dd><tt>dmesg | grep -E ttyU?S&#8629;</tt>
+</dd></dl>
+<ul><li>The response will be similar to the following:<br /><tt>[    2.029214] serial8250: <b>ttyS0</b> at I/O 0x3f8 (irq = 4) is a 16550A<br />[    2.432572] 00:07: <b>ttyS0</b> at I/O 0x3f8 (irq = 4) is a 16550A<br />[    2.468149] 0000:00:03.3: <b>ttyS4</b> at I/O 0xec98 (irq = 17) is a 16550A<br />[   13.514432] usb 7-2: FTDI USB Serial Device converter now attached to <b>ttyUSB0</b><br /></tt>
+</li><li>This shows that there are 3 serial ports available: ttyS0, ttyS4 and ttyUSB0 (a USB adaptor)
+</li></ul>
+</li><li>Checking port permissions
+<ul><li>Using the ports found above, execute the following command
+</li></ul>
+<dl><dd><tt>ls -l /dev/tty{S0, S4, USB0}&#8629;</tt>
+</dd></dl>
+<ul><li>The permissions, given below, show that a user has to be root or a member of the dialout group to be able to access these devices<br /><tt>crw-rw---- 1 root dialout   4, 64 Oct 31 06:44 /dev/ttyS0<br />crw-rw---- 1 root dialout   4, 68 Oct 31 06:45 /dev/ttyS4<br />crw-rw---- 1 root dialout 188,  0 Oct 31 07:58 /dev/ttyUSB0</tt>
+</li></ul>
+</li><li>Checking group membership
+<dl><dd><tt>groups&#8629;</tt>
+</dd></dl>
+<ul><li>The output will be similar to the following:<br /><tt>adm cdrom sudo dip plugdev users lpadmin sambashare</tt><br />Notice that dialout is not in the list
+</li><li>A user can be added to the dialout group with the following command
+</li></ul>
+<dl><dd><tt>sudo adduser $USER dialout&#8629;</tt>
+</dd></dl>
+<ul><li>Group membership will not take effect until the next logon.
+</li></ul>
+</li></ol>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 488/1000000
+Post-expand include size: 1920/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key zaberwiki:pcache:idhash:877-0!*!0!!en!2!* and timestamp 20140411132622 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.zaber.com/w/index.php?title=Manuals/ASCII_Protocol_Manual&amp;oldid=6985">http://www.zaber.com/w/index.php?title=Manuals/ASCII_Protocol_Manual&amp;oldid=6985</a>"</div>
+		<div id='catlinks' class='catlinks catlinks-allhidden'></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="/wiki/Manuals/ASCII_Protocol_Manual" primary="1" context="subject" title="View the content page [c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="/w/index.php?title=Talk:Manuals/ASCII_Protocol_Manual&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="/w/index.php?title=Manuals/ASCII_Protocol_Manual&amp;action=edit" primary="1" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=Manuals%2FASCII+Protocol+Manual&amp;returntoquery=printable%3Dyes" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="/wiki/Main_Page" style="background-image: url(http://www.zaber.com/images/misc/logo_zaber_wiki.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-Zaber_Wiki">
+		<h5>Zaber Wiki</h5>
+		<div class='pBody'>
+			<ul>
+				<li id="n-Main-Page"><a href="/wiki/Main_Page">Main Page</a></li>
+				<li id="n-Wiki-User.27s-Guide"><a href="http://meta.wikimedia.org/wiki/Help:Contents" rel="nofollow">Wiki User's Guide</a></li>
+				<li id="n-Admin"><a href="/wiki/ZaberWiki:Admin">Admin</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="generated-sidebar portlet" id="p-Zaber_Website">
+		<h5>Zaber Website</h5>
+		<div class='pBody'>
+			<ul>
+				<li id="n-Home"><a href="http://www.zaber.com" rel="nofollow">Home</a></li>
+				<li id="n-Contact"><a href="http://zaber.com/contact/" rel="nofollow">Contact</a></li>
+				<li id="n-About-Us"><a href="http://www.zaber.com/home/about.php" rel="nofollow">About Us</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="/w/index.php" id="searchform">
+				<input type='hidden' name="title" value="Special:Search"/>
+				<input type="search" name="search" title="Search ZaberWiki [f]" accesskey="f" id="searchInput" />
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" />&#160;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" />
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Toolbox</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Manuals/ASCII_Protocol_Manual" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Manuals/ASCII_Protocol_Manual" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+				<li id="t-permalink"><a href="/w/index.php?title=Manuals/ASCII_Protocol_Manual&amp;oldid=6985" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="//www.mediawiki.org/"><img src="/w/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 3 April 2014, at 13:54.</li>
+		<li id="viewcount">This page has been accessed 30,884 times.</li>
+		<li id="privacy"><a href="/wiki/ZaberWiki:Privacy_policy" title="ZaberWiki:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="/wiki/ZaberWiki:About" title="ZaberWiki:About">About ZaberWiki</a></li>
+		<li id="disclaimer"><a href="/wiki/ZaberWiki:General_disclaimer" title="ZaberWiki:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script>
+<script src="http://www.zaber.com/w/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;printable=1&amp;skin=monobook&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-317842-1");
+pageTracker._trackPageview();
+</script><!-- Served in 0.463 secs. --></body></html>
