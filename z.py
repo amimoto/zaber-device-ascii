@@ -1,14 +1,26 @@
 #!/usr/bin/python
 
-import sys; sys.path.insert(0, "lib")
+import sys; sys.path.insert(0, "libs")
 from zaber.device.interface import *
-import zaber.device.port.dummy
+from zaber.device.port.dummy import *
 
 
-z = InterfaceASCII('dummy.txt',port_class=zaber.device.port.dummy.ZaberPortDummy)
+z = InterfaceASCII('dummy.txt',port_class=ZaberPortDummy)
 
-#z = ZaberProtocolASCII('dummy.txt',port_class=zaber.device.port.dummy.ZaberPortDummy)
+r = z.move('rel',2000)
 r = z.move_rel(2000)
+
+r = z[0].move_rel(20000)
+r = z[0][0].move_rel(20000)
+r = z.accel
+z.accel = r
+r = z.limit.detect.maxspeed
+r = z[0].limit.detect.maxspeed
+r = z[0][0].limit.detect.maxspeed
+
+
+z[0][0].limit.detect.maxspeed = r
+
 print r
 print z
 

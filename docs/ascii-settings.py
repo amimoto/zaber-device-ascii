@@ -25,7 +25,6 @@ c = ZaberASCIISettingSugar()
 print c.foo.bar
 c.foo.bar = "hoser"
 
-exit()
 class ZaberASCIISettingTreeNode(object):
 
     def __init__(self,node,base=None):
@@ -57,7 +56,8 @@ for r in in_fh:
     for c in rows:
         index.setdefault(c,{})
         index = index[c]
-        
+
+pprint.pprint( root_base.keys() )
 
 n = ZaberASCIISettingTreeNode(root_base)
 

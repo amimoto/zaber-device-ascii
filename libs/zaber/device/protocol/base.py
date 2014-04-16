@@ -1,5 +1,4 @@
 import re
-
 import zaber.device.port.serial as port
 
 class ZaberProtocol(dict):
