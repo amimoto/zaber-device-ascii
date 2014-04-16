@@ -113,6 +113,8 @@ class InterfaceASCII(object):
                             'resolution'
                         ]
 
+    _allowed_settings = []
+
     def __init__(self,*args,**kwargs):
 
         self._device = kwargs.pop('device',None)
@@ -158,6 +160,14 @@ class InterfaceASCII(object):
                 allowed_commands=self._allowed_commands,
                 allowed_settings=self._allowed_settings,
             )
+
+    def __setattr__(self,k,v):
+        if k in self._allowed_settings:
+            self.set(k,v)
+        else:
+            super(InterfaceASCII,self).__setattr__(k,v)
+
+
 
     def __getattr__(self,k):
         if self._allowed_commands_regex.match(k):
