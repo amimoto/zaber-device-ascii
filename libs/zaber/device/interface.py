@@ -3,39 +3,30 @@ import re
 import zaber.device.port.serial as port
 import zaber.device.protocol.ascii as protocol
 
-TYPE_ROOT = 'root'
-TYPE_DEVICE = 'device'
-TYPE_AXIS = 'axis'
-TYPE_COMMAND = 'command'
-TYPE_SETTING = 'setting'
-
 class InterfaceASCIISetting(str):
-    def __new__(cls, key, protocol, device=None, axis=None):
+    def __new__(cls, key, interface):
         self = super(InterfaceASCIISetting, cls).__new__(cls, None)
-        super(InterfaceASCIISetting, self).__setattr__('_device',device)
-        super(InterfaceASCIISetting, self).__setattr__('_axis',axis)
-        super(InterfaceASCIISetting, self).__setattr__('_protocol',protocol)
+        super(InterfaceASCIISetting, self).__setattr__('_interface',interface)
         super(InterfaceASCIISetting, self).__setattr__('_key',key)
         super(InterfaceASCIISetting, self).__setattr__('_value',None)
         return self
 
+    def value_get(self):
+        response = self._interface.get(self._key)
+        return response.message
+
     def __getattr__(self,k):
         return InterfaceASCIISetting(
                     key=self._key+"."+k, 
-                    protocol=self._protocol,
-                    device=self._device,
-                    axis=self._axis
+                    interface=self._interface,
                 )
 
     def __setattr__(self,k,v):
-        print "trying to set property:", k, "to", v
+        config_key = self._key+"."+k
+        self._interface.set(config_key,v)
 
     def __str__(self):
-        if self._value == None:
-            super(InterfaceASCIISetting, self).__setattr__('_value','1234')
-            return self._value
-        else:
-            return self._value
+        return self.value_get()
 
     def __add__(self, other):
         return str(self) + str(other)
@@ -126,7 +117,6 @@ class InterfaceASCII(object):
 
         self._device = kwargs.pop('device',None)
         self._axis = kwargs.pop('axis',None)
-        self._type = kwargs.pop('type',TYPE_ROOT)
 
         self._allowed_commands = kwargs.pop('allowed_commands',self.allowed_commands)
         allowed_commands_regex_str = ( "^(" 
@@ -143,42 +133,39 @@ class InterfaceASCII(object):
             protocol_class = kwargs.pop('protocol_class',protocol.ZaberProtocolASCII)
             self._protocol = protocol_class(*args,**kwargs)
 
+    def request(self, command, *args, **kwargs):
+        self._protocol.request(
+            command.replace('_', ' '),
+            device=self._device,
+            axis=self._axis
+        )
+        return self._protocol.response(interface=self)
+
     def __getitem__(self,key):
         if self._device == None:
             return type(self)(
                     device=key,
                     protocol=self._protocol,
-                    type=TYPE_DEVICE,
                     allowed_commands=self._allowed_commands,
                     allowed_settings=self._allowed_settings,
                 )
         if self._axis != None:
             raise LookupError("'{}' cannot be used to index below axis".format(key))
         return type(self)(
-                device=key,
+                device=self._device,
+                axis=key,
                 protocol=self._protocol,
-                type=TYPE_AXIS,
                 allowed_commands=self._allowed_commands,
                 allowed_settings=self._allowed_settings,
             )
 
     def __getattr__(self,k):
-        if self._type == TYPE_SETTING:
-            pass
-        elif self._allowed_commands_regex.match(k):
-            def magic_request(command,*args,**kwargs):
-                return self._protocol.request(
-                    command.replace('_', ' '),
-                    device=self._device,
-                    axis=self._axis
-                )
-            return lambda *args,**kwargs: magic_request(k,*args,**kwargs)
+        if self._allowed_commands_regex.match(k):
+            return lambda *args,**kwargs: self.request(k,*args,**kwargs)
         elif k in self._allowed_settings:
             return InterfaceASCIISetting(
                         key=k, 
-                        protocol=self._protocol,
-                        device=self._device,
-                        axis=self._axis
+                        interface=self,
                     )
 
         raise AttributeError(

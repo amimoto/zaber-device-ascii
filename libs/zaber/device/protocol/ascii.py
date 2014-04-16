@@ -2,13 +2,22 @@ import zaber.device.protocol.base as base
 class ZaberResponse(dict):
     # Yanked from: 
     # http://goo.gl/7a1WDj
+
     def __init__(self, *args, **kwargs):
         super(ZaberResponse, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
+    def __getattr__(self,k):
+        if self.interface:
+            return getattr(self.interface,k)
+        raise AttributeError(
+                "'{}' object has no attribute '{}'".format(type(self).__name__,k)
+              )
+
+
 class ZaberProtocolASCII(base.ZaberProtocol):
 
-    def response_parse(self,response_line):
+    def response_parse(self,response_line,interface):
 
         message_type = response_line[0]
 
@@ -28,7 +37,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
                 'reply_flags': parts[0],
                 'warn_flags': parts[1],
                 'device_status': parts[2],
-                'message': parts[3]
+                'message': parts[3],
+                'interface': interface
             })
 
         elif message_type == '#':
@@ -36,7 +46,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
                 'message_type': 'info',
                 'device_address': device_address,
                 'device_axis': device_axis,
-                'message': message
+                'message': message,
+                'interface': interface
             })
 
         elif message_type == '!':
@@ -44,7 +55,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
                 'message_type': 'alert',
                 'device_address': device_address,
                 'device_axis': device_axis,
-                'message': message
+                'message': message,
+                'interface': interface
             })
 
         return
@@ -63,8 +75,6 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         args_str = [str(a) for a in args]
         request_str = "/"+" ".join(command_segments+args_str)+"\r\n"
 
-        print "REQUESTING:", request_str
-
         # Then send it
         return self._port.write(request_str)
 
@@ -73,6 +83,9 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         # Do we want blocking? By default it's a yes
         block = kwargs.pop('block',True)
 
+        # Just in case we want some chain magic
+        interface = kwargs.pop('interface',True)
+
         # Wait for a response. If not blocking, then
         # drop out with a null upon first timeout
         while True:
@@ -80,7 +93,7 @@ class ZaberProtocolASCII(base.ZaberProtocol):
             if not l:
                if block: continue
                return
-            return self.response_parse(l)
+            return self.response_parse(l,interface)
 
     def enumerate(self):
         """ Return a list of devices and axes
