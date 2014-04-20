@@ -3,6 +3,7 @@ import datetime
 import Queue
 import re
 import threading
+import csv
 
 CABLE_COUNTER = 1
 
@@ -158,7 +159,7 @@ class EmulatorASCIICommand(dict):
         command_str = ""
         command_elements = []
         if self.device_address != None:
-            command_elements.append(self.device_address())
+            command_elements.append(self.device_address)
             if self.device_axis != None:
                 command_elements.append(self.device_axis)
         command_elements.append(self.command)
@@ -215,7 +216,7 @@ class EmulatorASCIIDeviceMotor(Base,threading.Thread):
         self._position_prev = 0
         self._position = 0
         self._position_min = 0
-        self._position_max = 10000
+        self._position_max = 305381
         self._velocity = 0
         self._stalled = False
 
@@ -233,7 +234,7 @@ class EmulatorASCIIDeviceMotor(Base,threading.Thread):
     def motor_stop(self):
         self.motor_velocity(0)
 
-    def join(self,timeout):
+    def join(self,timeout=None):
         # FIXME concurrency problem here
         #       read/write to attribs
         self._running = False
@@ -242,20 +243,25 @@ class EmulatorASCIIDeviceMotor(Base,threading.Thread):
     def run(self):
         """ Main loop that just runs the "motor"
         """
+        time_slice = 0.1
         while self._running == True:
-            time.sleep(0.1)
+            time.sleep(time_slice)
 
             position = self._position
             if not self._stalled \
                and position >= self._position_min \
                and position <= self._position_max:
-                  position += self._velocity
+                  delta = int((self._velocity/1.6384)*time_slice)
+                  position += delta
 
             if position < self._position_min: position = self._position_min
             if position > self._position_max: position = self._position_max
 
             self._position_prev = self._position
             self._position = position
+
+            if self._position != self._position_prev:
+                print "MPOS {}".format(self._position)
 
 
 class EmulatorSerialCableEnd(EmulatorReadWritelineBase):
@@ -321,10 +327,12 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
         self._time_slice = 0.1
         self._clock = 0
+        self._settings_config = kwargs.get('settings_config',None)
         self._settings = kwargs.get('settings',{})
         self._running = True
         self.device_address(1)
         self._last_successful_command = None
+
 
         self.init_axes(args,kwargs)
 
@@ -335,7 +343,7 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
     def device_address(self,device_address=None):
         if device_address:
             self._settings['comm.address'] = int(device_address)
-        return self._settings['comm.address']
+        return int(self._settings['comm.address'])
 
     def start_axes(self):
         pass
@@ -371,8 +379,56 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
     def setting_set(self, name, value):
         if name in self._settings:
-            return self._settings[name]
+            func_name = 'do_setting_set_'+ name.replace('.','_')
+            if hasattr(self,func_name):
+                return getattr(self,func_name)(name,value)
+            else:
+                self._settings[name] = value
+                return self._settings[name]
         return None
+
+    def do_command_renumber(self,command):
+        if not command.parameters:
+            self.device_address(1)
+            command.parameters = [2]
+        else:
+            self.device_address(command.parameters[0])
+            command.parameters[0] = self.device_address() + 1
+        self.command_relay(command)
+        self.respond(values=0)
+        return True
+
+    def do_command_(self,command):
+        self.command_relay(command)
+        self.respond(values=0)
+        return True
+
+    def do_command_get(self,command):
+        name = command.parameters[0]
+        value = self.setting_get(name)
+        if value != None:
+            self.respond(values=value)
+        else:
+            self.respond(success='RJ', values='BADCOMMAND')
+        self.command_relay(command)
+
+    def do_command_set(self,command):
+        name = command.parameters[0]
+        value = self.setting_set(name,command.parameters[1])
+        if value != None:
+            self.respond()
+        else:
+            self.respond(success='RJ', values='BADCOMMAND')
+        self.command_relay(command)
+
+    def do_command_help(self,command):
+        self.respond()
+        self.respond(response_type='#', values='Thank you Mario! But our princess is in another castle!')
+        self.command_relay(command)
+
+    def do_command_l(self,command):
+        raise NotImplementedError()
+        self.command_relay(command)
 
     def command_relay(self,command):
         command_str = str(command)
@@ -392,57 +448,12 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
             self.command_relay(command)
             return
 
-        # Basic core commands
-
-        # The basic '/'
-        if command.command == '':
-            self.command_relay(command)
-            self.respond(values=0)
+        target_func = "do_command_" + command.command
+        if hasattr( self, target_func ):
+            success = getattr(self,target_func)(command)
             return
-
-        # Renumber request
-        elif command.command == 'renumber':
-            if not command.parameters:
-                self.device_address(1)
-                command.parameters = [2]
-            else:
-                self.device_address(command.parameters[0])
-                command.parameters[0] = self.device_address() + 1
-            self.command_relay(command)
-            self.respond(values=0)
-            return
-
-        # Get a setting value
-        elif command.command == 'get':
-            name = command.parameters[0]
-            value = self.setting_get(name)
-            if value != None:
-                self.respond(values=value)
-            else:
-                self.respond(success='RJ', values='BADCOMMAND')
-            self.command_relay(command)
-
-
-        # Set a setting value
-        elif command.command == 'set':
-            name = command.parameters[0]
-            value = self.setting_set(name,command.parameters[1])
-            if value != None:
-                self.respond()
-            else:
-                self.respond(success='RJ', values='BADCOMMAND')
-            self.command_relay(command)
-
-        # Request help
-        elif command.command == 'help':
-            self.respond()
-            self.respond(response_type='#', values='Thank you Mario! But our princess is in another castle!')
-            self.command_relay(command)
-
-        # Repeat last command
-        elif command.command == 'l':
-            raise NotImplementedError()
-            self.command_relay(command)
+        else:
+            self.respond(success='RJ', values='BADCOMMAND')
 
         self.command_execute(command) 
 
@@ -470,6 +481,21 @@ class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
 
     def init_axes(self, args, kwargs):
         self._axis_motor = EmulatorASCIIDeviceMotor()
+
+    def do_command_estop(self,command):
+        self._axis_motor.motor_velocity(0)
+        self.command_relay(command)
+        return True
+
+    def do_command_move(self,command):
+        move_type = command.parameters[0]
+        if move_type == 'vel':
+            velocity = int(command.parameters[1])
+            self._axis_motor.motor_velocity(velocity)
+        else:
+            self.respond(success='RJ', values='BADCOMMAND')
+        self.command_relay(command)
+        return True
 
     def command_for_me(self,command):
         """
@@ -544,9 +570,9 @@ class EmulatorDaisyChain(list,EmulatorReadWritelineBase):
         for dev in self:
             dev.start()
 
-    def join(self):
+    def join(self,timeout=None):
         for dev in self:
-            dev.join()
+            dev.join(timeout)
 
 class EmulatorASCIIEngine(object):
 
@@ -576,16 +602,23 @@ class EmulatorASCIIEngine(object):
     def port(self):
         return self._daisychain
 
+    def join(self,timeout=None):
+        return self._daisychain.join(timeout)
+
 debug = False
 device1 = EmulatorASCIIDeviceSingleAxis(debug=debug)
-device2 = EmulatorASCIIDeviceSingleAxis()
+device2 = EmulatorASCIIDeviceSingleAxis(debug=debug)
 
 eng = EmulatorASCIIEngine(devices=[device1,device2],debug=debug)
 eng.start()
 eng.writeline('/renumber')
-eng.writeline('/get comm.address')
-eng.writeline('/help')
-#eng.writeline('/2 set comm.address 4')
+#eng.writeline('/')
+#eng.writeline('/get comm.address')
+#eng.writeline('/set maxspeed 153600')
+#eng.writeline('/help')
+eng.writeline('/move vel 20000')
+time.sleep(1)
+eng.writeline('/1 estop')
 
 for i in range(20):
     s = eng.read()
@@ -594,55 +627,4 @@ for i in range(20):
     else:
         time.sleep(0.1)
 
-
-'''
-exit()
-
-daisychain.start()
-time.sleep(0.1)
-daisychain.writeline('/renumber')
-time.sleep(0.1)
-#daisychain.writeline('/renumber')
-
-daisychain.writeline('/2 renumber 4')
-for i in range(10):
-    s = daisychain.read()
-    if s: 
-        print "OUTPUT:", s,
-    else:
-        time.sleep(0.1)
-
-
-for i in range(50):
-    s = daisychain.read()
-    if s: 
-        print "OUTPUT:", s,
-    else:
-        time.sleep(0.1)
-
-
-
-daisychain = EmulatorDaisyChain([device1,device2])
-daisychain.writeline('/1 0 home')
-eng = EmulatorASCIIEngine(devices=[device1,device2])
-eng.start()
-eng.writeline("/2 3 renumber")
-eng.writeline("/")
-
-
-print EmulatorASCIICommand('/home')
-print EmulatorASCIICommand('/0 home')
-print EmulatorASCIICommand('/1 2 home')
-
-print eng.readline(1)
-port = eng.port()
-
-axis = EmulatorASCIIDeviceMotor()
-axis.start()
-axis.motor_velocity(10)
-
-for i in range(10):
-    time.sleep(0.5)
-    print axis.motor_position()
-
-'''
+eng.join()
