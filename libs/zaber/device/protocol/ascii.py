@@ -95,21 +95,3 @@ class ZaberProtocolASCII(base.ZaberProtocol):
                return
             return self.response_parse(l,interface)
 
-    def enumerate(self):
-        """ Return a list of devices and axes
-
-            :returns: dict of dicts
-        """
-
-        # Sending a simple '/\r\n' just requests all
-        # devices to respond with a check-in
-        self.request('')
-
-        # FIXME how to determine when responses have completed?
-        devices = []
-        while True:
-            r = self.response(block=False)
-            if not r: break
-            devices.append(r)
-
-        return devices 

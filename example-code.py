@@ -11,6 +11,9 @@ from zaber.device.port.dummy import *
 # a TCPIP socket quite easily as well
 z = InterfaceASCII('dummy.txt',port_class=ZaberPortDummy)
 
+# Normally, the following would be good enough:
+# z = InterfaceASCII('/dev/ttyUSB0')
+
 # Basic: Send /renumber
 z.renumber()
 
