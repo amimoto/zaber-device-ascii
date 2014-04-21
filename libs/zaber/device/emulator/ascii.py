@@ -4,6 +4,9 @@ import Queue
 import re
 import threading
 import csv
+import os
+
+import zaber.device
 
 CABLE_COUNTER = 1
 
@@ -322,12 +325,25 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
     def init_axes(self,args,kwargs):
         pass
 
+    def settings_load(self,settings_config=None):
+        if settings_config == None:
+            base_path = os.path.dirname(zaber.device.__file__)
+            settings_config = os.path.join(base_path,"data","ascii-settings.csv")
+        csv_reader = csv.DictReader(open(settings_config))
+        settings_data = {}
+        for entry in csv_reader:
+            settings_data[entry['setting']] = entry
+        self._settings_data = settings_data
+
     def __init__(self, *args, **kwargs):
         kwargs['call_super'] = True
 
         self._time_slice = 0.1
         self._clock = 0
+
         self._settings_config = kwargs.get('settings_config',None)
+        self.settings_load(self._settings_config)
+
         self._settings = kwargs.get('settings',{})
         self._running = True
         self.device_address(1)
@@ -378,11 +394,11 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         return None
 
     def setting_set(self, name, value):
-        if name in self._settings:
+        if name in self._settings_data:
             func_name = 'do_setting_set_'+ name.replace('.','_')
             if hasattr(self,func_name):
                 return getattr(self,func_name)(name,value)
-            else:
+            elif self._settings_data[name]['writable'] == 'yes':
                 self._settings[name] = value
                 return self._settings[name]
         return None
@@ -604,27 +620,3 @@ class EmulatorASCIIEngine(object):
 
     def join(self,timeout=None):
         return self._daisychain.join(timeout)
-
-debug = False
-device1 = EmulatorASCIIDeviceSingleAxis(debug=debug)
-device2 = EmulatorASCIIDeviceSingleAxis(debug=debug)
-
-eng = EmulatorASCIIEngine(devices=[device1,device2],debug=debug)
-eng.start()
-eng.writeline('/renumber')
-#eng.writeline('/')
-#eng.writeline('/get comm.address')
-#eng.writeline('/set maxspeed 153600')
-#eng.writeline('/help')
-eng.writeline('/move vel 20000')
-time.sleep(1)
-eng.writeline('/1 estop')
-
-for i in range(20):
-    s = eng.read()
-    if s: 
-        print "OUTPUT:", s,
-    else:
-        time.sleep(0.1)
-
-eng.join()
