@@ -167,8 +167,6 @@ class InterfaceASCII(object):
         else:
             super(InterfaceASCII,self).__setattr__(k,v)
 
-
-
     def __getattr__(self,k):
         if self._allowed_commands_regex.match(k):
             return lambda *args,**kwargs: self.request(k,*args,**kwargs)
@@ -181,9 +179,5 @@ class InterfaceASCII(object):
         raise AttributeError(
                 "'{}' object has no attribute '{}'".format(type(self).__name__,k)
               )
-
-
-
-
 
 

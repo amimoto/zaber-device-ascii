@@ -13,34 +13,37 @@ class EmulatorASCIIDeviceAxis(threading.Thread):
         self._real_position_prev = 0
         self._real_position = 0
         self._real_position_min = 0
-        self._real_position_max = 305381
+        self._real_position_max = kwargs.pop('real_position_max',305381)
 
         self._assumed_position = 0
 
         self._velocity = 0
+        self._moving = False
         self._stalled = False
 
         # Resolution of the emulation. Smaller the time slice, more
         # granular... but it also costs more CPU time
         self._time_slice = kwargs.pop('time_slice',0.1)
 
+    def moving(self):
+        if self._velocity == 0:
+            return False
+        return True
+
+    def moving(self):
+        return self._moving
+
     def motor_velocity(self,*args):
-        # FIXME concurrency problem here
-        #       read/write to attribs
         if args: self._velocity = args[0]
         return self._velocity
 
     def motor_real_position(self):
-        # FIXME concurrency problem here
-        #       read/write to attribs
         return self._real_position
 
     def motor_stop(self):
         self.motor_velocity(0)
 
     def join(self,timeout=None):
-        # FIXME concurrency problem here
-        #       read/write to attribs
         self._running = False
         super(EmulatorASCIIDeviceAxis,self).join(timeout)
 
@@ -74,14 +77,12 @@ class EmulatorASCIIDeviceAxis(threading.Thread):
         assumed_delta = assumed_position_new - self._assumed_position
         self._assumed_position_prev = self._assumed_position
         self._assumed_position = assumed_position_new
+        self._moving = assumed_delta != 0
 
         # Handle the real movements
         real_position_new = self.move_within_range(self._real_position,assumed_delta)
         self._real_position_prev = self._real_position
         self._real_position = real_position_new
-
-        if self._real_position != self._real_position_prev:
-            print "MPOS {}".format(self._real_position)
 
     def run(self):
         """ Main loop that just runs the "motor"

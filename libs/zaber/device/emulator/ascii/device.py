@@ -42,12 +42,10 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         self.device_address(1)
         self._last_successful_command = None
 
-
         self.init_axes(args,kwargs)
 
         super(EmulatorASCIIDevice,self).__init__(*args,**kwargs)
         self.daemon = True
-        self._running = True
 
     def device_address(self,device_address=None):
         if device_address:
@@ -190,6 +188,10 @@ class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
 
     def init_axes(self, args, kwargs):
         self._axis_motor = EmulatorASCIIDeviceAxis()
+
+    def respond(self,**kwargs):
+        kwargs['state'] = 'BUSY' if self._axis_motor.moving() else 'IDLE'
+        return super(EmulatorASCIIDeviceSingleAxis,self).respond(**kwargs)
 
     def do_command_estop(self,command):
         self._axis_motor.motor_velocity(0)
