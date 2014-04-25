@@ -23,8 +23,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
 
         parts = response_line.split(' ',2)
         response_type = parts[0][0]
-        device_address = int(parts[0][1:])
-        device_axis = int(parts[1])
+        address = int(parts[0][1:])
+        axis = int(parts[1])
 
         message = parts[2].replace('\n','').replace('\r','')
 
@@ -32,11 +32,11 @@ class ZaberProtocolASCII(base.ZaberProtocol):
             parts = message.split(' ',3)
             return ZaberResponse({
                 'message_type': 'reply',
-                'device_address': device_address,
-                'device_axis': device_axis,
+                'address': address,
+                'axis': axis,
                 'reply_flags': parts[0],
                 'warn_flags': parts[1],
-                'device_status': parts[2],
+                'status': parts[2],
                 'message': parts[3],
                 'interface': interface
             })
@@ -44,8 +44,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         elif message_type == '#':
             return ZaberResponse({
                 'message_type': 'info',
-                'device_address': device_address,
-                'device_axis': device_axis,
+                'address': address,
+                'axis': axis,
                 'message': message,
                 'interface': interface
             })
@@ -53,19 +53,21 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         elif message_type == '!':
             return ZaberResponse({
                 'message_type': 'alert',
-                'device_address': device_address,
-                'device_axis': device_axis,
+                'address': address,
+                'axis': axis,
                 'message': message,
                 'interface': interface
             })
 
         return
 
-    def request(self,command,device=None,axis=None,*args,**kwargs):
+    def request(self,command,*args,**kwargs):
 
         # What should the device/axis addressing look like?
         command_segments = []
-        if device != None: command_segments.append(str(device))
+        address = kwargs.get('address',None)
+        axis = kwargs.get('axis',None)
+        if address != None: command_segments.append(str(address))
         if axis != None: command_segments.append(str(axis))
 
         # Then we can add the command to be sent to the device
@@ -80,8 +82,8 @@ class ZaberProtocolASCII(base.ZaberProtocol):
 
     def response(self,*args,**kwargs):
 
-        # Do we want blocking? By default it's a yes
-        block = kwargs.pop('block',True)
+        # Do we want blocking? By default it's a no
+        block = kwargs.pop('block',False)
 
         # Just in case we want some chain magic
         interface = kwargs.pop('interface',True)
@@ -89,7 +91,7 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         # Wait for a response. If not blocking, then
         # drop out with a null upon first timeout
         while True:
-            l = self._port.readline()
+            l = self._port.readline(*args,**kwargs)
             if not l:
                if block: continue
                return

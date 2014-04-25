@@ -72,7 +72,7 @@ class EmulatorASCIIResponse(dict):
 
       :param response_type: response type @, #, or !
       :param address: int or null
-      :param scope: int or null
+      :param axis: int or null
       :param success: if command succeeded. eg. OK
       :param state: axis state eg. IDLE
       :param fault: --
@@ -84,7 +84,7 @@ class EmulatorASCIIResponse(dict):
     def __init__(self, 
             response_type='@', 
             address=0, 
-            scope=0, 
+            axis=0, 
             success='OK', 
             state='IDLE', 
             fault='--', 
@@ -97,8 +97,8 @@ class EmulatorASCIIResponse(dict):
 
         super(EmulatorASCIIResponse, self).__init__({
           'type': response_type,
-          'address': address,
-          'scope': scope,
+          'address': None if address == None else int(address),
+          'axis': None if axis == None else int(axis),
           'success': success,
           'state': state,
           'fault': fault,
@@ -120,7 +120,7 @@ class EmulatorASCIIResponse(dict):
         response_str = self.type
         response_elements = []
         response_elements.append("{:02}".format(int(self.address)))
-        response_elements.append(str(self.scope))
+        response_elements.append(str(self.axis))
         if self.type == '@':
             response_elements += [
                 self.success,
@@ -146,8 +146,10 @@ class EmulatorASCIICommand(dict):
 
     def command_parse(self,command_str):
         m = re.search('^\s*/(?:(\d+)\s+(?:(\d+)\s+)?)?(.*)',command_str)
-        self['device_address'] = m.group(1)
-        self['device_axis'] = m.group(2)
+        address = m.group(1)
+        axis = m.group(2)
+        self['address'] = None if address == None else int(address)
+        self['axis'] = None if axis == None else int(axis)
         elements = m.group(3).split(' ',1)
         self['command'] = elements.pop(0).lower() if elements else ''
         self['parameters'] = elements.pop(0).split(' ') if elements else []
@@ -155,10 +157,10 @@ class EmulatorASCIICommand(dict):
     def __str__(self):
         command_str = ""
         command_elements = []
-        if self.device_address != None:
-            command_elements.append(self.device_address)
-            if self.device_axis != None:
-                command_elements.append(self.device_axis)
+        if self.address != None:
+            command_elements.append(str(self.address))
+            if self.axis != None:
+                command_elements.append(str(self.axis))
         command_elements.append(self.command)
 
         parameters = [str(p) for p in self.parameters]

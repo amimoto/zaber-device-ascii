@@ -25,11 +25,11 @@ r = z.move('rel',2000)
 
 # Display of response
 print "Type", r.message_type
-print "Addr", r.device_address
-print "Axis", r.device_axis
+print "Addr", r.address
+print "Axis", r.axis
 print "Reply Flags", r.reply_flags
 print "Warn Flags", r.warn_flags
-print "Status", r.device_status
+print "Status", r.status
 print "Message", r.message
 
 # Command names can also hide parameters: Send also /move rel 2000

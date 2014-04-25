@@ -1,6 +1,6 @@
 import re
+import datetime
 
-import zaber.device.port.serial as port
 import zaber.device.protocol.ascii as protocol
 
 class InterfaceASCIISetting(str):
@@ -12,7 +12,11 @@ class InterfaceASCIISetting(str):
         return self
 
     def value_get(self):
+        # import pdb; pdb.set_trace()
         response = self._interface.get(self._key)
+        raise RuntimeError(
+                  "Request for setting value '{}' timed out".format(self._key)
+              )
         return response.message
 
     def __getattr__(self,k):
@@ -117,7 +121,8 @@ class InterfaceASCII(object):
 
     def __init__(self,*args,**kwargs):
 
-        self._device = kwargs.pop('device',None)
+        self._devices = kwargs.pop('devices',None)
+        self._address = kwargs.pop('address',None)
         self._axis = kwargs.pop('axis',None)
 
         self._allowed_commands = kwargs.pop('allowed_commands',self.allowed_commands)
@@ -131,22 +136,48 @@ class InterfaceASCII(object):
         if 'protocol' in kwargs:
             self._protocol = kwargs['protocol']
         else:
-            port_class = kwargs.setdefault('port_class',port.ZaberPortSerial)
             protocol_class = kwargs.pop('protocol_class',protocol.ZaberProtocolASCII)
             self._protocol = protocol_class(*args,**kwargs)
 
-    def request(self, command, *args, **kwargs):
+    def request(self, command='', *args, **kwargs):
+
+        blocking_request = not kwargs.pop('nonblock',False)
+
+        # We don't allow blocking requests if the
+        # user has not provided a map of the devices
+        # on the daisychain
+        if blocking_request and  \
+           not self._address and \
+           not self._axis and \
+           not self._devices:
+              raise RuntimeError(
+                  'Broadcast messages require the daisychain '
+                  +'structure to be defined. See the "devices" parameter'
+              )
+
+
         self._protocol.request(
             command.replace('_', ' '),
-            device=self._device,
-            axis=self._axis
+            address=self._address,
+            axis=self._axis,
+            *args
         )
-        return self._protocol.response(interface=self)
+
+        # If self.request(nonblock=True) the system
+        # will not wait for a response before returning
+        if blocking_request:
+            print "Waiting for response for:", command
+            return self._protocol.response(interface=self)
+        else: 
+            return self
+
+    def response(self,*args,**kwargs):
+        return self._protocol.response(interface=self,*args,**kwargs)
 
     def __getitem__(self,key):
-        if self._device == None:
+        if self._address == None:
             return type(self)(
-                    device=key,
+                    address=key,
                     protocol=self._protocol,
                     allowed_commands=self._allowed_commands,
                     allowed_settings=self._allowed_settings,
@@ -154,7 +185,7 @@ class InterfaceASCII(object):
         if self._axis != None:
             raise LookupError("'{}' cannot be used to index below axis".format(key))
         return type(self)(
-                device=self._device,
+                address=self._address,
                 axis=key,
                 protocol=self._protocol,
                 allowed_commands=self._allowed_commands,
@@ -179,5 +210,73 @@ class InterfaceASCII(object):
         raise AttributeError(
                 "'{}' object has no attribute '{}'".format(type(self).__name__,k)
               )
+
+
+class InterfaceASCIIHelpers(InterfaceASCII):
+    """ Another layer around the ASCII Interface that provides
+        a few convenience functions. Mostly around the ability
+        to handle broadcasts nicely
+    """
+    def autodetect(self,renumber=False):
+        """ Checks the daisychain for a list of devices.
+            Returns a data structure that can be later fed
+            back into system for broadcast message handling
+
+            devices = [
+                {
+                    address => 1,
+                    ...
+                },
+                {
+                    address => 2,
+                    ...
+                },
+            ]
+
+            The returned data structure should be composed of
+            simple primitives as it should be storable in
+            multiple formats (JSON/pickle/XML/etc) so the 
+            users can opt for their favourite serialization scheme
+            without gymnastics
+
+        """
+
+        # If this is a new connect, we'll probably want to renumber
+        # the daisychain just in case there are multiples
+        if renumber:
+            self.renumber(nonblock=True)
+
+        # We use the  "/" command by default to look for requests.
+        # We just send the request and we'll manually listen for reports
+        else:
+            self.request(nonblock=True)
+
+        # We fetch all responses until there's 1 second of quiet
+        quiet_timeout = 1.0
+        quiet_time_start = None
+        device_lookup = {}
+        while True:
+            response = self.response(block=False)
+            if response:
+                device_lookup.setdefault(response.address,{
+                                'address': response.address,
+                            })
+                quiet_time_start = None
+                continue
+            if quiet_time_start:
+                quiet_time_delta = datetime.datetime.now() - quiet_time_start
+                quiet_time_delta = quiet_time_delta.microseconds/1000000.000 \
+                                 + quiet_time_delta.seconds
+                if quiet_time_delta >= quiet_timeout:
+                    break
+            else:
+                quiet_time_start = datetime.datetime.now()
+
+        # Start asking for device information 
+        for address,data in device_lookup.iteritems():
+            data['deviceid'] = int(self[address][0].deviceid)
+            data['axiscount'] = int(self[address][0].system.axiscount)
+
+
 
 

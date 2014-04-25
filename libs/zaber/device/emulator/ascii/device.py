@@ -9,6 +9,92 @@ from zaber.device.emulator.parts import *
 
 from zaber.device.emulator.ascii.axes import *
 
+ascii_device_default_config = {
+    'accel': '0',
+    'cloop.counts': '0',
+    'cloop.mode': '0',
+    'cloop.stalltimeout': '0',
+    'cloop.steps': '0',
+    'comm.address': '0',
+    'comm.alert': '0',
+    'comm.checksum': '0',
+    'comm.protocol': '0',
+    'comm.rs232.baud': '0',
+    'comm.rs232.protocol': '0',
+    'comm.rs485.baud': '0',
+    'comm.rs485.enable': '0',
+    'comm.rs485.protocol': '0',
+    'comm.usb.protocol': '0',
+    'deviceid': '65535',
+    'driver.current.hold': '0',
+    'driver.current.run': '0',
+    'driver.dir': '0',
+    'driver.temperature': '0',
+    'encoder.count': '0',
+    'encoder.dir': '0',
+    'encoder.filter': '0',
+    'encoder.index.count': '0',
+    'encoder.index.mode': '0',
+    'encoder.index.phase': '0',
+    'encoder.mode': '0',
+    'knob.dir': '0',
+    'knob.distance': '0',
+    'knob.enable': '0',
+    'knob.maxspeed': '0',
+    'knob.mode': '0',
+    'knob.speedprofile': '0',
+    'limit.approach.accel': '0',
+    'limit.approach.maxspeed': '0',
+    'limit.away.action': '0',
+    'limit.away.edge': '0',
+    'limit.away.posupdate': '0',
+    'limit.away.preset': '0',
+    'limit.away.state': '0',
+    'limit.away.triggered': '0',
+    'limit.away.type': '0',
+    'limit.c.action': '0',
+    'limit.c.edge': '0',
+    'limit.c.pos': '0',
+    'limit.c.posupdate': '0',
+    'limit.c.preset': '0',
+    'limit.c.state': '0',
+    'limit.c.triggered': '0',
+    'limit.c.type': '0',
+    'limit.d.action': '0',
+    'limit.d.edge': '0',
+    'limit.d.pos': '0',
+    'limit.d.posupdate': '0',
+    'limit.d.preset': '0',
+    'limit.d.state': '0',
+    'limit.d.triggered': '0',
+    'limit.d.type': '0',
+    'limit.detect.decelonly': '0',
+    'limit.detect.maxspeed': '0',
+    'limit.home.action': '0',
+    'limit.home.edge': '0',
+    'limit.home.posupdate': '0',
+    'limit.home.preset': '0',
+    'limit.home.state': '0',
+    'limit.home.triggered': '0',
+    'limit.home.type': '0',
+    'limit.max': '0',
+    'limit.min': '0',
+    'limit.swapinputs': '0',
+    'maxspeed': '0',
+    'motion.accelonly': '0',
+    'motion.decelonly': '0',
+    'peripheralid': '0',
+    'pos': '0',
+    'resolution': '0',
+    'system.access': '0',
+    'system.axiscount': '0',
+    'system.current': '0',
+    'system.led.enable': '0',
+    'system.temperature': '0',
+    'system.voltage': '0',
+    'version': '0'
+}
+
 class EmulatorASCIIDevice(Emulator,threading.Thread):
     """
       Represents a device in the system. This part of the code
@@ -23,7 +109,7 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
             base_path = os.path.dirname(zaber.device.__file__)
             settings_config = os.path.join(base_path,"data","ascii-settings.csv")
         csv_reader = csv.DictReader(open(settings_config))
-        settings_data = {}
+        settings_data = ascii_device_default_config.copy() 
         for entry in csv_reader:
             settings_data[entry['setting']] = entry
         self._settings_data = settings_data
@@ -39,7 +125,7 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
         self._settings = kwargs.get('settings',{})
         self._running = True
-        self.device_address(1)
+        self.address(1)
         self._last_successful_command = None
 
         self.init_axes(args,kwargs)
@@ -47,9 +133,9 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         super(EmulatorASCIIDevice,self).__init__(*args,**kwargs)
         self.daemon = True
 
-    def device_address(self,device_address=None):
-        if device_address:
-            self._settings['comm.address'] = int(device_address)
+    def address(self,address=None):
+        if address:
+            self._settings['comm.address'] = int(address)
         return int(self._settings['comm.address'])
 
     def start_axes(self):
@@ -67,21 +153,25 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
     def command_for_me(self,command):
         # Broadcast commands
-        if command.device_address in(None,0):
+        if command.address in(None,0):
             return True
 
         # Default reject
         return False
 
     def respond(self,**kwargs):
-        kwargs['address'] = self.device_address()
+        kwargs['address'] = self.address()
         response = EmulatorASCIIResponse(**kwargs)
         response_str = str(response)
         self.cable_to_computer().writeline(response_str)
 
     def setting_get(self, name):
-        if name in self._settings:
-            return self._settings[name]
+        if name in self._settings_data:
+            func_name = 'do_setting_get_'+ name.replace('.','_')
+            if hasattr(self,func_name):
+                return getattr(self,func_name)(name,value)
+            else:
+                return self._settings.get(name,0)
         return None
 
     def setting_set(self, name, value):
@@ -96,11 +186,11 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
     def do_command_renumber(self,command):
         if not command.parameters:
-            self.device_address(1)
+            self.address(1)
             command.parameters = [2]
         else:
-            self.device_address(command.parameters[0])
-            command.parameters[0] = self.device_address() + 1
+            self.address(command.parameters[0])
+            command.parameters[0] = self.address() + 1
         self.command_relay(command)
         self.respond(values=0)
         return True
@@ -130,7 +220,10 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
     def do_command_help(self,command):
         self.respond()
-        self.respond(response_type='#', values='Thank you Mario! But our princess is in another castle!')
+        self.respond(
+                response_type='#', 
+                values='Thank you Mario! But our '\
+                        +'princess is in another castle!')
         self.command_relay(command)
 
     def do_command_l(self,command):
@@ -150,7 +243,7 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
         # Ignore the command if not for me and just pass it on
         if self._debug:
-            print "RELAY <devid:%s> %s" %(command.device_address, repr(command))
+            print "RELAY <devid:%s> %s" %(command.address, repr(command))
         if not self.command_for_me(command):
             self.command_relay(command)
             return
@@ -216,10 +309,10 @@ class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
         for_me = super(EmulatorASCIIDeviceSingleAxis,self).command_for_me(command)
         if for_me: return True
 
-        if int(self.device_address()) != int(command.device_address):
+        if int(self.address()) != int(command.address):
             return False
 
-        if command.device_axis in(0,None,1):
+        if command.axis in(0,None,1):
             return True
 
         return False
