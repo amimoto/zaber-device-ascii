@@ -1,4 +1,6 @@
+import re
 import zaber.device.protocol.base as base
+
 class ZaberResponse(dict):
     # Yanked from: 
     # http://goo.gl/7a1WDj
@@ -27,6 +29,13 @@ class ZaberProtocolASCII(base.ZaberProtocol):
         axis = int(parts[1])
 
         message = parts[2].replace('\n','').replace('\r','')
+
+        # Check for checksum
+        m = re.match('^(.*):(\w\w)$',message)
+        checksum = None
+        if m:
+            message = m.group(1)
+            checksum = m.group(2)
 
         if message_type == '@':
             parts = message.split(' ',3)

@@ -12,11 +12,11 @@ class InterfaceASCIISetting(str):
         return self
 
     def value_get(self):
-        # import pdb; pdb.set_trace()
         response = self._interface.get(self._key)
-        raise RuntimeError(
-                  "Request for setting value '{}' timed out".format(self._key)
-              )
+        if not response:
+            raise RuntimeError(
+                      "Request for setting value '{}' timed out".format(self._key)
+                  )
         return response.message
 
     def __getattr__(self,k):
@@ -124,6 +124,7 @@ class InterfaceASCII(object):
         self._devices = kwargs.pop('devices',None)
         self._address = kwargs.pop('address',None)
         self._axis = kwargs.pop('axis',None)
+        self._timeout = kwargs.pop('timeout',1)
 
         self._allowed_commands = kwargs.pop('allowed_commands',self.allowed_commands)
         allowed_commands_regex_str = ( "^(" 
@@ -155,7 +156,6 @@ class InterfaceASCII(object):
                   +'structure to be defined. See the "devices" parameter'
               )
 
-
         self._protocol.request(
             command.replace('_', ' '),
             address=self._address,
@@ -166,8 +166,7 @@ class InterfaceASCII(object):
         # If self.request(nonblock=True) the system
         # will not wait for a response before returning
         if blocking_request:
-            print "Waiting for response for:", command
-            return self._protocol.response(interface=self)
+            return self._protocol.response(interface=self,timeout=self._timeout)
         else: 
             return self
 
@@ -277,6 +276,7 @@ class InterfaceASCIIHelpers(InterfaceASCII):
             data['deviceid'] = int(self[address][0].deviceid)
             data['axiscount'] = int(self[address][0].system.axiscount)
 
+        return device_lookup
 
 
 

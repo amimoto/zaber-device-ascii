@@ -104,12 +104,12 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
     def init_axes(self,args,kwargs):
         pass
 
-    def settings_load(self,settings_config=None):
+    def settings_load(self,settings_config=None,settings=None):
         if settings_config == None:
             base_path = os.path.dirname(zaber.device.__file__)
             settings_config = os.path.join(base_path,"data","ascii-settings.csv")
         csv_reader = csv.DictReader(open(settings_config))
-        settings_data = ascii_device_default_config.copy() 
+        settings_data = {}
         for entry in csv_reader:
             settings_data[entry['setting']] = entry
         self._settings_data = settings_data
@@ -123,7 +123,9 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         self._settings_config = kwargs.get('settings_config',None)
         self.settings_load(self._settings_config)
 
-        self._settings = kwargs.get('settings',{})
+        self._settings = kwargs.get(
+                            'settings',
+                            ascii_device_default_config.copy())
         self._running = True
         self.address(1)
         self._last_successful_command = None
@@ -248,6 +250,9 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
             self.command_relay(command)
             return
 
+        if self._debug:
+            print "Command for me. Address {}, command {}".format(self.address(),command_str)
+
         target_func = "do_command_" + command.command
         if hasattr( self, target_func ):
             success = getattr(self,target_func)(command)
@@ -333,11 +338,11 @@ class EmulatorASCIIEngine(object):
     def writeline(self,*args,**kwargs):
         self._daisychain.writeline(*args,**kwargs)
 
-    def read(self,size=None):
-        return self._daisychain.read(size)
+    def read(self,*args,**kwargs):
+        return self._daisychain.read(*args,**kwargs)
 
-    def readline(self,timeout=0.1):
-        return self._daisychain.readline(timeout=timeout)
+    def readline(self,*args,**kwargs):
+        return self._daisychain.readline(*args,**kwargs)
 
     def start(self):
         for device in self._daisychain:
@@ -351,3 +356,6 @@ class EmulatorASCIIEngine(object):
 
     def join(self,timeout=None):
         return self._daisychain.join(timeout)
+
+
+

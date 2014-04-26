@@ -1,5 +1,6 @@
 import re
 import datetime
+import time
 
 CABLE_COUNTER = 1
 
@@ -44,7 +45,7 @@ class EmulatorReadWritelineBase(object):
         while True:
             buf = self.read(self._read_chunk,*args,**kwargs)
             time_delta = datetime.datetime.now() - start_time
-            time_delta_seconds = time_delta.seconds + time_delta.microseconds
+            time_delta_seconds = time_delta.seconds + time_delta.microseconds/1000000.000 
 
             self._buffer += buf or ''
 
@@ -60,9 +61,14 @@ class EmulatorReadWritelineBase(object):
                               repr(self._buffer) )
                 return m.group(1)
             else:
-                if timeout == 0: return
-                if timeout <= time_delta_seconds: return
-                time.sleep(0.1)
+                if timeout == 0: 
+                    return
+                elif timeout < 0: 
+                    time.sleep(0.1)
+                elif timeout <= time_delta_seconds: 
+                    return
+                else:
+                    time.sleep(0.1)
 
 
 
@@ -203,3 +209,6 @@ class Emulator(object):
         if port != None:
             self._port_to_device = port
         return self._port_to_device
+
+
+

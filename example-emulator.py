@@ -6,7 +6,7 @@ from zaber.device.port.emulator import *
 from zaber.device.emulator.ascii import *
 
 debug = True
-#debug = False
+debug = False
 device1 = EmulatorASCIIDeviceSingleAxis(debug=debug)
 device2 = EmulatorASCIIDeviceSingleAxis(debug=debug)
 
@@ -23,7 +23,7 @@ if 1:
     for i in range(20):
         time.sleep(0.1)
 
-    print z.autodetect()
+    # print z.autodetect()
     exit()
 
 eng = EmulatorASCIIEngine(devices=[device1,device2],debug=debug)
@@ -56,6 +56,7 @@ if 0:
     time.sleep(1)
     eng.writeline('/estop')
 
+print "-----------------------------------------"
 eng.writeline('/1 0 get deviceid')
 for i in range(30):
     s = eng.read()
