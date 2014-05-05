@@ -10,90 +10,25 @@ from zaber.device.emulator.parts import *
 from zaber.device.emulator.ascii.axes import *
 
 ascii_device_default_config = {
-    'accel': '0',
-    'cloop.counts': '0',
-    'cloop.mode': '0',
-    'cloop.stalltimeout': '0',
-    'cloop.steps': '0',
-    'comm.address': '0',
-    'comm.alert': '0',
-    'comm.checksum': '0',
-    'comm.protocol': '0',
-    'comm.rs232.baud': '0',
-    'comm.rs232.protocol': '0',
-    'comm.rs485.baud': '0',
-    'comm.rs485.enable': '0',
-    'comm.rs485.protocol': '0',
-    'comm.usb.protocol': '0',
-    'deviceid': '65535',
-    'driver.current.hold': '0',
-    'driver.current.run': '0',
-    'driver.dir': '0',
-    'driver.temperature': '0',
-    'encoder.count': '0',
-    'encoder.dir': '0',
-    'encoder.filter': '0',
-    'encoder.index.count': '0',
-    'encoder.index.mode': '0',
-    'encoder.index.phase': '0',
-    'encoder.mode': '0',
-    'knob.dir': '0',
-    'knob.distance': '0',
-    'knob.enable': '0',
-    'knob.maxspeed': '0',
-    'knob.mode': '0',
-    'knob.speedprofile': '0',
-    'limit.approach.accel': '0',
-    'limit.approach.maxspeed': '0',
-    'limit.away.action': '0',
-    'limit.away.edge': '0',
-    'limit.away.posupdate': '0',
-    'limit.away.preset': '0',
-    'limit.away.state': '0',
-    'limit.away.triggered': '0',
-    'limit.away.type': '0',
-    'limit.c.action': '0',
-    'limit.c.edge': '0',
-    'limit.c.pos': '0',
-    'limit.c.posupdate': '0',
-    'limit.c.preset': '0',
-    'limit.c.state': '0',
-    'limit.c.triggered': '0',
-    'limit.c.type': '0',
-    'limit.d.action': '0',
-    'limit.d.edge': '0',
-    'limit.d.pos': '0',
-    'limit.d.posupdate': '0',
-    'limit.d.preset': '0',
-    'limit.d.state': '0',
-    'limit.d.triggered': '0',
-    'limit.d.type': '0',
-    'limit.detect.decelonly': '0',
-    'limit.detect.maxspeed': '0',
-    'limit.home.action': '0',
-    'limit.home.edge': '0',
-    'limit.home.posupdate': '0',
-    'limit.home.preset': '0',
-    'limit.home.state': '0',
-    'limit.home.triggered': '0',
-    'limit.home.type': '0',
-    'limit.max': '0',
-    'limit.min': '0',
-    'limit.swapinputs': '0',
-    'maxspeed': '0',
-    'motion.accelonly': '0',
-    'motion.decelonly': '0',
-    'peripheralid': '0',
-    'pos': '0',
-    'resolution': '0',
-    'system.access': '0',
-    'system.axiscount': '0',
-    'system.current': '0',
-    'system.led.enable': '0',
-    'system.temperature': '0',
-    'system.voltage': '0',
-    'version': '0'
-}
+                'comm.address': '0',
+                'comm.alert': '0',
+                'comm.checksum': '0',
+                'comm.protocol': '0',
+                'comm.rs232.baud': '0',
+                'comm.rs232.protocol': '0',
+                'comm.rs485.baud': '0',
+                'comm.rs485.enable': '0',
+                'comm.rs485.protocol': '0',
+                'comm.usb.protocol': '0',
+                'deviceid': '65535',
+                'system.access': '0',
+                'system.axiscount': '0',
+                'system.current': '0',
+                'system.led.enable': '0',
+                'system.temperature': '0',
+                'system.voltage': '0',
+                'version': '0'
+            }
 
 class EmulatorASCIIDevice(Emulator,threading.Thread):
     """
@@ -121,11 +56,10 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         self._clock = 0
 
         self._settings_config = kwargs.get('settings_config',None)
-        self.settings_load(self._settings_config)
+        self._settings = ascii_device_default_config.copy()
+        self._settings.update(kwargs.pop('settings',{}))
+        self.settings_load(self._settings_config,self._settings)
 
-        self._settings = kwargs.get(
-                            'settings',
-                            ascii_device_default_config.copy())
         self._running = True
         self.address(1)
         self._last_successful_command = None
@@ -169,6 +103,8 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
 
     def setting_get(self, name):
         if name in self._settings_data:
+            if self._settings_data[name]['scope'] == 'axis':
+                return None
             func_name = 'do_setting_get_'+ name.replace('.','_')
             if hasattr(self,func_name):
                 return getattr(self,func_name)(name,value)
@@ -179,6 +115,10 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
     def setting_set(self, name, value):
         if name in self._settings_data:
             func_name = 'do_setting_set_'+ name.replace('.','_')
+            if self._settings_data[name]['scope'] == 'axis':
+                return None
+            if self._settings_data[name]['writable'] != 'yes':
+                return None
             if hasattr(self,func_name):
                 return getattr(self,func_name)(name,value)
             elif self._settings_data[name]['writable'] == 'yes':
@@ -187,15 +127,18 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         return None
 
     def do_command_renumber(self,command):
-        if not command.parameters:
-            self.address(1)
-            command.parameters = [2]
-        else:
-            self.address(command.parameters[0])
-            command.parameters[0] = self.address() + 1
-        self.command_relay(command)
+        address_new = int(command.parameters[0]) \
+                          if command.parameters \
+                          else 1
+        address_new += ord(command.command[7])-0x80
+        self.address(address_new)
         self.respond(values=0)
         return True
+
+    def position_stats(self):
+        return {
+            
+        }
 
     def do_command_(self,command):
         self.command_relay(command)
@@ -218,7 +161,15 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
             self.respond()
         else:
             self.respond(success='RJ', values='BADCOMMAND')
-        self.command_relay(command)
+
+    def do_command_home(self,command):
+        maxspeed = int(self.setting_get('limit.approach.maxspeed'))
+        if command.axis:
+            self._axes_objects[command.axis - 1].motor_velocity(-maxspeed)
+        else:
+            for obj in self._axes_objects:
+                obj.motor_velocity(-maxspeed)
+        self.respond(axis=command.axis)
 
     def do_command_help(self,command):
         self.respond()
@@ -226,14 +177,14 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
                 response_type='#', 
                 values='Thank you Mario! But our '\
                         +'princess is in another castle!')
-        self.command_relay(command)
 
     def do_command_l(self,command):
         raise NotImplementedError()
-        self.command_relay(command)
 
     def command_relay(self,command):
         command_str = str(command)
+        if self._debug:
+            print "RELAY <devid:%s> %s" %(command.address, repr(command))
         self.cable_to_device().writeline(command_str)
 
     def command_execute(self,command):
@@ -241,17 +192,41 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
         return False
 
     def command_ingest(self,command_str):
+        """
+          We've received a command. We'll forward all commands except
+          for the renumber command where we'll do something tricky.
+        """
+
         command = EmulatorASCIICommand(command_str)
 
-        # Ignore the command if not for me and just pass it on
-        if self._debug:
-            print "RELAY <devid:%s> %s" %(command.address, repr(command))
-        if not self.command_for_me(command):
+        # So for renumber, we do some tricky stuff.
+        # This: /renumber ...
+        # After the first device becomes
+        # Becomes: /renumbeX ...
+        # Where X = chr(0x80)
+        # After the subsequent devices, X = X+1, so
+        # So after the second device, it's
+        # Becomes: /renumbeX ...
+        # Where X = chr(0x80)
+        if re.search('^renumb.',command.command):
+            command_new = list(command.command)
+            char_new = ord(command_new[7])
+            char_new = 0x80 if char_new == 0x72 \
+                            else char_new + 1
+            command_new[7] = chr(char_new)
+            command.command = "".join(command_new)
             self.command_relay(command)
+            self.do_command_renumber(command)
             return
 
+        # Relay the command by default (except for renumber)
+        self.command_relay(command)
+
+        # Ignore the command if not for me
+        if not self.command_for_me(command): return
+
         if self._debug:
-            print "Command for me. Address {}, command {}".format(self.address(),command_str)
+            print "DEV<{}> Command for me. {}".format(self.address(),command_str)
 
         target_func = "do_command_" + command.command
         if hasattr( self, target_func ):
@@ -278,18 +253,85 @@ class EmulatorASCIIDevice(Emulator,threading.Thread):
                 self.cable_to_computer().write(response_str)
                 action = True
 
+            # If nothing happened, wait a moment.
             if not action:
                 time.sleep(self._time_slice)
                 self._clock += self._time_slice
 
-class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
+class EmulatorASCIIDeviceAxes(EmulatorASCIIDevice,threading.Thread):
+
+    _axis_count = 0
 
     def init_axes(self, args, kwargs):
-        self._axis_motor = EmulatorASCIIDeviceAxis()
+
+        self._axes_objects = []
+        self._settings.setdefault('axes_settings',[])
+        axes_settings = self._settings['axes_settings']
+
+        for i in range(self._axis_count):
+            if len(axes_settings) <= (i+1):
+                axes_settings.append({})
+            axis_settings = axes_settings[i]
+            self._axes_objects.append(
+                EmulatorASCIIDeviceAxis(
+                    axis_number=i+1,
+                    settings=self._settings,
+                    axis_settings=axis_settings
+                )
+            )
+
+        self._settings['system.axiscount'] = self._axis_count
 
     def respond(self,**kwargs):
-        kwargs['state'] = 'BUSY' if self._axis_motor.moving() else 'IDLE'
-        return super(EmulatorASCIIDeviceSingleAxis,self).respond(**kwargs)
+        kwargs['state'] = 'IDLE'
+        for obj in self._axes_objects:
+            if obj.moving():
+                kwargs['state'] = 'BUSY'
+                break
+        return super(EmulatorASCIIDeviceAxes,self).respond(**kwargs)
+
+    def setting_get(self, name):
+        result = super(EmulatorASCIIDeviceAxes,self).setting_get(name)
+        if result: return result
+
+        if not name in self._settings_data:
+            return None
+
+        if self._settings_data[name]['scope'] != 'axis':
+            return None
+
+        values = []
+        for obj in self._axes_objects:
+            values.append(obj.setting_get(name) or 0)
+
+        if values:
+            return " ".join([str(i) for i in values])
+
+        return None
+
+    def setting_set(self, name, value):
+        result = super(EmulatorASCIIDeviceAxes,self).setting_set(name,value)
+        if result: return result
+
+        if not name in self._settings_data:
+            return None
+
+        if self._settings_data[name]['scope'] != 'axis':
+            return None
+
+        if self._settings_data[name]['writable'] != 'yes':
+            return None
+
+        values = []
+        for obj in self._axes_objects:
+            values.append(obj.setting_set(name,value) or 0)
+
+        if values:
+            return " ".join([str(i) for i in values])
+
+
+        return None
+
 
     def do_command_estop(self,command):
         self._axis_motor.motor_velocity(0)
@@ -311,7 +353,7 @@ class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
           For single axis devices, only when there's no axis as a target
           or the axis is 0 or 1 will we respond to the request
         """
-        for_me = super(EmulatorASCIIDeviceSingleAxis,self).command_for_me(command)
+        for_me = super(EmulatorASCIIDeviceAxes,self).command_for_me(command)
         if for_me: return True
 
         if int(self.address()) != int(command.address):
@@ -323,7 +365,12 @@ class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDevice,threading.Thread):
         return False
 
     def start_axes(self):
-        self._axis_motor.start()
+        for obj in self._axes_objects:
+            obj.start()
+
+
+class EmulatorASCIIDeviceSingleAxis(EmulatorASCIIDeviceAxes):
+    _axis_count = 1
 
 
 class EmulatorASCIIEngine(object):

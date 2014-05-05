@@ -104,5 +104,6 @@ class ZaberProtocolASCII(base.ZaberProtocol):
             if not l:
                if block: continue
                return
-            return self.response_parse(l,interface)
+            r = self.response_parse(l,interface)
+            return r
 

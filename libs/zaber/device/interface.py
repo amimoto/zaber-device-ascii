@@ -11,13 +11,15 @@ class InterfaceASCIISetting(str):
         super(InterfaceASCIISetting, self).__setattr__('_value',None)
         return self
 
-    def value_get(self):
-        response = self._interface.get(self._key)
+    def value_get(self,**kwargs):
+        response = self._interface.get(self._key,**kwargs)
         if not response:
             raise RuntimeError(
                       "Request for setting value '{}' timed out".format(self._key)
                   )
-        return response.message
+        if self._interface._address:
+            return response[self._interface._address].message
+        return response
 
     def __getattr__(self,k):
         return InterfaceASCIISetting(
@@ -28,6 +30,11 @@ class InterfaceASCIISetting(str):
     def __setattr__(self,k,v):
         config_key = self._key+"."+k
         self._interface.set(config_key,v)
+
+    def __call__(self,value=None,**kwargs):
+        if value == None:
+            return self.value_get(**kwargs)
+        return self._interface.set(self._key,value,**kwargs)
 
     def __str__(self):
         return self.value_get()
@@ -144,13 +151,15 @@ class InterfaceASCII(object):
 
         blocking_request = not kwargs.pop('nonblock',False)
 
+        devices = kwargs.get('devices',self._devices)
+
         # We don't allow blocking requests if the
         # user has not provided a map of the devices
         # on the daisychain
         if blocking_request and  \
            not self._address and \
            not self._axis and \
-           not self._devices:
+           not devices:
               raise RuntimeError(
                   'Broadcast messages require the daisychain '
                   +'structure to be defined. See the "devices" parameter'
@@ -166,18 +175,67 @@ class InterfaceASCII(object):
         # If self.request(nonblock=True) the system
         # will not wait for a response before returning
         if blocking_request:
-            return self._protocol.response(interface=self,timeout=self._timeout)
+            return self.response_aggregate(
+                                      interface=self,
+                                      address=self._address,
+                                      axis=self._axis,
+                                      devices=devices,
+                                      timeout=self._timeout
+                                  )
         else: 
             return self
 
     def response(self,*args,**kwargs):
-        return self._protocol.response(interface=self,*args,**kwargs)
+        kwargs['timeout'] = self._timeout
+        r = self._protocol.response(interface=self,*args,**kwargs)
+        return r
+
+    def response_aggregate(self,*args,**kwargs):
+        """
+        Instead of simply capturing the next response and simply
+        returning it, aggregate using the scope rules defined
+        by device and axis.
+
+        For this method to work properly, 'devices' must be defined
+        in the object.
+        """
+
+        address = kwargs.pop('address')
+        axis = kwargs.pop('axis')
+        devices = kwargs.pop('devices',self._devices)
+
+        # We don't allow blocking requests if the
+        # user has not provided a map of the devices
+        # on the daisychain
+        if not devices:
+            raise RuntimeError(
+                'Broadcast messages require the daisychain '
+                +'structure to be defined. See the "devices" parameter'
+            )
+
+        # Figure out which of the device list entries we are 
+        # waiting for
+        if not address:
+            waiting_devices = set(devices.keys())
+        else:
+            waiting_devices = set([address])
+
+        # FIXME: What to do with the unwanted responses?
+        responses = {}
+        while waiting_devices:
+            r = self.response()
+            r_address = r.address
+            responses[r_address] = r
+            waiting_devices -= set([r.address])
+
+        return responses
 
     def __getitem__(self,key):
         if self._address == None:
             return type(self)(
-                    address=key,
+                    address=int(key),
                     protocol=self._protocol,
+                    devices=self._devices,
                     allowed_commands=self._allowed_commands,
                     allowed_settings=self._allowed_settings,
                 )
@@ -185,8 +243,9 @@ class InterfaceASCII(object):
             raise LookupError("'{}' cannot be used to index below axis".format(key))
         return type(self)(
                 address=self._address,
-                axis=key,
+                axis=int(key),
                 protocol=self._protocol,
+                devices=self._devices,
                 allowed_commands=self._allowed_commands,
                 allowed_settings=self._allowed_settings,
             )
@@ -273,8 +332,8 @@ class InterfaceASCIIHelpers(InterfaceASCII):
 
         # Start asking for device information 
         for address,data in device_lookup.iteritems():
-            data['deviceid'] = int(self[address][0].deviceid)
-            data['axiscount'] = int(self[address][0].system.axiscount)
+            data['deviceid'] = int(self[address][0].deviceid(devices=device_lookup))
+            data['axiscount'] = int(self[address][0].system.axiscount(devices=device_lookup))
 
         return device_lookup
 

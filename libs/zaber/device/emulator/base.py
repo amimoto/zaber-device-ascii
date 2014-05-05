@@ -49,7 +49,11 @@ class EmulatorReadWritelineBase(object):
 
             self._buffer += buf or ''
 
-            start_time = datetime.datetime.now()
+            # Reset the timeout timer if we get some data
+            # This means that as long as data is flowing, we'll
+            # keep receiving (until we hit a newline)
+            if buf:
+                start_time = datetime.datetime.now()
 
             m = re.search('^(.*?)\r?\n(.*)',self._buffer,re.S)
             if m:

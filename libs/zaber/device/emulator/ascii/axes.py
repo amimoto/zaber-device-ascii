@@ -1,29 +1,120 @@
 import time
 import threading
 
+ascii_axis_default_config = {
+                'accel': '0',
+                'cloop.counts': '0',
+                'cloop.mode': '0',
+                'cloop.stalltimeout': '0',
+                'cloop.steps': '0',
+                'driver.current.hold': '0',
+                'driver.current.run': '0',
+                'driver.dir': '0',
+                'driver.temperature': '0',
+                'encoder.count': '0',
+                'encoder.dir': '0',
+                'encoder.filter': '0',
+                'encoder.index.count': '0',
+                'encoder.index.mode': '0',
+                'encoder.index.phase': '0',
+                'encoder.mode': '0',
+                'knob.dir': '0',
+                'knob.distance': '0',
+                'knob.enable': '0',
+                'knob.maxspeed': '0',
+                'knob.mode': '0',
+                'knob.speedprofile': '0',
+                'limit.approach.accel': '0',
+                'limit.approach.maxspeed': '153600',
+                'limit.away.action': '0',
+                'limit.away.edge': '0',
+                'limit.away.posupdate': '0',
+                'limit.away.preset': '0',
+                'limit.away.state': '0',
+                'limit.away.triggered': '0',
+                'limit.away.type': '0',
+                'limit.c.action': '0',
+                'limit.c.edge': '0',
+                'limit.c.pos': '0',
+                'limit.c.posupdate': '0',
+                'limit.c.preset': '0',
+                'limit.c.state': '0',
+                'limit.c.triggered': '0',
+                'limit.c.type': '0',
+                'limit.d.action': '0',
+                'limit.d.edge': '0',
+                'limit.d.pos': '0',
+                'limit.d.posupdate': '0',
+                'limit.d.preset': '0',
+                'limit.d.state': '0',
+                'limit.d.triggered': '0',
+                'limit.d.type': '0',
+                'limit.detect.decelonly': '0',
+                'limit.detect.maxspeed': '0',
+                'limit.home.action': '0',
+                'limit.home.edge': '0',
+                'limit.home.posupdate': '0',
+                'limit.home.preset': '0',
+                'limit.home.state': '0',
+                'limit.home.triggered': '0',
+                'limit.home.type': '0',
+                'limit.max': '305381',
+                'limit.min': '0',
+                'limit.swapinputs': '0',
+                'maxspeed': '0',
+                'motion.accelonly': '0',
+                'motion.decelonly': '0',
+                'peripheralid': '0',
+                'pos': '0',
+                'resolution': '0'
+          }
+
 class EmulatorASCIIDeviceAxis(threading.Thread):        
 
     def __init__(self,*args,**kwargs):
+        position = kwargs.pop('pos',0)
+        self._axis_number = kwargs.pop('axis_number')
+
+        # Load up some of the settings before we hand over kwargs
+        # to thread. (Thread will complain about unexpected parameters
+        # otherwise)
+        self._settings = kwargs.pop('settings')
+        self._axis_settings = ascii_axis_default_config.copy()
+        self._axis_settings.update(kwargs.pop('axis_settings'))
+
+        # Resolution of the emulation. Smaller the time slice, more
+        # granular... but it also costs more CPU time
+        self._time_slice = kwargs.pop('time_slice',0.1)
+
         super(EmulatorASCIIDeviceAxis,self).__init__(*args,**kwargs)
-        self._settings = kwargs.pop('axis_settings',{})
         self.daemon = True
         self._running = True
 
         # State of the motor
-        self._real_position_prev = 0
-        self._real_position = 0
-        self._real_position_min = 0
-        self._real_position_max = kwargs.pop('real_position_max',305381)
+        self._real_position_prev = int(self._axis_settings['pos'])
+        self._real_position = int(self._axis_settings['pos'])
+        self._real_position_min = int(self._axis_settings['limit.min'])
+        self._real_position_max = int(self._axis_settings['limit.max'])
 
-        self._assumed_position = 0
+        self._assumed_position_prev = int(self._axis_settings['pos'])
+        self._assumed_position = int(self._axis_settings['pos'])
 
         self._velocity = 0
         self._moving = False
         self._stalled = False
 
-        # Resolution of the emulation. Smaller the time slice, more
-        # granular... but it also costs more CPU time
-        self._time_slice = kwargs.pop('time_slice',0.1)
+    def setting_get(self, name):
+        func_name = 'do_setting_get_'+ name.replace('.','_')
+        if hasattr(self,func_name):
+            return int(getattr(self,func_name)(name,value))
+        return int(self._axis_settings.get(name,0))
+
+    def setting_set(self, name, value):
+        func_name = 'do_setting_set_'+ name.replace('.','_')
+        if hasattr(self,func_name):
+            return getattr(self,func_name)(name,value)
+        self._axis_settings[name] = value
+        return self._axis_settings[name]
 
     def moving(self):
         if self._velocity == 0:
@@ -31,7 +122,18 @@ class EmulatorASCIIDeviceAxis(threading.Thread):
         return True
 
     def moving(self):
-        return self._moving
+        """ The 'moving' flag is based upon the assumed position
+            of the device
+        """
+        if not self._velocity: 
+            return False
+        if self._assumed_position <= self._real_position_min \
+            and self._velocity < 0:
+                return False
+        if self._assumed_position >= self._real_position_max \
+            and self._velocity > 0:
+                return False
+        return True
 
     def motor_velocity(self,*args):
         if args: self._velocity = args[0]
@@ -77,6 +179,7 @@ class EmulatorASCIIDeviceAxis(threading.Thread):
         assumed_delta = assumed_position_new - self._assumed_position
         self._assumed_position_prev = self._assumed_position
         self._assumed_position = assumed_position_new
+        self._axis_settings['pos'] = assumed_position_new
         self._moving = assumed_delta != 0
 
         # Handle the real movements
