@@ -11,3 +11,4 @@ class ZaberProtocol(dict):
 
     def devices(self):
         return self.values()
+

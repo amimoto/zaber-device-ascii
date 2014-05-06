@@ -75,6 +75,39 @@ class InterfaceASCIISetting(str):
     def __index__(self):
         return int(str(self))
 
+class ZaberResponseAggregate(dict):
+    """
+      For Broadcast responses.
+    """
+    def __init__(self,*args,**kwargs):
+        self._interface = kwargs.get('interface',None)
+
+    def busy(self):
+        """ Returns true when the targetted devices/axis return
+            the busy state
+        """
+        for address,resp in self.iteritems():
+            if not resp.busy(address=address,axis=0):
+                return False
+        return True
+
+    def busy_wait(self):
+        """ Wait until the device becomes idle
+        """
+        while self.busy():
+            pass
+        return self
+
+    def w(self):
+        """ Alias for obj.busy_wait 
+        """
+        return self.busy_wait()
+
+    def __getattr__(self,k):
+        """ Used to allow passthrough of requests to the interface
+        """
+        return self._interface.__getattr__(k)
+
 
 class InterfaceASCII(object):
 
@@ -152,13 +185,15 @@ class InterfaceASCII(object):
         blocking_request = not kwargs.pop('nonblock',False)
 
         devices = kwargs.get('devices',self._devices)
+        address = kwargs.get('address',self._address)
+        axis = kwargs.get('axis',self._axis)
 
         # We don't allow blocking requests if the
         # user has not provided a map of the devices
         # on the daisychain
         if blocking_request and  \
-           not self._address and \
-           not self._axis and \
+           not address and \
+           not axis and \
            not devices:
               raise RuntimeError(
                   'Broadcast messages require the daisychain '
@@ -167,8 +202,8 @@ class InterfaceASCII(object):
 
         self._protocol.request(
             command.replace('_', ' '),
-            address=self._address,
-            axis=self._axis,
+            address=address,
+            axis=axis,
             *args
         )
 
@@ -177,8 +212,8 @@ class InterfaceASCII(object):
         if blocking_request:
             return self.response_aggregate(
                                       interface=self,
-                                      address=self._address,
-                                      axis=self._axis,
+                                      address=address,
+                                      axis=axis,
                                       devices=devices,
                                       timeout=self._timeout
                                   )
@@ -221,7 +256,7 @@ class InterfaceASCII(object):
             waiting_devices = set([address])
 
         # FIXME: What to do with the unwanted responses?
-        responses = {}
+        responses = ZaberResponseAggregate(interface=self)
         while waiting_devices:
             r = self.response()
             r_address = r.address
@@ -275,6 +310,16 @@ class InterfaceASCIIHelpers(InterfaceASCII):
         a few convenience functions. Mostly around the ability
         to handle broadcasts nicely
     """
+
+    def busy(self,*args,**kwargs):
+        kwargs.pop('axis',None)
+        resp = self.request(*args,**kwargs)
+        for r in resp.values():
+            if r.warn_flags == 'BUSY':
+                return True
+        return False
+
+
     def autodetect(self,renumber=False):
         """ Checks the daisychain for a list of devices.
             Returns a data structure that can be later fed

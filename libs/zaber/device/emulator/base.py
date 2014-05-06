@@ -10,7 +10,6 @@ def cable_counter():
     CABLE_COUNTER += 1
     return _id
     
-
 class EmulatorReadWritelineSink(object):
     def write(self,*args,**kwargs):
         pass
@@ -130,7 +129,7 @@ class EmulatorASCIIResponse(dict):
         response_str = self.type
         response_elements = []
         response_elements.append("{:02}".format(int(self.address)))
-        response_elements.append(str(self.axis))
+        response_elements.append(str(self.axis or 0))
         if self.type == '@':
             response_elements += [
                 self.success,
@@ -146,6 +145,7 @@ class EmulatorASCIIResponse(dict):
             return self.csum_message(response_str)
 
         return response_str
+
 
 class EmulatorASCIICommand(dict):
 
@@ -176,9 +176,6 @@ class EmulatorASCIICommand(dict):
         parameters = [str(p) for p in self.parameters]
         command_elements += parameters
         return "/"+(" ".join(command_elements))
-
-
-
 
 class Emulator(object):
     def __init__(self,*args,**kwargs):
