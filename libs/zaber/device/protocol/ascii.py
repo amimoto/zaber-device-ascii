@@ -9,6 +9,12 @@ class ZaberResponse(dict):
         super(ZaberResponse, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
+    def values(self):
+        """ Useful mostly for when accessing settings. This will allow
+            users to retrieve a space split list of responses
+        """
+        return self.message.split(' ')
+
     def __getattr__(self,k):
         if self.interface:
             return getattr(self.interface,k)

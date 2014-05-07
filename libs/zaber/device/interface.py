@@ -12,6 +12,9 @@ class InterfaceASCIISetting(str):
         return self
 
     def value_get(self,**kwargs):
+        """ This function is a bit more complicated than desireable
+            to accomodate broadcast requests.
+        """
         response = self._interface.get(self._key,**kwargs)
         if not response:
             raise RuntimeError(
@@ -37,7 +40,7 @@ class InterfaceASCIISetting(str):
         return self._interface.set(self._key,value,**kwargs)
 
     def __str__(self):
-        return self.value_get()
+        return str(self.value_get())
 
     def __add__(self, other):
         return str(self) + str(other)

@@ -10,7 +10,7 @@ from zaber.device.port.emulator import *
 from zaber.device.emulator.ascii import *
 
 debug = True
-debug = False
+#debug = False
 
 axes_settings = [
   {

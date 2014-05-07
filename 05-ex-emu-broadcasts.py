@@ -57,9 +57,7 @@ start_home_time = datetime.datetime.now()
 for i in range(100):
     time.sleep(0.1)
 
-    r.busy_wait()\
-     .home()\
-     .busy_wait()
+    r.w().home().busy_wait()
 
     end_home_time = datetime.datetime.now()
     homing_delta = end_home_time - start_home_time
