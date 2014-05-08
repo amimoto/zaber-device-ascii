@@ -4,10 +4,12 @@ import datetime
 import zaber.device.protocol.ascii as protocol
 
 class InterfaceASCIISetting(str):
-    def __new__(cls, key, interface):
+    def __new__(cls, key, interface,address=None,axis=None):
         self = super(InterfaceASCIISetting, cls).__new__(cls, None)
         super(InterfaceASCIISetting, self).__setattr__('_interface',interface)
         super(InterfaceASCIISetting, self).__setattr__('_key',key)
+        super(InterfaceASCIISetting, self).__setattr__('_address',address)
+        super(InterfaceASCIISetting, self).__setattr__('_axis',axis)
         super(InterfaceASCIISetting, self).__setattr__('_value',None)
         return self
 
@@ -15,13 +17,21 @@ class InterfaceASCIISetting(str):
         """ This function is a bit more complicated than desireable
             to accomodate broadcast requests.
         """
+        if 'address' not in kwargs and self._address != None: 
+            kwargs['address'] = self._address
+
+        if 'axis' not in kwargs and self._axis != None: 
+            kwargs['axis'] = self._axis
+
         response = self._interface.get(self._key,**kwargs)
         if not response:
             raise RuntimeError(
                       "Request for setting value '{}' timed out".format(self._key)
                   )
-        if self._interface._address:
-            return response[self._interface._address].message
+
+        address = kwargs.get('address') or self._interface._address
+        if address:
+            return response[address].message
         return response
 
     def __getattr__(self,k):
@@ -41,6 +51,9 @@ class InterfaceASCIISetting(str):
 
     def __str__(self):
         return str(self.value_get())
+
+    def __repr__(self):
+        return self.__str__()
 
     def __add__(self, other):
         return str(self) + str(other)
@@ -77,6 +90,68 @@ class InterfaceASCIISetting(str):
 
     def __index__(self):
         return int(str(self))
+
+class InterfaceASCIISettingAggregate(dict):
+    def __init__(self,*args,**kwargs):
+        self._interface = kwargs.pop('interface')
+        self._address = kwargs.pop('address')
+        self._axis = kwargs.pop('axis')
+        self._key = kwargs.pop('key')
+
+        devices = self._interface.devices()
+
+        if self._address:
+            # FIXME: What for devices without an axis? (A-JOY?)
+            device = devices[self._address]
+            for i in range(device.get('axiscount',0)):
+                axis = i + 1
+                axis_setting = InterfaceASCIISetting(
+                                    key=self._key,
+                                    address=self._address,
+                                    axis=axis,
+                                    interface=self._interface,
+                                )
+
+                self.setdefault(axis,axis_setting)
+
+
+        else:
+            # FIXME: What for devices without an axis? (A-JOY?)
+            for address,device in devices.iteritems():
+                for i in range(device.get('axiscount',0)):
+                    axis = i + 1
+                    axis_setting = InterfaceASCIISetting(
+                                        key=self._key,
+                                        address=address,
+                                        axis=axis,
+                                        interface=self._interface,
+                                    )
+
+                    self.setdefault(address,{})\
+                        .setdefault(axis,axis_setting)
+
+    def __getitem__(self,k):
+
+        if self._address != None:
+            if self._axis:
+                raise RuntimeError("Can't index below device!")
+            else:
+                return InterfaceASCIISetting(
+                            key=self._key,
+                            address=self._address,
+                            axis=int(k),
+                            interface=self._interface,
+                        )
+        else:
+            return InterfaceASCIISettingAggregate(
+                        key=self._key,
+                        address=int(k),
+                        axis=self._axis,
+                        interface=self._interface,
+                    )
+
+        return {}
+
 
 class ZaberResponseAggregate(dict):
     """
@@ -182,6 +257,9 @@ class InterfaceASCII(object):
         else:
             protocol_class = kwargs.pop('protocol_class',protocol.ZaberProtocolASCII)
             self._protocol = protocol_class(*args,**kwargs)
+
+    def devices(self):
+        return self._devices
 
     def request(self, command='', *args, **kwargs):
 
@@ -298,10 +376,21 @@ class InterfaceASCII(object):
         if self._allowed_commands_regex.match(k):
             return lambda *args,**kwargs: self.request(k,*args,**kwargs)
         elif k in self._allowed_settings:
-            return InterfaceASCIISetting(
-                        key=k, 
-                        interface=self,
-                    )
+
+            # If the device and axis have been set, we have directly tried to
+            # access an axis setting so we'll allow that.
+            if self._address:
+                return InterfaceASCIISetting(
+                            key=k, 
+                            interface=self,
+                        )
+            else:
+                return InterfaceASCIISettingAggregate(
+                            key=k,
+                            address=self._address,
+                            axis=self._axis,
+                            interface=self,
+                        )
 
         raise AttributeError(
                 "'{}' object has no attribute '{}'".format(type(self).__name__,k)
