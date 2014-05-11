@@ -13,8 +13,12 @@ setup(
     author_email='amimoto+zaber-device-ascii@gmail.com',
     description="Support for programmatic access to Zaber's ASCII Devices",
     packages=find_packages(),
-    include_package_data=True,
-    platforms='any',
+    package_dir={'':'.'},
+    package_data = {
+      '': ['device/ascii/data/*.csv'],
+    },
+    include_package_data = True,
+    platforms = 'any',
     classifiers = [
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',

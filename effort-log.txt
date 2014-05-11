@@ -10,3 +10,7 @@ May 10: 13 hours
 May 11: Started at 0730
         Lunch 1100 - 3.5 hours
         Back: 1143
+        Away: 1330
+        Back: 1415
+
+

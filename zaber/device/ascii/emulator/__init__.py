@@ -291,11 +291,11 @@ class EmulatorReadWritelineBase(object):
                 return m.group(1)
             else:
                 if timeout == 0: 
-                    return
+                    return ''
                 elif timeout < 0: 
                     time.sleep(0.1)
                 elif timeout <= time_delta_seconds: 
-                    return
+                    return ''
                 else:
                     time.sleep(0.1)
 
@@ -400,7 +400,7 @@ class EmulatorSerialCableEnd(EmulatorReadWritelineBase):
         return_data = self._read_buffer[:size]
         self._read_buffer = self._read_buffer[size:]
 
-        return return_data
+        return return_data or ''
 
     def write(self,data):
         self._queue_out.put(data)

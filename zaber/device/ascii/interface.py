@@ -160,8 +160,7 @@ class Request(object):
     def __str__(self):
         e = []
         if self.target: e.append(self.target)
-        for s in self.cmd.split(b' '):
-            e.append(str(s))
+        e.extend(self.cmd.split('_'))
         if self.parameters: e.extend(self.parameters)
         return "/"+" ".join([str(i) for i in e])
 
@@ -496,7 +495,7 @@ class DeviceInterface(object):
         resp.interface(self)
         return resp
 
-    def query(self,cmd,*args,**kwargs):
+    def query(self,cmd='',*args,**kwargs):
         req = Request(self.target,cmd,args,**kwargs)
         if not self.metadata.request_allowed(req):
             raise RequireDeviceAddress()
@@ -515,10 +514,10 @@ class DeviceInterface(object):
             time.sleep(0.1)
         return result
 
-class InterfaceHelper(DeviceInterface):
+class Interface(DeviceInterface):
 
     def __init__(self,*args,**kwargs):
-        super(InterfaceHelper,self).__init__(*args,**kwargs)
+        super(Interface,self).__init__(*args,**kwargs)
 
     def autodetect(self,renumber=False):
         pass
