@@ -481,7 +481,7 @@ class DeviceInterface(object):
             return type(self).__name__
         return super(DeviceInterface,self).__repr__()
 
-    def request(self,cmd,*args,**kwargs):
+    def request(self,cmd='',*args,**kwargs):
         req = Request(self.target,cmd,args,**kwargs)
         return self.metadata.request(req)
 
@@ -519,6 +519,69 @@ class InterfaceHelper(DeviceInterface):
 
     def autodetect(self,renumber=False):
         pass
+
+
+    def autodetect(self,renumber=False):
+        """ Checks the daisychain for a list of devices.
+            Returns a data structure that can be later fed
+            back into system for broadcast message handling
+
+            devices = [
+                {
+                    address => 1,
+                    ...
+                },
+                {
+                    address => 2,
+                    ...
+                },
+            ]
+
+            The returned data structure should be composed of
+            simple primitives as it should be storable in
+            multiple formats (JSON/pickle/XML/etc) so the 
+            users can opt for their favourite serialization scheme
+            without gymnastics
+
+        """
+
+        # If this is a new connect, we'll probably want to renumber
+        # the daisychain just in case there are multiples
+        if renumber:
+            self.request('renumber')
+
+        # We use the  "/" command by default to look for requests.
+        # We just send the request and we'll manually listen for reports
+        else:
+            self.request()
+
+        # We fetch all responses until there's 1 second of quiet
+        quiet_timeout = 1.0
+        quiet_time_start = None
+        device_lookup = {}
+        while True:
+            response = self.response()
+            if response:
+                device_lookup.setdefault(response.addr,{
+                                'address': response.addr,
+                            })
+                quiet_time_start = None
+                continue
+            if quiet_time_start:
+                quiet_time_delta = datetime.datetime.now() - quiet_time_start
+                quiet_time_delta = quiet_time_delta.microseconds/1000000.000 \
+                                 + quiet_time_delta.seconds
+                if quiet_time_delta >= quiet_timeout:
+                    break
+            else:
+                quiet_time_start = datetime.datetime.now()
+
+        # Start asking for device information 
+        for addr,data in device_lookup.iteritems():
+            data['deviceid']  = int(self[addr][0].s.deviceid())
+            data['axiscount'] = int(self[addr][0].s.system.axiscount())
+
+        return device_lookup
 
 
 

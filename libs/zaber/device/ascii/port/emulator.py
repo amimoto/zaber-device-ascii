@@ -1,7 +1,7 @@
 import zaber.device.ascii.port.base as base
 from zaber.device.ascii.emulator import *
 
-class ZaberPortEmulator(base.ZaberPortMixin):
+class PortEmulator(base.PortMixin):
 
     def __init__(self,*args,**kwargs):
         self._engine = EmulatorEngine(**kwargs)

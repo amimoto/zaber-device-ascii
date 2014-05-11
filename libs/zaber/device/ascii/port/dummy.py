@@ -2,10 +2,10 @@ from __future__ import absolute_import
 
 import zaber.device.ascii.port.base as base
 
-class ZaberPortDummy(file,base.ZaberPortMixin):
+class PortDummy(file,base.PortMixin):
 
     def readline(self):
-        line = super(ZaberPortDummy,self).readline()
+        line = super(PortDummy,self).readline()
 
         # If "delay" is put into the text file, it will
         # fake a pause in the response
@@ -22,5 +22,5 @@ class ZaberPortDummy(file,base.ZaberPortMixin):
 
     def __init__(self,*args,**kwargs):
         self.init(*args,**kwargs)
-        super(ZaberPortDummy,self).__init__(*args,**kwargs)
+        super(PortDummy,self).__init__(*args,**kwargs)
 
