@@ -97,4 +97,15 @@ print r
 # Set settings with indexing: Do a /1 1 set limit.detect.maxspeed <whatever r is>
 z[1][1].s.limit.detect.maxspeed = r
 
+# Set by indexing into setting
+z[1].s.pos[1] = 123
 
+# Index into axis
+r = z[1].s.pos[1]
+r = z[1][1].s.pos
+
+# Get by function
+r = z[1][1].s.pos()
+
+# Set by function
+r = z[1].s.pos(200)

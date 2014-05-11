@@ -78,7 +78,7 @@ print "z.s.pos[1][1]:", z.s.pos[1][1]
 time.sleep(0.1)
 print "--------------------------------------------------"
 try:
-    print "z.s.pos[1][1]:", z[1].renumber(2)
+    print "z[1].renumber(2)", z[1].renumber(2)
 except:
     print "Exception happened as expected"
 time.sleep(0.1)
