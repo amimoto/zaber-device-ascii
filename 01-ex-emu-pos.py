@@ -1,12 +1,8 @@
 #!/usr/bin/python
 
 import sys; sys.path.insert(0, "libs")
-
 import pprint
-
-from zaber.device.interface import *
-from zaber.device.port.emulator import *
-from zaber.device.emulator.ascii import *
+from zaber.device.ascii.emulator import *
 
 debug = True
 
@@ -22,7 +18,7 @@ settings = {
   'axes_settings': axes_settings
 }
 
-device = EmulatorASCIIDeviceSingleAxis(
+device = EmulatorDeviceSingleAxis(
                 settings=settings,
                 debug=debug
             )

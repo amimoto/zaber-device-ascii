@@ -1,10 +1,10 @@
-import zaber.device.port.base as base
-from zaber.device.emulator.ascii import *
+import zaber.device.ascii.port.base as base
+from zaber.device.ascii.emulator import *
 
-class ZaberPortEmulatorASCII(base.ZaberPortMixin):
+class ZaberPortEmulator(base.ZaberPortMixin):
 
     def __init__(self,*args,**kwargs):
-        self._engine = EmulatorASCIIEngine(**kwargs)
+        self._engine = EmulatorEngine(**kwargs)
         self._engine.start()
 
     def read(self,*args,**kwargs):

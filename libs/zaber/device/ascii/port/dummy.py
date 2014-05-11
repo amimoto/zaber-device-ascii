@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-import zaber.device.port.base as base
+import zaber.device.ascii.port.base as base
 
 class ZaberPortDummy(file,base.ZaberPortMixin):
 

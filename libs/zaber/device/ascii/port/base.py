@@ -1,6 +1,6 @@
 import re
 
-class ZaberPortMixin(object):
+class PortMixin(object):
     """ Abstraction allows future extension of the port interface
         to allow bridging via IP/nordic/etc protocols
     """

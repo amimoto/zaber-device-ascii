@@ -4,9 +4,9 @@ import sys; sys.path.insert(0, "libs")
 
 import pprint
 
-from zaber.device.interface import *
-from zaber.device.port.emulator import *
-from zaber.device.emulator.ascii import *
+from zaber.device.ascii.interface import *
+from zaber.device.ascii.emulator.ascii import *
+from zaber.device.ascii.port.emulator import *
 
 debug = True
 
@@ -22,17 +22,17 @@ settings = {
   'axes_settings': axes_settings
 }
 
-device = EmulatorASCIIDeviceSingleAxis(
+device = EmulatorDeviceSingleAxis(
                 settings=settings,
                 debug=debug
             )
 
-port = ZaberPortEmulatorASCII(
+port = ZaberPortEmulator(
             devices=[device],
             debug=debug
           )
 
-z = InterfaceASCIIHelpers(port=port)
+z = InterfaceHelpers(port=port)
 
 print z.autodetect(renumber=True)
 
