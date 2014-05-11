@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import re
 import time
 import datetime
@@ -35,7 +37,7 @@ class Setting(object):
             return self.interface[k].set(self.key,v)
         except ValueError:
             new_key = self.key
-            if new_key: new_key += '.'
+            if new_key: new_key += b'.'
             new_key + k
             return type(self)(
               target=self.target,
@@ -137,9 +139,9 @@ class Target(object):
 
     def __str__(self):
         e = []
-        if self.addr != None: e.append(unicode(self.addr))
-        if self.axis != None: e.append(unicode(self.axis))
-        return u" ".join(e)
+        if self.addr != None: e.append(str(self.addr))
+        if self.axis != None: e.append(str(self.axis))
+        return " ".join(e)
 
     def __repr__(self):
         return "{}(addr={},axis={})".format(
@@ -158,7 +160,8 @@ class Request(object):
     def __str__(self):
         e = []
         if self.target: e.append(self.target)
-        e.extend(self.cmd.split('_'))
+        for s in self.cmd.split(b' '):
+            e.append(str(s))
         if self.parameters: e.extend(self.parameters)
         return "/"+" ".join([str(i) for i in e])
 
@@ -287,7 +290,7 @@ class Metadata(object):
 
     def request(self,request):
         request_str = str(request)
-        if self.debug: print "TODEV:", request_str
+        if self.debug: print("TODEV:", request_str)
         self.port.writeline(request_str)
 
     def response_next(self,*args,**kwargs):
@@ -304,7 +307,7 @@ class Metadata(object):
                           .strip()\
                           .translate(None,chr(0))
 
-        if self.debug: print "FRMDEV:", response_line
+        if self.debug: print("FRMDEV:", response_line)
         if response_line:
             try:
                 return Response(response_line)
@@ -481,7 +484,7 @@ class DeviceInterface(object):
             return type(self).__name__
         return super(DeviceInterface,self).__repr__()
 
-    def request(self,cmd='',*args,**kwargs):
+    def request(self,cmd=b'',*args,**kwargs):
         req = Request(self.target,cmd,args,**kwargs)
         return self.metadata.request(req)
 
@@ -506,8 +509,8 @@ class DeviceInterface(object):
 
     def wait(self):
         while 1:
-            result = self.query('')
-            if result.status == 'IDLE':
+            result = self.query(b'')
+            if result.status == b'IDLE':
                 break
             time.sleep(0.1)
         return result
@@ -548,7 +551,7 @@ class InterfaceHelper(DeviceInterface):
         # If this is a new connect, we'll probably want to renumber
         # the daisychain just in case there are multiples
         if renumber:
-            self.request('renumber')
+            self.request(b'renumber')
 
         # We use the  "/" command by default to look for requests.
         # We just send the request and we'll manually listen for reports
@@ -577,7 +580,7 @@ class InterfaceHelper(DeviceInterface):
                 quiet_time_start = datetime.datetime.now()
 
         # Start asking for device information 
-        for addr,data in device_lookup.iteritems():
+        for addr,data in device_lookup.items():
             data['deviceid']  = int(self[addr][0].s.deviceid())
             data['axiscount'] = int(self[addr][0].s.system.axiscount())
 
