@@ -581,8 +581,8 @@ class Interface(DeviceInterface):
         else:
             self.request()
 
-        # We fetch all responses until there's 1 second of quiet
-        quiet_timeout = 3.0
+        # We fetch all responses until there's 0.5 seconds of quiet
+        quiet_timeout = 0.5
         quiet_time_start = None
         device_lookup = {}
         while True:
