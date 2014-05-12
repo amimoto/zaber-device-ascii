@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+from __future__ import print_function
+
+import sys; sys.path.insert(0, "..")
+
 import pprint
 import datetime
 
@@ -33,19 +37,19 @@ port = PortEmulator(
             debug=debug
           )
 
-z = Interface(port=port)
+z = Interface(port=port,debug=debug)
 
-print "--------------------------------------------------"
-print "Autodetecting"
-print "--------------------------------------------------"
+print("--------------------------------------------------")
+print("Autodetecting")
+print("--------------------------------------------------")
 
 devices = z.autodetect(renumber=True)
 
-print "Autodetected:", devices
+print("Autodetected:", devices)
 
-print "--------------------------------------------------"
-print "Sending device 1 axis 1 to home"
-print "--------------------------------------------------"
+print("--------------------------------------------------")
+print("Sending device 1 axis 1 to home")
+print("--------------------------------------------------")
 
 z[1][1].home()
 start_home_time = datetime.datetime.now()
@@ -53,10 +57,10 @@ start_home_time = datetime.datetime.now()
 for i in range(100):
     time.sleep(0.1)
     r = z[1].query()
-    if r.warn_flags == 'IDLE':
+    if r.status == 'IDLE':
         end_home_time = datetime.datetime.now()
         homing_delta = end_home_time - start_home_time
-        print "Homed in {} seconds".format(homing_delta.seconds)
-        print "Received data was:", r
+        print("Homed in {} seconds".format(homing_delta.seconds))
+        print("Received data was:", r)
         break
 

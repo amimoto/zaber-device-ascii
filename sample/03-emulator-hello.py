@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-import sys; sys.path.insert(0, "libs")
+from __future__ import print_function
+
+import sys; sys.path.insert(0, "..")
 
 import pprint
 
@@ -34,5 +36,5 @@ port = PortEmulator(
 
 z = Interface(port=port)
 
-print z.autodetect(renumber=True)
+print(z.autodetect(renumber=True))
 

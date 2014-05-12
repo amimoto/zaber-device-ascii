@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+from __future__ import print_function
+
+import sys; sys.path.insert(0, "..")
+
 import time
 
 from zaber.device.ascii.emulator import *
@@ -34,70 +38,70 @@ z = Interface(port=port)
 
 time.sleep(0.2)
 
-print "--------------------------------------------------"
-print "z.request('renumber'):", z.request('renumber')
+print("--------------------------------------------------")
+print("z.request('renumber'):", z.request('renumber'))
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[1][1].target:", z[1][1].target
+print("--------------------------------------------------")
+print("z[1][1].target:", z[1][1].target)
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[1]:", z.s.pos[1]
+print("--------------------------------------------------")
+print("z.s.pos[1]:", z.s.pos[1])
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[1][1].home():", z[1][1].home()
+print("--------------------------------------------------")
+print("z[1][1].home():", z[1][1].home())
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[1]:", z.s.pos[1]
+print("--------------------------------------------------")
+print("z.s.pos[1]:", z.s.pos[1])
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s:", z.s
+print("--------------------------------------------------")
+print("z.s:", z.s)
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[1][0].s:", z[1][0].s
+print("--------------------------------------------------")
+print("z[1][0].s:", z[1][0].s)
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[1][0].s.deviceid:", z[1][0].s.deviceid
+print("--------------------------------------------------")
+print("z[1][0].s.deviceid:", z[1][0].s.deviceid)
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[1][0].s.deviceid():", z[1][0].s.deviceid()
+print("--------------------------------------------------")
+print("z[1][0].s.deviceid():", z[1][0].s.deviceid())
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.deviceid:", z.s.deviceid
+print("--------------------------------------------------")
+print("z.s.deviceid:", z.s.deviceid)
 time.sleep(0.1)
-print "--------------------------------------------------"
+print("--------------------------------------------------")
 try:
-    print "z.s.deviceid[0]:", z.s.deviceid[0]
+    print("z.s.deviceid[0]:", z.s.deviceid[0])
 except:
-    print "Exception happened as expected"
+    print("Exception happened as expected")
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[1]:", z.s.pos[1]
+print("--------------------------------------------------")
+print("z.s.pos[1]:", z.s.pos[1])
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[1][1]:", z.s.pos[1][1]
+print("--------------------------------------------------")
+print("z.s.pos[1][1]:", z.s.pos[1][1])
 time.sleep(0.1)
-print "--------------------------------------------------"
+print("--------------------------------------------------")
 try:
-    print "z[1].renumber(2)", z[1].renumber(2)
+    print("z[1].renumber(2)", z[1].renumber(2))
 except:
-    print "Exception happened as expected"
+    print("Exception happened as expected")
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[2]:", z.s.pos[2]
+print("--------------------------------------------------")
+print("z.s.pos[2]:", z.s.pos[2])
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z.s.pos[2][1] = 100"
+print("--------------------------------------------------")
+print("z.s.pos[2][1] = 100")
 z.s.pos[2][1] = 100
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[2][1].s.pos = 200"
+print("--------------------------------------------------")
+print("z[2][1].s.pos = 200")
 z[2][1].s.pos = 200
 time.sleep(0.1)
-print "--------------------------------------------------"
-print "z[2].s.pos[1] = 300"
+print("--------------------------------------------------")
+print("z[2].s.pos[1] = 300")
 z[2].s.pos[1] = 300
 time.sleep(0.1)
-print "--------------------------------------------------"
+print("--------------------------------------------------")
 
 
 

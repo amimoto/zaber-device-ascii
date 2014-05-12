@@ -2,6 +2,8 @@
 
 from __future__ import print_function
 
+import sys; sys.path.insert(0, "..")
+
 import time
 
 from zaber.device.ascii import *
@@ -19,5 +21,5 @@ print("Driver Current Run:", z.s.driver.current.run[1])
 z[1].move_vel(1000)
 z[1].s.pos = 0
 print(z[1].s.pos)
-print(z[1].stop())
+print(z[1].stop().wait())
 

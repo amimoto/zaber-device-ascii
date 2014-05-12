@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import re
 import datetime
 import time
@@ -6,7 +8,10 @@ import os
 import csv
 import time
 
-import Queue
+try:
+  import Queue as queue
+except:
+  import queue
 
 import zaber.device.ascii
 
@@ -259,7 +264,7 @@ class EmulatorReadWritelineBase(object):
 
     def writeline(self,data,*args,**kwargs):
         if self._debug:
-            print "WRLN<{}> {}".format(self._id, repr(data))
+            print("WRLN<{}> {}".format(self._id, repr(data)))
         self.write(data+"\r\n",*args,**kwargs)
 
     def read(self,*args,**kwargs):
@@ -284,10 +289,10 @@ class EmulatorReadWritelineBase(object):
             if m:
                 self._buffer = m.group(2)
                 if self._debug:
-                    print "RDLN<{}> {} buffer:{}".format( 
+                    print("RDLN<{}> {} buffer:{}".format( 
                               self._id, 
                               repr(m.group(1)), 
-                              repr(self._buffer) )
+                              repr(self._buffer) ))
                 return m.group(1)
             else:
                 if timeout == 0: 
@@ -388,13 +393,13 @@ class EmulatorSerialCableEnd(EmulatorReadWritelineBase):
         while True:
             try:
                 data = self._queue_in.get_nowait()
-            except Queue.Empty:
+            except queue.Empty:
                 data = None
             if not data:
                 data = ''
                 break
             if self._debug:
-                print "RD<{}> {}".format(self._id,repr(data))
+                print("RD<{}> {}".format(self._id,repr(data)))
             self._read_buffer += data
 
         return_data = self._read_buffer[:size]
@@ -415,8 +420,8 @@ class EmulatorSerialCable(object):
     """
 
     def __init__(self,*args,**kwargs):
-        self._queue1 = Queue.Queue()
-        self._queue2 = Queue.Queue()
+        self._queue1 = queue.Queue()
+        self._queue2 = queue.Queue()
         self.port1 = EmulatorSerialCableEnd(self._queue1,self._queue2,*args,**kwargs)
         self.port2 = EmulatorSerialCableEnd(self._queue2,self._queue1,*args,**kwargs)
 
@@ -701,7 +706,7 @@ class EmulatorDevice(Emulator,threading.Thread):
     def command_relay(self,command):
         command_str = str(command)
         if self._debug:
-            print "RELAY <devid:%s> %s" %(command.address, repr(command))
+            print("RELAY <devid:%s> %s" %(command.address, repr(command)))
         self.cable_to_device().writeline(command_str)
 
     def command_execute(self,command):
@@ -743,7 +748,7 @@ class EmulatorDevice(Emulator,threading.Thread):
         if not self.command_for_me(command): return
 
         if self._debug:
-            print "DEV<{}> Command for me. {}".format(self.address(),command_str)
+            print("DEV<{}> Command for me. {}".format(self.address(),command_str))
 
         target_func = "do_command_" + command.command
         if hasattr( self, target_func ):

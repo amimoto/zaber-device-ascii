@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-import sys; sys.path.insert(0, "libs")
+from __future__ import print_function
+
+import sys; sys.path.insert(0, "..")
 
 import pprint
 
@@ -38,7 +40,7 @@ def read_a_bit(iterations):
     for i in range(iterations):
         s = port.read()
         if s: 
-            print "OUTPUT:", s,
+            print("OUTPUT:", s,)
         else:
             time.sleep(0.1)
 
@@ -46,7 +48,7 @@ port.writeline('/get pos')
 read_a_bit(5)
 port.writeline('/set pos 100')
 
-print device.position_stats()
+print(device.position_stats())
 
 read_a_bit(5)
 

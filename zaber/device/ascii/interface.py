@@ -8,6 +8,7 @@ class DeviceException(Exception): pass
 class IndexAtAxis(DeviceException): pass
 class RequireDeviceAddress(DeviceException): pass
 class ResponseTimeout(DeviceException): pass
+class BadCommand(DeviceException): pass
 
 class Setting(object):
     def __init__(self,target,interface,key,*args,**kwargs):
@@ -46,7 +47,10 @@ class Setting(object):
             )
 
     def __str__(self):
-        return self.get_setting()
+        s = self.get_setting()
+        if s == 'BADCOMMAND':
+            raise BadCommand()
+        return s
 
     def __repr__(self):
         return self.__str__()
@@ -127,6 +131,8 @@ class Target(object):
         self.parent = parent
 
     def __nonzero__(self):
+        return self.__bool__()
+    def __bool__(self):
         return self.addr != None
 
     def index_into(self,k):
@@ -160,9 +166,20 @@ class Request(object):
     def __str__(self):
         e = []
         if self.target: e.append(self.target)
-        e.extend(self.cmd.split('_'))
+        cmd = self.cmd
+        cmd_elements = []
+        try:
+            cmd_elements = cmd.split(b'_')
+        except:
+            cmd_elements = cmd.split('_')
+        e.extend(cmd_elements)
         if self.parameters: e.extend(self.parameters)
-        return "/"+" ".join([str(i) for i in e])
+
+        try:
+            request_str = "/"+" ".join([str(i,'utf-8') for i in e])
+        except:
+            request_str = "/"+" ".join([str(i) for i in e])
+        return request_str
 
     def __repr__(self):
         return "{}(target={},cmd={},parameters={})".format(
@@ -208,8 +225,8 @@ class Response(dict):
                 'addr': addr,
                 'axis': axis,
                 'reply_flags': parts[0],
-                'warn_flags': parts[1],
-                'status': parts[2],
+                'status': parts[1],
+                'warn_flags': parts[2],
                 'message': parts[3],
             }
 
@@ -274,7 +291,7 @@ class Response(dict):
               )
 
 class Metadata(object):
-    timeout = 1
+    timeout = None
 
     def __init__(self,args,kwargs):
         self.port = kwargs.pop('port',None)
@@ -302,11 +319,17 @@ class Metadata(object):
         # that the 0x00 char has been removed from the received line
         # as it causes problems for the parser (not sure why 
         # it is receiving the 0x00s either)
-        response_line = self.port.readline(*args,**kwargs)\
-                          .strip()\
-                          .translate(None,chr(0))
+        response_line = self.port.readline(*args,**kwargs).strip()
 
-        if self.debug: print("FRMDEV:", response_line)
+        # Python2/3 hack
+        try:
+            response_line = response_line.translate(None,chr(0))
+        except TypeError:
+            response_line = response_line.translate({b'\0':None})
+            
+
+        if self.debug and response_line:
+            print("FRMDEV:", response_line)
         if response_line:
             try:
                 return Response(response_line)
@@ -334,6 +357,7 @@ class Metadata(object):
                 time_delta_seconds = time_delta.seconds + time_delta.microseconds/1000000.000 
                 if time_delta_seconds >= self.timeout:
                     break
+                time.sleep(0.1)
                 continue
             if resp.type != 'reply': continue
             if target and not resp.match(target): continue
@@ -508,8 +532,8 @@ class DeviceInterface(object):
 
     def wait(self):
         while 1:
-            result = self.query(b'')
-            if result.status == b'IDLE':
+            result = self.query()
+            if result.status == 'IDLE':
                 break
             time.sleep(0.1)
         return result
@@ -550,7 +574,7 @@ class Interface(DeviceInterface):
         # If this is a new connect, we'll probably want to renumber
         # the daisychain just in case there are multiples
         if renumber:
-            self.request(b'renumber')
+            self.request('renumber')
 
         # We use the  "/" command by default to look for requests.
         # We just send the request and we'll manually listen for reports
@@ -558,7 +582,7 @@ class Interface(DeviceInterface):
             self.request()
 
         # We fetch all responses until there's 1 second of quiet
-        quiet_timeout = 1.0
+        quiet_timeout = 3.0
         quiet_time_start = None
         device_lookup = {}
         while True:

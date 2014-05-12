@@ -21,7 +21,7 @@ class PortMixin(object):
             buf = self.read(self._read_chunk)
             if buf == None:
                 if timeout < 0: continue
-                return
+                return ''
             self._buffer += buf
             m = re.search('^(.*?)\r?\n(.*)',self._buffer,re.S)
             if m:
@@ -32,5 +32,9 @@ class PortMixin(object):
         raise NotImplementedError
 
     def writeline(self,data):
-        return self.write(data+"\r\n")
+        line = data+"\r\n"
+        try:
+            line = bytearray(line,'utf-8')
+        except: pass
+        return self.write(line)
 
