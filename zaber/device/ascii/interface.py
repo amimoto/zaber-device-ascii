@@ -467,26 +467,51 @@ class SettingsInterface(object):
         return super(SettingsInterface,self).__repr__()
 
 
+class DeviceCustomMetadata(object):
+    def __init__(self,target,custom_metadata):
+        self._target = target
+        self.custom_metadata = custom_metadata
+
+    def __getitem__(self,k):
+        target = self._target
+        metadata = self.custom_metadata
+        if target.addr:
+            metadata = metadata[target.addr]
+            if target.axis:
+                return metadata['peripherals'][target.axis][k]
+        
+        return metadata[k]
+
+    def __getattr__(self,k):
+        return self.__getitem__(k)
+
 class DeviceInterface(object):
 
     target = None
     metadata = None
     s = None
+    m = None
 
     def __init__(self,*args,**kwargs):
         self.debug = kwargs.get('debug',False)
         self.target = kwargs.get('target') or Target(kwargs=kwargs)
         self.metadata = kwargs.get('metadata') or Metadata(args,kwargs)
+        self._custom_metadata = kwargs.get('custom_metadata') or {}
         self.s = SettingsInterface(
                       target=self.target,
                       interface=self,
+                  )
+        self.m = DeviceCustomMetadata(
+                      target=self.target,
+                      custom_metadata=self._custom_metadata
                   )
 
     def __getitem__(self,k):
         new_target = self.target.index_into(k)
         new_interface = type(self)(
                             target=new_target,
-                            metadata=self.metadata
+                            metadata=self.metadata,
+                            custom_metadata=self._custom_metadata
                         )
         return new_interface
 
@@ -537,6 +562,7 @@ class DeviceInterface(object):
                 break
             time.sleep(0.1)
         return result
+
 
 class Interface(DeviceInterface):
 
