@@ -10,7 +10,9 @@ from zaber.device.ascii import *
 
 z = Interface('/dev/ttyUSB0',debug=True)
 
+# show what devices are connected
 print(z.autodetect())
+
 print(z[1].s.pos)
 print(z[1].help())
 time.sleep(0.1)
